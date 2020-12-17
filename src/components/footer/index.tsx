@@ -1,8 +1,13 @@
 // Packages
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+
+// Slices
+import { setModal, setModalType } from '@/redux/slices/site';
 
 // Components
 import Container from '../container';
@@ -12,23 +17,23 @@ import Modal from '../modal'
 import { FooterWrapper, FooterCert, FooterContent, FooterText } from './style';
 
 const Footer: React.FC<IPlainObject> = ( props ) => {
-	const date = new Date();
-	const [year] = useState<number>(date.getFullYear());
-	const [modal, setModal] = useState<boolean>(false);
-	const [modalType, setModalType] = useState<string>('');
+	const dispatch = useDispatch();
+	const year = useSelector((state: RootState) => state.site.year);
+	const modal = useSelector((state: RootState) => state.site.ui.modal);
+	const modalType = useSelector((state: RootState) => state.site.ui.modalType);
 
 	const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		const target = (e.target as HTMLAnchorElement);
 		document.body.style.overflow = 'hidden';
 
-		setModal(true);
-		setModalType(target.dataset.type);
+		dispatch(setModal(true));
+		dispatch(setModalType(target.dataset.type));
 	};
 
 	const handlerModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
 		document.body.style.overflow = 'unset';
-		setModal(false);
-		setModalType('');
+		dispatch(setModal(false));
+		dispatch(setModalType(''));
 	};
 
 	return (

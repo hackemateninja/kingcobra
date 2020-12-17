@@ -13,7 +13,11 @@ import randomizer from '@/util/random-quotes';
 const initialSite: IStateSite = {
 	month: '',
 	year: 2020,
-	quotes: []
+	quotes: [],
+	ui: {
+		modal: false,
+		modalType: ''
+	}
 };
 
 const siteSlice = createSlice({
@@ -22,10 +26,12 @@ const siteSlice = createSlice({
 	reducers: {
 		setMonth: ( state: IStateSite ) => { state.month = getMonth() },
 		setYear: ( state: IStateSite ) => { state.year = getYear() },
-		setQuotes: ( state: IStateSite ) => { state.quotes = randomizer() }
+		setQuotes: ( state: IStateSite ) => { state.quotes = randomizer() },
+		setModal: (state, action) => { state.ui.modal = action.payload },
+		setModalType: ( state, action ) => { state.ui.modalType = action.payload }
 	}
 });
 
-export const { setMonth, setYear, setQuotes } = siteSlice.actions;
+export const { setMonth, setYear, setQuotes, setModal, setModalType } = siteSlice.actions;
 
 export default siteSlice.reducer
