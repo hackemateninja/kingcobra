@@ -2,13 +2,14 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const BoxWrapper = styled.div<{ theme: ThemeType }>`
 	margin: 0;
 	border-radius: 7px;
-	box-shadow: 0 2px 11px 1px rgba( 0, 0, 0, .37 );
-	background-color: #fff;
+	box-shadow: ${props => props.theme.box.shadow};
+	border: ${props => props.theme.box.border};
+	background-color: ${props => props.theme.background.box};
 	padding: 15px;
 	color: ${props => props.theme.colors.text};
 

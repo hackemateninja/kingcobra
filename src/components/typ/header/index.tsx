@@ -1,5 +1,6 @@
 // Packages
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 
 // Components
 import Container from '../container';
@@ -8,10 +9,11 @@ import Container from '../container';
 import { HeaderWrapper, HeaderImg } from './style';
 
 const Header: React.FC = () => {
+	const themeContext = useContext(ThemeContext);
 	return (
 		<HeaderWrapper>
 			<Container>
-				<HeaderImg alt="Carcom Logo" src="/carcom-logo.png" />
+				<HeaderImg><use xlinkHref={themeContext.logo.filename} /></HeaderImg>
 			</Container>
 		</HeaderWrapper>
 	);

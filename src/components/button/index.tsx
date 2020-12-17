@@ -1,8 +1,5 @@
 // Definitions
-import { IPlainObject } from '../../definitions/IPlainObject';
-
-// Definitions
-import { IButton } from '../../definitions/IButton';
+import { IButton } from '@/def/IButton';
 
 // Styles
 import { ButtonWrapper, ButtonSpan } from './style';

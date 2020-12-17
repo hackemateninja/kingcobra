@@ -1,12 +1,15 @@
 // Packages
 import styled, { css } from 'styled-components';
 
-const Dealer = styled.div<{ one?: boolean, all?: boolean }>`
+// Definitions
+import { ThemeType } from '@/def/TTheme';
+
+const Dealer = styled.div<{ theme: ThemeType, one?: boolean, all?: boolean }>`
 	${props => props.all && css`
-		background: #E6E6E6;
+		background: ${props => props.theme.background.dealers.all};
 	`}
 	${props => props.one && css`
-		background: #F3F3F5;
+		background: ${props => props.theme.background.dealers.one};
 		border-radius: 7px;
 	`}
 `;
@@ -28,7 +31,7 @@ const DealerInput = styled.input`
 	}
 `;
 
-const DealerCheck = styled.span<{ one?: boolean, all?: boolean }>`
+const DealerCheck = styled.span<{ theme: ThemeType, one?: boolean, all?: boolean }>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -40,12 +43,12 @@ const DealerCheck = styled.span<{ one?: boolean, all?: boolean }>`
 	border-radius: 5px;
 	${props => !props.one && css`
 		border: 1px solid #AEAEAE;
-		background: #FFF;
+		background: ${props => props.theme.background.dealers.checkbox.default};
 	`}
 `;
 
-const DealerCheckIcon = styled.svg`
-	fill: #154175;
+const DealerCheckIcon = styled.svg<{ theme: ThemeType }>`
+	fill: ${props => props.theme.background.dealers.check.default};
 	width: 12px;
 	height: 12px;
 	opacity: 0;
@@ -53,7 +56,7 @@ const DealerCheckIcon = styled.svg`
 	transition: all ease .2s;
 `;
 
-const DealerLabel = styled.label<{ one?: boolean, all?: boolean }>`
+const DealerLabel = styled.label<{ theme: ThemeType, one?: boolean, all?: boolean }>`
 	cursor: ${props => props.one ? 'default' : 'pointer'};
 	display: flex;
 	flex-basis: 0;
@@ -84,34 +87,33 @@ const DealerText = styled.span`
 	max-width: 100%;
 `;
 
-const DealerName = styled.span<{ one?: boolean, all?: boolean }>`
+const DealerName = styled.span<{ theme: ThemeType, one?: boolean, all?: boolean }>`
 	display: block;
 	color: #4D4D4D;
-	font-size: ${props => props.one ? '16px' : '14px'};
-	line-height: ${props => props.one ? '24px' : '20px'};
+	font-size: ${props => props.one ? props.theme.font.size.dealers.one.title.xs : props.theme.font.size.dealers.default.title.xs};
+	line-height: ${props => props.one ? props.theme.font.lineHeight.dealers.one.title.xs : props.theme.font.lineHeight.dealers.default.title.xs};
 	font-weight: ${props => props.one ? 'normal' : 'bold'};
 	${props => props.all && css`
-		font-size: 18px;
-		line-height: 21px;
+		font-size: ${props => props.theme.font.size.dealers.main.title.xs};
+		line-height: ${props => props.theme.font.lineHeight.dealers.main.title.xs};
 	`}
-
 	@media screen and ( min-width: 768px ) {
 		font-weight: bold;
-		font-size: ${props => props.all ? '20px' : '16px'};
-		line-height: 24px;
+		font-size: ${props => props.all ? props.theme.font.size.dealers.main.title.md : props.theme.font.size.dealers.default.title.md};
+		line-height: ${props => props.all ? props.theme.font.lineHeight.dealers.main.title.md : props.theme.font.lineHeight.dealers.default.title.md};
 	}
 `;
 
-const DealerAddress = styled.span<{ one?: boolean, all?: boolean }>`
+const DealerAddress = styled.span<{ theme: ThemeType, one?: boolean, all?: boolean }>`
 	margin-top: -1px;
 	display: block;
 	color: #6B6B6B;
-	font-size: ${props => props.one ? '14px' : '12px'};
-	line-height: ${props => props.one ? '18px' : '20px'};
+	font-size: ${props => props.one ? props.theme.font.size.dealers.one.subtitle.xs : props.theme.font.size.dealers.default.subtitle.xs};
+	line-height: ${props => props.one ? props.theme.font.lineHeight.dealers.one.subtitle.xs : props.theme.font.lineHeight.dealers.default.subtitle.xs};
 
 	@media screen and ( min-width: 768px ) {
-		font-size: 14px;
-		line-height: 18px;
+		font-size: ${props => props.theme.font.size.dealers.default.subtitle.md};
+		line-height: ${props => props.theme.font.lineHeight.dealers.default.subtitle.md};
 		${props => props.all && css`
 			display: none;
 		`}

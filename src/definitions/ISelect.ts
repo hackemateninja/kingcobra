@@ -1,9 +1,5 @@
-export interface IOption {
-	id: string,
-	value: string,
-	name: string,
-	image: string
-}
+import { IMake } from "./IMake";
+import { IModel } from "./IModel";
 
 export interface ISelect {
 	id: string,
@@ -13,6 +9,6 @@ export interface ISelect {
 	cue: boolean,
 	error: boolean,
 	message: string,
-	options?: IOption[],
+	options?: ( IMake | IModel )[],
 	handlerChange?: ( event: React.ChangeEvent<HTMLSelectElement> ) => void
 }

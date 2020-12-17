@@ -1,25 +1,52 @@
-// Definitions
-import { IPlainObject } from '../../definitions/IPlainObject'; 
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// Packages
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-// Styles
-import { HeroImageWrapper, HeroImageContainer, HeroImageCover, Placeholder } from './style';
+// Definitions
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+
+// Slices
 
 // Components
-import { RootState } from '../../../store/reducers';
+import Loader from '../loader';
 
-const HeroImage: React.FC<IPlainObject> = (props) => {
-	let image = useSelector((state: RootState) => state.formData.image);
+// Styles
+import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from './style';
+import { isLoading } from '@/redux/slices/step-one';
+
+const HeroImage: React.FC<IPlainObject> = ( props ) => {
+	const dispatch = useDispatch();
+	let image: string = '';
+
+	const make = useSelector(( state: RootState ) => state.stepOne.data.selectedMake );
+	const model = useSelector(( state: RootState ) => state.stepOne.data.selectedModel );
+	const loading = useSelector(( state: RootState ) => state.stepOne.ui.imageLoading );
+
+	if ( model.image !== undefined ) {
+		image = model.image;
+	} else if ( make.image !== undefined ) {
+		image = make.image;
+	} else {
+		image = '/desktop-hero-image.jpg';
+	}
+
+	const hanlderLoading = () => dispatch( isLoading( false ) );
+
 	return (
 		<HeroImageWrapper>
 			<HeroImageContainer>
 				<HeroImageCover>
-					{/* <source srcSet="/hero-image.webp" type="image/webp" /> */}
-					{/* <source srcSet="/hero-image.jpg" type="image/jpeg" /> */}
-					<img src={image} alt="Hero image" />
+					{image === '/desktop-hero-image.jpg' &&
+						<>
+							<source srcSet="/desktop-hero-image.webp 768w, /mobile-hero-image.webp 320w" type="image/webp" />
+							<source srcSet="/desktop-hero-image.jpg 768w, /mobile-hero-image.jpg 320w" type="image/jpeg" />
+						</>
+					}
+					<img onLoad={hanlderLoading} src={image} alt="Hero image" />
 				</HeroImageCover>
 			</HeroImageContainer>
+			{loading && <Loader />}
 		</HeroImageWrapper>
 	);
 };

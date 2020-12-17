@@ -6,6 +6,4 @@ export interface IMakes {
 
 export interface IStepOne {
     makes: IMakes[];
-    make?: string;
-    model?: string;
 }

@@ -1,23 +1,26 @@
 // Packages
-import React from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 import { useSelector } from 'react-redux';
 
 // Definitions
-import { IPlainObject } from '../../definitions/IPlainObject';
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
 
 // Components
 import Container from '../container';
-import { RootState } from '../../../store/reducers';
 
 // Styles
 import { HeaderWrapper, HeaderLogo, HeaderContent, HeaderTitle, HeaderText, HeaderTitleBox } from './style';
 
 const Header: React.FC<IPlainObject> = (props) => {
-	let month = useSelector((state: RootState) => state.monthData);
+	const month = useSelector(( state: RootState ) => state.site.month );
+	const themeContext = useContext(ThemeContext);
+
 	return (
 		<HeaderWrapper>
 			<Container>
-				<HeaderLogo><use xlinkHref="#logo" /></HeaderLogo>
+				<HeaderLogo><use xlinkHref={themeContext.logo.filename} /></HeaderLogo>
 				<HeaderContent>
 					<HeaderTitle>Huge&nbsp;<HeaderTitleBox>{month}</HeaderTitleBox>&nbsp;Closeout</HeaderTitle>
 					<HeaderText><span>Car enthusiasts at your service</span></HeaderText>

@@ -5,7 +5,7 @@ const Redirect: React.FC = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		router.push( '/' );
+		router.replace( '/' );
 	}, []);
 	return null;
 };

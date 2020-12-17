@@ -1,4 +1,4 @@
-import Redirect from '../../../src/components/redirect';
+import Redirect from '@/comp/redirect';
 
 const MakeRedirect: React.FC = () => {
 	return <Redirect />;

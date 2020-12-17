@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const HeroImageWrapper = styled.div<{ theme: ThemeType, step?: number }>`
 	margin: 15px auto;
@@ -16,17 +16,18 @@ const HeroImageWrapper = styled.div<{ theme: ThemeType, step?: number }>`
 `;
 const HeroImageContainer = styled.div`
 	overflow: hidden;
-    padding-bottom: 62.55%;
+	padding-bottom: 62.55%;
 	border-radius: 7px;
 `;
 
 const HeroImageCover = styled.picture`
 	position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
 	img {
+		opacity: 1;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -37,6 +38,7 @@ const HeroImageCover = styled.picture`
 		min-height: 50%;
 		overflow: hidden;
 		width: 50%;
+		transition: all ease .3s;
 	}
 `;
 

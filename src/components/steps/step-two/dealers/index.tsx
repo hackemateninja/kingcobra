@@ -3,33 +3,34 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
-import { IPlainObject } from '../../../../definitions/IPlainObject';
-import { IDealer } from '../../../../definitions/IDealers';
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+import { IDealer } from '@/def/IDealers';
 
-// State
-import { RootState } from '../../../../../store/reducers';
+// Slices
+import { setSelectedDealers } from '@/redux/slices/step-two';
 
 // Components
-import Box from '../../../box';
-import Button from '../../../button';
-import Dealers from '../../../dealers';
-import { setSelected } from '../../../../../store/slices/dealers';
+import Box from '@/comp/box';
+import Button from '@/comp/button';
+import Dealers from '@/comp/dealers';
 
 const DealersBox: React.FC<IPlainObject> = ( props ) => {
 	const dispatch = useDispatch();
-	const dealersData = useSelector( ( state: RootState ) => state.dealersData );
+	const dealersList = useSelector( ( state: RootState ) => state.stepTwo.data.dealers );
+	const dealersSelected = useSelector(( state: RootState ) => state.stepTwo.data.selectedDealers );
 	const [error, setError] = useState<boolean>( false );
 	const [cue, setCue] = useState<boolean>( true );
-	const [dealers, setDealers] = useState({ allChecked: false, list: dealersData.list.map( ( item: IDealer ) => ({ ...item, isChecked: false }) ) });
+	const [dealers, setDealers] = useState({ allChecked: false, list: dealersList.map( ( item: IDealer ) => ({ ...item, isChecked: false }) ) });
 
 	const oneDealerCheck = () => {
-		if ( dealersData.list.length === 1 ) {
+		if ( dealersList.length === 1 ) {
 			let { allChecked, list } = dealers;
 			allChecked = true;
-			list = list.map( ( item: IDealer ) => ({ ...item, isChecked: true }) );
+			list = list.map( item => ({ ...item, isChecked: true }) );
 
 			setDealers({ allChecked, list });
-			dispatch( setSelected( list ) );
+			dispatch( setSelectedDealers( list ) );
 		}
 	};
 
@@ -40,23 +41,21 @@ const DealersBox: React.FC<IPlainObject> = ( props ) => {
 
 		if ( elemID === 'all-dealers' ) {
 			allChecked = elemChecked,
-			list = list.map( ( item: IDealer ) => ({ ...item, isChecked: elemChecked }) )
+			list = list.map( item => ({ ...item, isChecked: elemChecked }) )
 		} else {
-			list = list.map( ( item: IDealer ) =>
-				item.id === elemID ? { ...item, isChecked: elemChecked } : item
-			);
-			allChecked = list.every( ( item: IDealer ) => item.isChecked );
+			list = list.map( item => item.id === elemID ? { ...item, isChecked: elemChecked } : item);
+			allChecked = list.every( item => item.isChecked );
 		}
 
-		const selectedDealers = list.filter( ( item: IDealer ) => item.isChecked );
-		dispatch( setSelected( selectedDealers ) );
+		const selectedDealers = list.filter( item => item.isChecked );
+		dispatch( setSelectedDealers( selectedDealers ) );
 		setDealers({ allChecked, list });
 		setError( false );
 		setCue( selectedDealers.length !== 0 ? false : true );
 	};
 
 	const handlerClick = ( e: React.MouseEvent<HTMLButtonElement> ) => {
-		dealersData.selected.length !== 0 ? props.handlerButton( e ) : setError( true );
+		dealersSelected.length !== 0 ? props.handlerButton( e ) : setError( true );
 	};
 
 	useEffect(() => {

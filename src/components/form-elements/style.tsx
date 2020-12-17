@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const FormElement = styled.div<{ active: boolean, cue: boolean, error: boolean, city?: string }>`
+	padding: 0 1px;
 	margin-bottom: ${props => props.city !== undefined ? '33px' : '15px'};
 	${props => props.error && props.city !== undefined && css`
 		margin-bottom: 15px;
@@ -9,20 +10,21 @@ const FormElement = styled.div<{ active: boolean, cue: boolean, error: boolean, 
 	&:before {
 		content: '';
 		width: 100%;
-    height: ${props => props.active ? '55px' : '45px'};
-    border-radius: 6px;
+		height: ${props => props.active ? '55px' : '45px'};
+		border-radius: 6px;
+		background: ${props => props.theme.background.input.default};
 		${props => !props.cue && !props.error && css`
-			border: 1px solid #D8D8D8;
+			border: 1px solid ${props => props.theme.input.border.default};
 		`}
 		${props => props.cue && css`
-			border: 1px solid #3F81CE;
+			border: 1px solid ${props => props.theme.input.border.focus};
 		`}
 		${props => props.error && css`
-			border: 1px solid #E31818;
+			border: 1px solid ${props => props.theme.input.border.error};
 		`}
-    position: absolute;
-    top: 4px;
-    left: 0;
+		position: absolute;
+		top: 4px;
+		left: 0;
 		box-sizing: border-box;
 		transform: ${props => props.active ? 'translateY( -5px )' : 'none'};
 		transition: all cubic-bezier( .68, -.55, .265, 1.55 ) .3s;
@@ -37,7 +39,7 @@ const FormElementArrow = styled.span<{ focus: boolean }>`
 	height: 0;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
-	border-top: 5px solid ${props => props.focus ? '#3F81CE' : '#AEAEAE'};
+	border-top: 5px solid ${props => props.focus ? props.theme.input.arrow.focus : props.theme.input.arrow.default};
 	transform: ${props => props.focus ? 'rotate( -180deg )' : 'none'};
 	transition: all cubic-bezier( .68, -.55, .265, 1.55 ) .3s;
 `;
@@ -47,7 +49,7 @@ const FormElementLabel = styled.label<{ active: boolean, icon?: boolean, select?
 	cursor: text;
 	font-size: 14px;
 	line-height: 18px;
-	color: #6B6B6B;
+	color: ${props => props.theme.colors.label};
 	position: absolute;
 	top: 17px;
 	left: ${props => props.icon ? '35px' : '18px'};
@@ -100,6 +102,7 @@ const Element = styled.input<{ icon?: boolean, as?: string, active?: boolean }>`
 	background: transparent;
 	width: 100%;
 	height: 53px;
+	border-radius: 6px;
 	padding: 17px 40px 0 18px;
 	${props => props.icon === undefined && props.as === 'select' && css`
 		padding: ${props.active ? '17px 40px 0 18px' : '0 40px 0 18px'};
@@ -107,12 +110,20 @@ const Element = styled.input<{ icon?: boolean, as?: string, active?: boolean }>`
 	${props => props.icon && css`
 		padding: 17px 40px 0 35px;
 	`}
-	color: #565656;
-  font-size: ${props => props.active ? '16px' : '14px'};
+	color: ${props => props.theme.colors.input};
+	font-size: ${props => props.active ? '16px' : '14px'};
 	transition: all cubic-bezier( .68, -.55, .265, 1.55 ) .3s;
 	option {
 		font-size: 16px;
 	}
+	&:-webkit-autofill {
+		box-shadow: 0 0 0 53px white inset;
+    -webkit-text-fill-color: ${props => props.theme.colors.input};
+	}
+	&:-webkit-autofill:focus {
+		box-shadow: 0 0 0 53px white inset;
+		-webkit-text-fill-color: ${props => props.theme.colors.input};
+	} 
 `;
 
 const City = styled.span<{ theme: ThemeType, active: boolean, error?: boolean }>`

@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const ButtonWrapper = styled.button<{ theme: ThemeType}>`
 	outline: 0;
@@ -10,8 +10,8 @@ const ButtonWrapper = styled.button<{ theme: ThemeType}>`
 	width: 100%;
 	border: 1px solid ${props => props.theme.button.border};
 	border-radius: 6px;
-	background: ${props => props.theme.button.background};
-	box-shadow: 0 20px 20px -20px rgba( 0, 0, 0, .7 );
+	background: ${props => props.theme.background.button.default};
+	box-shadow: ${props => props.theme.button.shadow.default};
 	text-align: center;
 	transition: all 300ms ease;
 	cursor: pointer;
@@ -22,7 +22,7 @@ const ButtonWrapper = styled.button<{ theme: ThemeType}>`
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background: ${props => props.theme.button.hover};
+		background: ${props => props.theme.background.button.hover};
 		opacity: 0;
 		border-radius: 3px;
 		transition: all 300ms ease;
@@ -34,16 +34,15 @@ const ButtonWrapper = styled.button<{ theme: ThemeType}>`
 	}
 	&:active {
 		transform: translateY( 2px );
-		box-shadow: 0 20px 10px -20px rgba( 0, 0, 0, .7 );
+		box-shadow: ${props => props.theme.button.shadow.active};
 	}
 `
 const ButtonSpan = styled.span<{ theme: ThemeType}>`
-	color: #FFF;
-	font-size: 20px;
-	font-weight: bold;
-
+	color: ${props => props.theme.colors.button};
+	font-size: ${props => props.theme.font.size.button.xs};
+	font-weight: ${props => props.theme.font.weight.button};
 	@media screen and ( min-width: 768px ) {
-		font-size: 26px;
+		font-size: ${props => props.theme.font.size.button.md};
 	}
 `;
 

@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const CarInfoListWrapper = styled.ul<{ theme: ThemeType, device?: string }>`
 	list-style: none;

@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IBox } from '../../definitions/IBox';
+import { IBox } from '@/def/IBox';
 
 // Styles
 import { BoxWrapper, BoxHeader } from './style';

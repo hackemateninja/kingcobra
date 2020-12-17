@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IPlainObject } from '../../../definitions/IPlainObject';
+import { IPlainObject } from '@/def/IPlainObject';
 
 // Styles
 import { CarInfoListWrapper, CarInfoListItem, CarInfoListIcon, CarInfoListText } from './style';
@@ -25,9 +25,6 @@ const CarInfoList: React.FC<IPlainObject> = ( props ) => {
 				<CarInfoListItem key={index}>
 					<CarInfoListIcon><use xlinkHref="#icon-check" /></CarInfoListIcon>
 					<CarInfoListText blue>{item.title}</CarInfoListText>
-					{item.text !== undefined &&
-						<CarInfoListText>{item.text}</CarInfoListText>
-					}
 				</CarInfoListItem>
 			)}
 		</CarInfoListWrapper>

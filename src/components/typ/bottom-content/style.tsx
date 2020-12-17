@@ -98,7 +98,7 @@ const BottomFormTitle = styled.h3`
 		line-height: 24px;
 	}
 `;
-const BottomForm = styled.form`
+const BottomForm = styled.div`
 	position: relative;
 	display: block;
 `;

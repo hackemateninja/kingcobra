@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IDealer, IDealers } from '../../definitions/IDealers';
+import { IDealer, IDealers } from '@/def/IDealers';
 import Checkbox from './checkbox';
 
 // Styles

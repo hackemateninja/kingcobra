@@ -3,22 +3,24 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Definitios
-import { IPlainObject } from '../../../definitions/IPlainObject';
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+
+// Slices
+import { setQuotes } from '@/redux/slices/site';
 
 // Components
-import HeroImage from '../../../components/hero-image';
-import Row from '../../../components/container/row';
-import Column from '../../../components/container/column';
-import Display from '../../container/display';
-import FormOne from './form';
-import Advantages from '../../advantages';
-import Quotes from '../../quotes';
-import { RootState } from '../../../../store/reducers';
-import { setQuotes } from '../../../../store/slices/quotes';
+import HeroImage from '@/comp/hero-image';
+import Row from '@/comp/container/row';
+import Column from '@/comp/container/column';
+import Display from '@/comp/container/display';
+import FormOne from '@/comp/steps/step-one/form';
+import Advantages from '@/comp/advantages';
+import Quotes from '@/comp/quotes';
 
 const StepOne: React.FC<IPlainObject> = ( props ) => {
 	const dispatch = useDispatch();
-	const quotes = useSelector((state: RootState) => state.quotesData);
+	const quotes = useSelector(( state: RootState ) => state.site.quotes );
 
 	useEffect(() => {
 		dispatch( setQuotes() );
@@ -33,7 +35,7 @@ const StepOne: React.FC<IPlainObject> = ( props ) => {
 				</Display>
 			</Column>
 			<Column sm={1} md={2}>
-				<FormOne makes={props.makes} make={props.make} model={props.model} />
+				<FormOne makes={props.makes} models={props.models} make={props.make} model={props.model} onSubmit={props.onSubmit} />
 				<Advantages />
 				<Display hide="desktop">
 					<Quotes items={quotes} />

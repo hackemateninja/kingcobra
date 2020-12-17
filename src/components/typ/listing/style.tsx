@@ -1,12 +1,15 @@
 // Packages
 import styled from 'styled-components';
 
+// Definitions
+import { ThemeType } from '@/def/TThemeTyp';
+
 const ListingWrapper = styled.div`
 	margin: 0 0 10px;
 `;
-const ListingContent = styled.div`
-	border-top: 1px solid #ff8a3d;
-    background-color: #2b3b53;
+const ListingContent = styled.div<{ theme: ThemeType}>`
+	border-top: 1px solid ${props => props.theme.background.listing.border};
+    background-color: ${props => props.theme.background.listing.default};
     display: block;
     text-decoration: none;
 	@media screen and ( min-width: 768px ) {
@@ -19,12 +22,12 @@ const ListingContent = styled.div`
 			left: 0;
 			right: 0;
 			width: 80%;
-			background: url("/bg-typ.webp") right 70% no-repeat;
+			background: url(${props => props.theme.background.listing.imageWebp}) right 70% no-repeat;
 		}
 	}
 	@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
 		&:before {
-			background: url("/bg-typ.jpg") right 70% no-repeat;
+			background: url(${props => props.theme.background.listing.imageJpg}) right 70% no-repeat;
 		}
 	}
 	@media screen and ( min-width: 1024px ) {
@@ -51,10 +54,10 @@ const ListingColImg = styled.div`
 	padding: 5px 20px;
     width: 100%;
     display: block;
-    background: url("/bg-typ.webp") center/cover no-repeat;
+    background: url(${props => props.theme.background.listing.imageWebp}) center/cover no-repeat;
 	@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
 		&:before {
-			background: url("/bg-typ.jpg") center/cover no-repeat;
+			background: url(${props => props.theme.background.listing.imageJpg}) center/cover no-repeat;
 		}
 	}
 	@media screen and ( min-width: 768px ) {
@@ -84,7 +87,7 @@ const ListingImg = styled.img`
 	}
 `;
 const ListingColInfo = styled.div`
-	background-color: #2b3b53;
+	background-color: ${props => props.theme.background.listing.default};
     display: block;
     padding: 20px;
 	@media screen and ( min-width: 768px ) {
@@ -108,7 +111,10 @@ const ListingTitle = styled.p`
     display: block;
 	margin: 0;
 	span {
-		span {color: #ff8a3d;margin-left:2px;}
+		span {
+			color: ${props => props.theme.background.listing.border};
+			margin-left:2px;
+		}
 	}
 	@media screen and ( min-width: 768px ) {
 		font-size: 35px;

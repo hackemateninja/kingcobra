@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IColumn } from '../../../definitions/IColumn';
+import { IColumn } from '@/def/IColumn';
 
 // Styles
 import { ColumnWrapper } from './style';

@@ -1,5 +1,32 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/comp/*": [
+        "src/components/*"
+      ],
+      "@/util/*": [
+        "src/utilities/*"
+      ],
+      "@/def/*": [
+        "src/definitions/*"
+      ],
+      "@/redux/*": [
+        "src/redux/*"
+      ],
+      "@/theme/*": [
+        "src/themes/*"
+      ],
+      "@/layout/*": [
+        "src/layouts/*"
+      ],
+      "@/data/*": [
+        "src/data/*"
+      ],
+      "@/src/*": [
+        "src/*"
+      ],
+    },
     "target": "es5",
     "lib": [
       "dom",

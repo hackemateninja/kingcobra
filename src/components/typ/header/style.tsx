@@ -1,29 +1,32 @@
 // Packages
 import styled from 'styled-components';
 
-const HeaderWrapper = styled.header`
-	height: 50px;
+// Definitions
+import { ThemeType } from '@/def/TThemeTyp';
+
+const HeaderWrapper = styled.header<{ theme: ThemeType}>`
+	height: ${props => props.theme.header.height.xs};
     width: 100%;
-    background-color: #2b3b53;
+    background-color: ${props => props.theme.background.header.default};
 	& div {
-		height: 50px;
+		height: ${props => props.theme.header.height.xs};
 		display: flex;
 		align-items: center;
 	}
 	@media screen and ( min-width: 768px ) {
-		height: 60px;
+		height: ${props => props.theme.header.height.md};
 		& div {
-			height: 60px;
+			height: ${props => props.theme.header.height.md};
 		}
 	}
 `;
 
-const HeaderImg = styled.img`
-	width: ${props => props.theme.typHeaderLogo.logoHeight};
-    height: auto;
-    margin: 0 auto;
+const HeaderImg = styled.svg<{ theme: ThemeType}>`
+	width: ${props => props.theme.logo.width.xs};
+    height: ${props => props.theme.logo.height.xs};
+    margin: ${props => props.theme.logo.margin.xs};
 	@media screen and ( min-width: 768px ) {
-		margin: 0;
+		margin: ${props => props.theme.logo.margin.md};
 	}
 `;
 

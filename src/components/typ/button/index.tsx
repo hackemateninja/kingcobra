@@ -1,12 +1,14 @@
 // Definitions
-import { IPlainObject } from '../../../definitions/IPlainObject';
+import { IButton } from '@/def/IButton';
 
 // Styles
-import { ButtonWrapper } from './style';
+import { ButtonWrapper, ButtonSpan } from './style';
 
-const Button: React.FC<IPlainObject> = ( props ) => {
+const Button: React.FC<IButton> = (props) => {
 	return (
-		<ButtonWrapper><span>{props.children}</span></ButtonWrapper>
+		<ButtonWrapper onClick={props.handlerClick}>
+			<ButtonSpan>{props.children}</ButtonSpan>
+		</ButtonWrapper>
 	);
 };
 

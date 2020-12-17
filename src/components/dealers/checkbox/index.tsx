@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IDealer } from '../../../definitions/IDealers';
+import { IDealer } from '@/def/IDealers';
 import Cue from '../../form-elements/cue';
 
 // Styles

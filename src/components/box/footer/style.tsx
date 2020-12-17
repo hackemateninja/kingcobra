@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const BoxFooterWrapper = styled.div`
 	margin: 15px 0 0;
@@ -16,10 +16,11 @@ const BoxFooterProtect = styled.p`
 	margin: 0;
 `;
 
-const BoxFooterIcon = styled.svg`
+const BoxFooterIcon = styled.svg<{ theme: ThemeType }>`
 	width: 18px;
 	height: 18px;
 	margin: -5px 10px -5px 0;
+	fill: ${props => props.theme.background.form.protect};
 `;
 
 const BoxFooterTCPA = styled.p<{ theme: ThemeType }>`

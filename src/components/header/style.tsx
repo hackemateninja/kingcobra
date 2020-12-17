@@ -6,29 +6,30 @@ import { ThemeType } from '../../definitions/TTheme';
 
 const HeaderWrapper = styled.header<{ theme: ThemeType}>`
 	overflow: hidden;
-	height: ${props => props.theme.header.heightMobile};
-	background: ${props => props.theme.header.background};
-	margin: ${props => props.theme.header.marginMobile};
+	height: ${props => props.theme.header.height.xs};
+	background: ${props => props.theme.background.header.default};
+	margin: ${props => props.theme.header.margin.xs};
 	> div {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		height: inherit;
 	}
-	
+
 	@media screen and ( min-width: 768px ) {
-		height: ${props => props.theme.header.heightDesktop};
-		margin: ${props => props.theme.header.marginDesktop};
+		height: ${props => props.theme.header.height.md};
+		margin: ${props => props.theme.header.margin.md};
 	}
 `;
 
 const HeaderLogo = styled.svg`
-	width: ${props => props.theme.logo.widthMobile};
-	height: ${props => props.theme.logo.heightMobile};
-	
+	width: ${props => props.theme.logo.width.xs};
+	height: ${props => props.theme.logo.height.xs};
+	margin-bottom: 2px;
+
 	@media screen and ( min-width: 768px ) {
-		width: ${props => props.theme.logo.widthDesktop};
-		height: ${props => props.theme.logo.heightDesktop};
+		width: ${props => props.theme.logo.width.md};
+		height: ${props => props.theme.logo.height.md};
 		margin: 0 90px 0 0;
 	}
 
@@ -39,7 +40,7 @@ const HeaderLogo = styled.svg`
 
 const HeaderContent = styled.div`
 	display: none;
-	
+
 	@media screen and ( min-width: 768px ) {
 		display: block;
 		-ms-flex-preferred-size: 0;
@@ -59,11 +60,11 @@ const HeaderTitle = styled.p<{ theme: ThemeType}>`
 	font-weight: bold;
 	text-transform: uppercase;
 	height: 78px;
-	color: ${props => props.theme.colors.primary};
+	color: ${props => props.theme.colors.header.default};
 `;
 
 const HeaderTitleBox = styled.span<{ theme: ThemeType}>`
-	border: 3px solid ${props => props.theme.colors.primary};
+	border: 3px solid ${props => props.theme.colors.header.default};
 	border-radius: 3px;
 	padding: 4px 6px 3px;
 `;
@@ -73,15 +74,15 @@ const HeaderText = styled.p`
 	align-items: center;
 	height: 27px;
 	margin: 0;
-	background: ${props => props.theme.header.decorationBackground};
-	color: #FFF;
+	background: ${props => props.theme.background.header.decoration};
+	color: ${props => props.theme.colors.header.secondary};
 	font-size: 18px;
 	&:before, &:after {
 		content: '';
 		position: absolute;
 		top: 0;
 		bottom: 0;
-		background: ${props => props.theme.header.decorationBackground};
+		background: ${props => props.theme.background.header.decoration};
 	}
 	&:before {
 		width: 60px;

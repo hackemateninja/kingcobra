@@ -1,3 +1,3 @@
-# kingcobra
+# Cobra 1.1
 
-King Cobra - AutoUSA.com
+Cobra 1.1 remake

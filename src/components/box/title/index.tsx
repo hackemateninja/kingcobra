@@ -1,5 +1,5 @@
 // Definitions
-import { IPlainObject } from '../../../definitions/IPlainObject';
+import { IPlainObject } from '@/def/IPlainObject';
 
 // Styles
 import { BoxTitle } from './style';

@@ -1,48 +1,145 @@
 // Packages
-import Head from 'next/head';
+import { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import absoluteUrl from 'next-absolute-url';
+
+// Data
+import { makes } from '@/data/makes';
 
 // Definitions
-import { IPlainObject } from '../../../../src/definitions/IPlainObject';
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
 
 // Layout
-import DefaultLayout from '../../../../src/layouts/default';
+import DefaultLayout from '@/layout/default';
+
+// Slices
+import { setMonth } from '@/redux/slices/site';
+import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from '@/redux/slices/step-one';
 
 // Components
-import StepTwo from '../../../../src/components/steps/step-two';
-import { RootState } from '../../../../store/reducers';
-import { setMonth } from '../../../../store/slices/month';
+import StepTwo from '@/comp/steps/step-two';
+import Title from '@/comp/title';
+import SubTitle from '@/comp/subtitle';
+
+// Utilities
+import setSuffix from '@/util/suffix';
+import combineAnS from '@/util/combine-ans';
+import setPrefix from '@/util/prefix';
 
 // Styles
-import GlobalStyles from '../../../../src/themes/global';
-import PrimaryTheme from '../../../../src/themes/primary';
+import GlobalStyles from '@/theme/global';
+import PrimaryTheme from '@/theme/primary';
+import MetaData from '@/comp/meta-data';
 
 const PageStepTwo: React.FC<IPlainObject> = ( props ) => {
-	const router = useRouter();
 	const dispatch = useDispatch();
-	let month: string;
+	const router = useRouter();
 
-	if (!month) dispatch(setMonth());
-	month = useSelector((state: RootState) => state.monthData);
+	const metadata = useSelector(( state: RootState ) => state.metadata );
+	const stepOne = useSelector(( state: RootState ) => state.stepOne.data );
+	const month = useSelector(( state: RootState ) => state.site.month );
+
+	const { models, make, model, zip } = props;
+	const { prefix, separator, description, keywordsPnS } = metadata.model;
+	const { zipcode } = stepOne;
+
+	const name = `${make.name} ${model.name}`;
+	const title = `${setSuffix( prefix, name, ` ${separator} ` )} ${separator} ${metadata.name}`;
+	const desc = combineAnS( description, name );
+	const prekeys = setPrefix( keywordsPnS.prefix, name, ', ' );
+	const sufkeys = setSuffix( keywordsPnS.suffix, name, ', ' );
+	const keys = `${prekeys}, ${sufkeys}`;
+
+	const handlerSubmit = ( e: React.MouseEvent<HTMLButtonElement> ) => {
+		router.push( `/thankyou` );
+	};
+
+	useEffect(() => {
+		month.length === 0 && dispatch( setMonth() );
+		dispatch( setMakes( makes ) );
+		dispatch( saveModels( models ) );
+		dispatch( setSelectedMake( make.value ) );
+		dispatch( setSelectedModel( model.value ) );
+		dispatch( zip.city !== null ? saveZipCode( zip ) : saveZipCode( {} ) );
+	}, []);
 
 	return (
-		<ThemeProvider theme={PrimaryTheme}>
-			<Head>
-				<title>New Car Closeout | New Car Deals | Car.com</title>
-				<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-				<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-				<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-				<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5cb1e5" />
-				<link rel="manifest" type="application/json" href="/favicon/manifest.json" />
-			</Head>
-			<GlobalStyles />
-			<DefaultLayout>
-				<StepTwo />
-			</DefaultLayout>
-		</ThemeProvider>
+		<>
+			{props.model !== null && props.zip.city !== null ? (
+				<ThemeProvider theme={PrimaryTheme}>
+					<MetaData
+						title={title}
+						description={desc}
+						keywords={keys}
+					/>
+					<GlobalStyles />
+					<DefaultLayout>
+						<Title>Yes! We Located {make.name} {model.name} Internet Deals</Title>
+						<SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
+						<StepTwo model={model} city={`${zipcode.city}, ${zipcode.state} ${zipcode.zip}`} zipcode={zipcode.zip} onSubmit={handlerSubmit} />
+					</DefaultLayout>
+				</ThemeProvider>
+			) : (
+				<>
+					<MetaData
+						title="Listings invalid Zip Code"
+					/>
+					<p>Listings invalid Zip Code</p>
+				</>
+			)}
+		</>
 	);
 };
+
+export const getServerSideProps: GetServerSideProps = async ( context ) => {
+	let cs: string[];
+	let zipcode: object;
+
+	const cxtMake = context.query.make;
+	const cxtModel = context.query.model;
+	const cxtZip = context.query.zipcode;
+	const auth:any = context.query.auth;
+
+	const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
+
+	const { origin } = absoluteUrl(context.req, context.req.headers.host);
+	const resModels = await fetch( `${origin}/api/models/${cxtMake}` );
+	const models = await resModels.json();
+
+	const make = makes.filter( item => item.value === cxtMake );
+	const model = models.filter( item => item.value === cxtModel );
+	
+	if ( auth !== undefined && auth !== '' ) {
+		const decodedAuth = Buffer.from( auth, 'base64' ).toString();
+		cs = decodedAuth.split( '/' );
+
+		zipcode = { city: cs[0], state: cs[1], zip: cxtZip }
+	} else {
+		console.log( 'Remove the double diagonal from each line below to enable the SmartyStreet call' );
+		// const resZipCode = await fetch( ssURL );
+		// const jsonZipCode = await resZipCode.json();
+		// const ssData = jsonZipCode[0];
+		
+		// if ( ssData.status === undefined ) {
+		// 	const zcData = ssData.zipcodes[0];
+		// 	zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: zipcode };
+		// } else {
+			zipcode = { city: null, state: null, zip: null }
+		// }
+	}
+
+	return {
+		props: {
+			models: models.length !== 0 ? models : null,
+			make: make.length !== 0 ? make[0] : null,
+			model: model.length !== 0 ? model[0] : null,
+			zip: zipcode,
+		},
+	}
+}
 
 export default PageStepTwo;

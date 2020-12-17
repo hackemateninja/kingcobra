@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IText } from '../../definitions/IText';
+import { IText } from '@/def/IText';
 
 // Styles
 import { TextWrapper } from './style';

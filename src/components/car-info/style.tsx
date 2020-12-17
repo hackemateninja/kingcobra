@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const CarInfoWrapper = styled.div`
 	display: flex;

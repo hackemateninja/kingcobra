@@ -1,6 +1,9 @@
 // Packages
 import styled, { keyframes } from 'styled-components';
 
+// Definitions
+import { ThemeType } from '@/def/TThemeTyp';
+
 const arrowBig = keyframes`
 	0% {opacity: 0;transform: translateX(-20px)}
 	25%,65% {opacity: 1}
@@ -21,8 +24,8 @@ const ListingInfoWrapper = styled.a`
 		min-height: 188px;
 	}
 `;
-const InfoTitle = styled.span`
-	color: #e9f2ff;
+const InfoTitle = styled.span<{ theme: ThemeType}>`
+	color: ${props => props.theme.colors.listing.title};
     font-size: 21px;
     font-weight: 700;
     line-height: 24px;
@@ -35,7 +38,7 @@ const InfoTitle = styled.span`
 	}
 `;
 const InfoText = styled.span`
-	color: #e9f2ff;
+	color: ${props => props.theme.colors.listing.text};
     font-size: 12px;
     line-height: 14px;
 	display: block;
@@ -45,7 +48,7 @@ const InfoText = styled.span`
 	}
 `;
 const InfoLink = styled.span`
-	color: #96cfff;
+	color: ${props => props.theme.colors.listing.link};
     font-size: 12px;
     line-height: 14px;
     margin-top: 5px;
@@ -58,7 +61,7 @@ const InfoLink = styled.span`
 `;
 const InfoBtn = styled.span`
 	border-radius: 5px;
-    background-color: #ff8a3d;
+    background-color: ${props => props.theme.background.listing.button.default};
     box-shadow: 0 2px 10px 0 rgba(0,0,0,.3);
     margin-top: 10px;
     height: 50px;
@@ -68,13 +71,17 @@ const InfoBtn = styled.span`
 	display: flex;
     align-items: center;
     justify-content: center;
+	transition: all ease .3s;
+	&:hover {
+		background-color: ${props => props.theme.background.listing.button.hover};
+	}
 	@media screen and ( min-width: 768px ) {
 		max-width: 330px;
 		margin: 15px 0 0;
 	}
 `;
 const InfoBtnText = styled.span`
-	color: #fff;
+	color: ${props => props.theme.colors.listing.button};
     font-size: 28px;
     font-weight: 700;
     line-height: 32px;

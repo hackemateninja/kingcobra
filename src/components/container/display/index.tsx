@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IDisplay } from '../../../definitions/IDisplay';
+import { IDisplay } from '@/def/IDisplay';
 
 // Styles
 import { DisplayWrapper } from './style';

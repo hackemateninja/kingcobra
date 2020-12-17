@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { ITypTop, ISelectedDealers } from '../../../definitions/ITypTop';
+import { ITypTop, ISelectedDealers } from '@/def/ITypTop';
 
 // Styles
 import { TopContentWrapper, TopTitle, TopSubTitle, TopText, TopDealers, TopUser } from './style';

@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Definitions
-import { IListingInfo, IListingData } from '../../../../definitions/IListingInfo';
+import { IListingInfo, IListingData } from '@/def/IListingInfo';
 
 // Styles
 import { ListingInfoWrapper, InfoTitle, InfoText, InfoLink, InfoBtn, InfoBtnText, InfoBtnArrow } from './style';

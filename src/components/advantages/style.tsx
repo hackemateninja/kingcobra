@@ -1,5 +1,6 @@
 // Packages
 import styled from 'styled-components';
+import { ThemeType } from '@/def/TTheme';
 
 const AdvantagesWrapper = styled.div`
 	display: none;
@@ -20,7 +21,7 @@ const Advantage = styled.p`
 	}
 `;
 
-const AdvantageTitle = styled.span`
+const AdvantageTitle = styled.span<{ theme: ThemeType }>`
 	@media screen and ( min-width: 768px ) {
 		display: flex;
 		align-items: center;
@@ -33,7 +34,7 @@ const AdvantageTitle = styled.span`
 		padding-right: 2px;
 		font-size: 12px;
 		line-height: 16px;
-		color: #154175;
+		color: ${props => props.theme.colors.primary};
 		margin: 0 auto 7px;
 		&:before {
 			content: '';
@@ -42,7 +43,7 @@ const AdvantageTitle = styled.span`
 			left: 2px;
 			width: 14px;
 			height: 14px;
-			background: #154175;
+			background: ${props => props.theme.colors.primary};
 			border-radius: 14px;
 		}
 	}

@@ -1,6 +1,6 @@
 // Packages
 import styled from 'styled-components';
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const QuotesWapper = styled.div`
 	overflow: hidden;
@@ -10,29 +10,34 @@ const QuotesWapper = styled.div`
 
 const QuotesScroll = styled.div`
 	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	overflow: auto;
-	padding-bottom: 50px;
-	margin-bottom: -65px;
-	-webkit-overflow-scrolling: touch;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
+	overflow-x: scroll;
+	padding-bottom: 30px;
+	margin-bottom: -38px;
+	scrollbar-width: thin;
+	::-webkit-scrollbar {
+		height: 8px;
+	}
 
-	@media (hover: none) and (pointer: coarse) {
-		padding-bottom: 50px;
-		margin-bottom: -50px;
+	@media ( hover: none ) and ( pointer: coarse ) {
+		-webkit-overflow-scrolling: touch;
+		scroll-snap-points-x: repeat(100%);
+		scroll-snap-destination: 0 0;
+		scroll-snap-type: x mandatory;
+		scroll-snap-type: mandatory;
+		scroll-behavior: smooth;	
 	}
 `;
 
-const QuotesNav = styled.div<{ active: number }>`
+const QuotesNav = styled.div<{ theme: ThemeType, active: number }>`
 	display: flex;
 	justify-content: center;
 	margin: 10px 0 0;
 	> div {
 		&:nth-child( ${props => props.active} ) {
-			transform: scale( .8 );
-			background: #AEAEAE;
+			&:before {
+				transform: scale( .46 );
+				background: ${props => props.theme.background.quote.dot.active};
+			}
 		}
 	}
 `;
@@ -41,7 +46,7 @@ const Quote = styled.div<{ theme: ThemeType }>`
 	height: 100%;
 	display: flex;
 	padding: 15px;
-	background: ${props => props.theme.quote.background};
+	background: ${props => props.theme.background.quote.default};
 	border-radius: 7px;
 	min-width: 100%;
 	scroll-snap-align: start;
@@ -66,7 +71,7 @@ const QuoteContent = styled.div`
 const QuoteText = styled.blockquote`
 	margin: 0 0 5px;
 	font-style: italic;
-	color: ${props => props.theme.quote.text};
+	color: ${props => props.theme.colors.quote.default};
 	font-size: 14px;
 	line-height: 20px;
 
@@ -80,21 +85,23 @@ const QuoteName = styled.p`
 	margin: 0;
 	font-size: 12px;
 	line-height: 14px;
-	color: ${props => props.theme.quote.name};
+	color: ${props => props.theme.colors.quote.secondary};
 `;
 
-const QuoteDot = styled.div`
+const QuoteDot = styled.div<{ theme: ThemeType }>`
 	cursor: pointer;
-	width: 12px;
-	height: 12px;
-	border-radius: 12px;
-	background: #D8D8D8;
-	transform: scale( .5 );
+	width: 20px;
+	height: 20px;
 	overflow: hidden;
-	text-indent: -100px;
-	transition: all ease .2s;
-	&:not(:last-child) {
-		margin-right: 9px;
+	&:before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 10px;
+		background: ${props => props.theme.background.quote.dot.default};
+		transform: scale( .3 );
+		transition: all ease .2s;
 	}
 `;
 

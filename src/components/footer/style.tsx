@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '../../definitions/TTheme';
+import { ThemeType } from '@/def/TTheme';
 
 const FooterWrapper = styled.footer`
 	padding: 10px 0 0;
