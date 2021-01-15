@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import absoluteUrl from 'next-absolute-url';
+import useScript from '@/src/hooks/useScript';
 
 // Data
 import { makes } from '@/data/makes';
@@ -35,7 +36,7 @@ import GlobalStyles from '@/theme/global';
 import PrimaryTheme from '@/theme/primary';
 import MetaData from '@/comp/meta-data';
 
-const PageStepTwo: React.FC<IPlainObject> = ( props ) => {
+const PageStepTwo: React.FC<IPlainObject> = (props) => {
 	const dispatch = useDispatch();
 	const router = useRouter();
 
@@ -64,8 +65,10 @@ const PageStepTwo: React.FC<IPlainObject> = ( props ) => {
 		dispatch( saveModels( models ) );
 		dispatch( setSelectedMake( make.value ) );
 		dispatch( setSelectedModel( model.value ) );
-		dispatch( zip.city !== null ? saveZipCode( zip ) : saveZipCode( {} ) );
+		dispatch(zip.city !== null ? saveZipCode(zip) : saveZipCode({}));
 	}, []);
+
+	console.log(props.make.name, props.model.name, props.fasZip, 'test');
 
 	return (
 		<>
@@ -88,7 +91,8 @@ const PageStepTwo: React.FC<IPlainObject> = ( props ) => {
 					<MetaData
 						title="Listings invalid Zip Code"
 					/>
-					<p>Listings invalid Zip Code</p>
+					<div className="content" dangerouslySetInnerHTML={{__html: `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="`+ props.make.name +`" aw-model="`+ props.model.name +`" aw-zipcode="`+ props.fasZip +`"></div>`}}></div>
+					{useScript('//cdn.awadserver.com/widget/js/awloader.min.js', '3382')}
 				</>
 			)}
 		</>
@@ -138,6 +142,7 @@ export const getServerSideProps: GetServerSideProps = async ( context ) => {
 			make: make.length !== 0 ? make[0] : null,
 			model: model.length !== 0 ? model[0] : null,
 			zip: zipcode,
+			fasZip: cxtZip
 		},
 	}
 }

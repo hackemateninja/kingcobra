@@ -362,6 +362,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
 
+"@types/loadjs@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/loadjs/-/loadjs-4.0.0.tgz#14f85e89d7ca8784d9ab6cac6c5a21480e6488d4"
+  integrity sha512-vg2B8Kw8U5d//cPuPoHX/kUiluMxbNyNTHzoRnetdW3HGEuFZJOorOWNRpn43bUJ2s2BCmMP79dtvl+irSJ3mg==
+
 "@types/node@^14.14.5":
   version "14.14.10"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.10.tgz#5958a82e41863cfc71f2307b3748e3491ba03785"

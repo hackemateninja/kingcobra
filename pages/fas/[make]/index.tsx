@@ -1,7 +1,7 @@
 import Redirect from '@/comp/redirect';
 
-const FasRedirect: React.FC = () => {
+const MakeRedirect: React.FC = () => {
 	return <Redirect />;
 };
 
-export default FasRedirect;
+export default MakeRedirect;
