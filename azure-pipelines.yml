@@ -39,6 +39,6 @@ steps:
     azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
     appType: 'webAppLinux'
     WebAppName: 'app-kingcobra-dev-eastus2-001'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(System.ArtifactStagingDirectory)/**/*.zip'
     RuntimeStack: 'NODE|14-lts'
     StartupCommand: 'npm start'
