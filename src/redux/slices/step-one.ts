@@ -47,7 +47,7 @@ export const setModels = createAsyncThunk( 'get/models', async ( make: string ) 
 export const setZipCode = createAsyncThunk( 'get/zipcode', async ( zip: string ) => {
 	if ( zip !== '' && zip !== '99999' ) {
 		return new Promise(( resolve, reject ) => {
-			fetch( `https://us-zipcode.api.smartystreets.com/lookup?auth-id=25770505095992457&zipcode=${zip}` )
+			fetch( `https://us-zipcode.api.smartystreets.com/lookup?auth-id=18416523405536563&zipcode=${zip}` )
 				.then(( response ) => {
 					if ( response.ok ) {
 						return response.json();

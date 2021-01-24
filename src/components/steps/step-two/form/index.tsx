@@ -207,7 +207,7 @@ const FormTwo: React.FC<IPlainObject> = ( props ) => {
 
 	const handlerAutocomplete = async ( e: React.ChangeEvent<HTMLInputElement> ) => {
 		const ssURL = 'https://us-autocomplete-pro.api.smartystreets.com/lookup';
-		const ssKey = '?auth-id=25770505095992457';
+		const ssKey = '?auth-id=18416523405536563';
 		const ssZipCode = `&include_only_zip_codes=${props.zipcode}`;
 		const ssSearch = `&search=${e.target.value}`;
 		setAddressValue( e.target.value );
