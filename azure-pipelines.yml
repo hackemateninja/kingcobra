@@ -19,6 +19,7 @@ steps:
   displayName: 'Archive files'
   inputs:
     rootFolder: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
 
 - task: AzureRmWebAppDeployment@4
