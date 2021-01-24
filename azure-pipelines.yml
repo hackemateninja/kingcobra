@@ -19,19 +19,7 @@ steps:
   displayName: 'Archive files'
   inputs:
     rootFolder: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
-
-- task: CopyFiles@2
-  displayName: 'Copy File to: $(TargetFolder)'
-  inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)'
-    Contents: 'drop.zip'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
@@ -39,6 +27,12 @@ steps:
     azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
     appType: 'webAppLinux'
     WebAppName: 'app-kingcobra-dev-eastus2-001'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop.zip'
     RuntimeStack: 'NODE|14-lts'
     StartupCommand: 'npm start'
+    
+- task: AzureAppServiceManage@0
+  inputs:
+    azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
+    Action: 'Restart Azure App Service'
+    WebAppName: 'app-kingcobra-dev-eastus2-001'
