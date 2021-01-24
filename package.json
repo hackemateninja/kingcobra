@@ -6,9 +6,9 @@
   "author": "AW Frontend Team",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "export": "next export"
   },
   "dependencies": {
