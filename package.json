@@ -6,7 +6,7 @@
   "author": "AW Frontend Team",
   "license": "MIT",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next",
     "build": "next build",
     "start": "node server.js",
     "export": "next export"
