@@ -4,37 +4,72 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '14.x'
-  displayName: 'Install Node.js'
+stages:
+- stage: Build
+  displayName: Build stage
 
-- script: npm install --legacy-peer-deps
-  displayName: 'npm install'
+  jobs:
+  - job: Build
+    displayName: Build
+
+    steps:
+
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.x'
+
+    - script: npm install --legacy-peer-deps
   
-- script: npm run build
-  displayName: 'npm build'
+    - script: npm run build
 
-- task: ArchiveFiles@1
-  displayName: 'Archive files'
-  inputs:
-    rootFolder: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/drop.zip
+        replaceExistingArchive: true
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
-    appType: 'webAppLinux'
-    WebAppName: 'app-kingcobra-dev-eastus2-001'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop.zip'
-    RuntimeStack: 'NODE|14-lts'
-    StartupCommand: 'npm start'
+    - publish: $(Build.ArtifactStagingDirectory)/drop.zip
+      artifact: drop
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  condition: succeeded()
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: KingCobra DEV
+
+    strategy:
+      runOnce:
+        deploy:
+
+          steps:
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
+              Action: 'Stop Azure App Service'
+              WebAppName: 'app-kingcobra-dev-centralus-01'
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
+              appType: 'webAppLinux'
+              WebAppName: 'app-kingcobra-dev-centralus-01'
+              packageForLinux: $(Pipeline.Workspace)/drop/drop.zip
+              RuntimeStack: 'NODE|14-lts'
+              StartupCommand: 'npm start'
+      
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
+              Action: 'Start Azure App Service'
+              WebAppName: 'app-kingcobra-dev-centralus-01'
     
-- task: AzureAppServiceManage@0
-  inputs:
-    azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
-    Action: 'Restart Azure App Service'
-    WebAppName: 'app-kingcobra-dev-eastus2-001'
+
+
+
