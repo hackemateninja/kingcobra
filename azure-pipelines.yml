@@ -48,6 +48,7 @@ stages:
         deploy:
 
           steps:
+
           - task: AzureAppServiceManage@0
             inputs:
               azureSubscription: 'AW-DEV-2.0 (0566e050-d583-4d50-82b0-3012ab3210ea)'
