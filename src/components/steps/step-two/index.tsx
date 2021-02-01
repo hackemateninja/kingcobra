@@ -1,48 +1,62 @@
 // Packages
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // Definitios
-import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
+import { IPlainObject } from "@/def/IPlainObject";
+import { RootState } from "@/def/TRootReducer";
 
 // Slice
-import { setQuotes } from '@/redux/slices/site';
+import { setQuotes } from "@/redux/slices/site";
 
 // Components
-import Row from '@/comp/container/row';
-import Column from '@/comp/container/column';
-import Display from '@/comp/container/display';
-import Quotes from '@/comp/quotes';
-import CarInfo from '@/comp/car-info';
-import CarInfoList from '@/comp/car-info/list';
-import StepBox from '@/comp/steps/step-two/box';
+import Row from "@/comp/container/row";
+import Column from "@/comp/container/column";
+import Display from "@/comp/container/display";
+import Quotes from "@/comp/quotes";
+import CarInfo from "@/comp/car-info";
+import CarInfoList from "@/comp/car-info/list";
+import StepBox from "@/comp/steps/step-two/box";
+import { setDealers } from "@/redux/slices/step-two";
 
-const StepTwo: React.FC<IPlainObject> = ( props ) => {
-	const dispatch = useDispatch();
-	const quotes = useSelector(( state: RootState ) => state.site.quotes );
+const StepTwo: React.FC<IPlainObject> = (props) => {
+  const dispatch = useDispatch();
+  const quotes = useSelector((state: RootState) => state.site.quotes);
+  const stepOne = useSelector((state: RootState) => state.stepOne.data);
 
-	useEffect(() => {
-		dispatch( setQuotes() );
-	}, []);
+  useEffect(() => {
+    dispatch(setQuotes());
+    const { selectedMake, selectedModel, zipcode } = stepOne;
+    if (selectedModel?.value && selectedMake?.value) {
+      dispatch(
+        setDealers({
+          make: selectedMake.value,
+          model: selectedModel.value,
+          sourceId: 4,
+          year: selectedModel.year,
+          zip: zipcode.zip,
+        })
+      );
+    }
+  }, [stepOne]);
 
-	return (
-		<Row>
-			<Column sm={1} md={2}>
-				<CarInfo model={props.model} />
-				<Display hide="mobile">
-					<Quotes items={quotes} />
-				</Display>
-			</Column>
-			<Column sm={1} md={2}>
-				<StepBox city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-				<CarInfoList device="mobile" />
-				<Display hide="desktop">
-					<Quotes items={quotes} />
-				</Display>
-			</Column>
-		</Row>
-	);
+  return (
+    <Row>
+      <Column sm={1} md={2}>
+        <CarInfo model={props.model} />
+        <Display hide="mobile">
+          <Quotes items={quotes} />
+        </Display>
+      </Column>
+      <Column sm={1} md={2}>
+        <StepBox city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
+        <CarInfoList device="mobile" />
+        <Display hide="desktop">
+          <Quotes items={quotes} />
+        </Display>
+      </Column>
+    </Row>
+  );
 };
 
 export default StepTwo;

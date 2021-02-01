@@ -9,7 +9,8 @@
     "dev": "next",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
-    "export": "next export"
+    "export": "next export",
+    "debug": "NODE_OPTIONS='--inspect' next dev"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",

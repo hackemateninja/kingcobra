@@ -1,18 +1,28 @@
 export interface IDealer {
-	id: string,
-	name: string,
-	address?: string,
-	isChecked?: boolean,
-	one?: boolean,
-	all?: boolean,
-	cue?: boolean,
-	handlerChange?: ( event: React.ChangeEvent<HTMLInputElement> ) => void
+  id: string;
+  name: string;
+  address?: string;
+  isChecked?: boolean;
+  one?: boolean;
+  all?: boolean;
+  cue?: boolean;
+  handlerChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface IDealers {
-	items: IDealer[];
-	error?: boolean,
-	cue?: boolean,
-	allChecked?: boolean,
-	handlerChange?: ( event: React.ChangeEvent<HTMLInputElement> ) => void;
+  items: IDealer[];
+  error?: boolean;
+  cue?: boolean;
+  allChecked?: boolean;
+  handlerChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IDealersParams {
+  sourceId: number;
+  make: string;
+  model: string;
+  year: string;
+  zip: string;
+  trim?: string;
+  sessionId?: string;
 }
