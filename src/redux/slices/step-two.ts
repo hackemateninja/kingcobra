@@ -82,7 +82,7 @@ const stepTwoSlice = createSlice({
       state.data.dealers = [];
     });
 
-    builder.addCase(setDealers.fulfilled, (state, action) => {
+    builder.addCase(setDealers.fulfilled, (state, action: any) => {
       const pl = action.payload;
       if (pl.coverage) {
         const { dealers } = pl;
