@@ -6,9 +6,9 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '14.x'
-  
-- script: npm audit --audit-level=high
 
 - script: npm install --legacy-peer-deps
+  
+- script: npm audit --audit-level=high
   
 - script: npm run build
