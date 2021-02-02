@@ -18,6 +18,7 @@ import CarInfo from "@/comp/car-info";
 import CarInfoList from "@/comp/car-info/list";
 import StepBox from "@/comp/steps/step-two/box";
 import { setDealers } from "@/redux/slices/step-two";
+import { config } from "@/util/config";
 
 const StepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const StepTwo: React.FC<IPlainObject> = (props) => {
         setDealers({
           make: selectedMake.value,
           model: selectedModel.value,
-          sourceId: 4,
+          sourceId: config.sourceId,
           year: selectedModel.year,
           zip: zipcode.zip,
         })

@@ -18,7 +18,7 @@ export interface IDealers {
 }
 
 export interface IDealersParams {
-  sourceId: number;
+  sourceId: string;
   make: string;
   model: string;
   year: string;

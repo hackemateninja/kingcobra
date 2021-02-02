@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import { config } from "@/util/config";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -42,6 +43,7 @@ export default class MyDocument extends Document {
     //   window.settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b=hide_element?hide_element+'{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}':'',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+(+is_spa)+'&r='+Math.random());return settings_timer; }};window._vwo_settings_timer = code.init(); return code; }());
     // `;
 
+    const gtmIframeSrc = `https://www.googletagmanager.com/ns.html?id={config.gtmId}`;
     return (
       <Html lang="en">
         <Head>
@@ -53,19 +55,14 @@ export default class MyDocument extends Document {
                   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                  })(window,document,'script','dataLayer','GTM-KCJWZBS');
+                  })(window,document,'script','dataLayer', '${config.gtmId}');
                 `,
             }}
           ></script>
         </Head>
         <body>
           <noscript>
-            <iframe
-              src="https://www.googletagmanager.com/ns.html?id=GTM-KCJWZBS"
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            ></iframe>
+            <iframe src={gtmIframeSrc} height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe>
           </noscript>
           <Main />
           <NextScript />
@@ -73,9 +70,9 @@ export default class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `
                 var trackingConfig = {
-                  applicationId: 30, 
-                  trackingApi: "/api/collect/v1", 
-                  utsUrl: "https://uts.aws.abtl.io"
+                  applicationId: ${config.UTSConfig.applicationId}, 
+                  trackingApi: "${config.UTSConfig.trackingApi}", 
+                  utsUrl: "${config.UTSConfig.utsUrl}"
                 };
               `,
             }}

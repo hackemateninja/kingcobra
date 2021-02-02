@@ -103,7 +103,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
                 `"></div>`,
             }}
           ></div>
-          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
+          {/* 1505 is the no dealers screen */}
+          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "1505")}
         </>
       )}
     </>
@@ -119,7 +120,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtZip = context.query.zipcode;
   const auth: any = context.query.auth;
 
-  const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
+  // const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
+  const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=auth-id=18416523405536563&zipcode=${cxtZip}`;
 
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
   const resModels = await fetch(`${origin}/api/models/${cxtMake}`);

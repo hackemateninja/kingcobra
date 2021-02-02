@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // Definitions
 import { IStateStepTwo } from "@/def/IStateStepTwo";
 import { IDealersParams } from "@/def/IDealers";
+import { config } from "@/util/config";
 
 // Initial state
 const initialStepTwo: IStateStepTwo = {
@@ -26,10 +27,10 @@ export const setDealers = createAsyncThunk(
   "get/dealers",
   async ({ sourceId, make, model, year, zip, trim, sessionId }: IDealersParams) => {
     return new Promise((resolve, reject) => {
-      const url = "https://func-kingcobra-dev-centralus-01.azurewebsites.net/api/dealers";
+      const url = `${config.apiBaseUrl}/api/dealers`;
+
       fetch(
-        `${url}?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zip}&trim=${trim}&sessionId=${sessionId}`,
-        {}
+        `${url}?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zip}&trim=${trim}&sessionId=${sessionId}`
       )
         .then((response) => {
           if (response.ok) {
@@ -47,6 +48,10 @@ export const setDealers = createAsyncThunk(
     });
   }
 );
+
+interface IMldDealerResponse {
+  payload: any;
+}
 
 const stepTwoSlice = createSlice({
   name: "step-two",
@@ -82,8 +87,8 @@ const stepTwoSlice = createSlice({
       state.data.dealers = [];
     });
 
-    builder.addCase(setDealers.fulfilled, (state, action: any) => {
-      const pl = action.payload;
+    builder.addCase(setDealers.fulfilled, (state, { payload }: IMldDealerResponse) => {
+      const pl = payload;
       if (pl.coverage) {
         const { dealers } = pl;
         state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID }));
