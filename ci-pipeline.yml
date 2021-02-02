@@ -1,0 +1,13 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: NodeTool@0
+  versionSpec: '14.x'
+  
+- script: npm audit --audit-level=high
+
+- script: npm install --legacy-peer-deps
+  
+- script: npm run build
