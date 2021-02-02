@@ -68,8 +68,6 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(zip.city !== null ? saveZipCode(zip) : saveZipCode({}));
   }, []);
 
-  console.log(props.make.name, props.model.name, props.fasZip, "test");
-
   return (
     <>
       {props.model !== null && props.zip.city !== null ? (

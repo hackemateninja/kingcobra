@@ -86,7 +86,7 @@ const stepTwoSlice = createSlice({
       const pl = action.payload;
       if (pl.coverage) {
         const { dealers } = pl;
-        state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerCode }));
+        state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID }));
       } else {
         state.data.dealers = [];
       }

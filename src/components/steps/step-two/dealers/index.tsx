@@ -42,7 +42,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     if (elemID === "all-dealers") {
       (allChecked = elemChecked), (list = list.map((item) => ({ ...item, isChecked: elemChecked })));
     } else {
-      list = list.map((item) => (item.id === elemID ? { ...item, isChecked: elemChecked } : item));
+      list = list.map((item) => (item.id?.toString() === elemID ? { ...item, isChecked: elemChecked } : item));
       allChecked = list.every((item) => item.isChecked);
     }
 
