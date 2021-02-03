@@ -56,6 +56,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
+  const noCoverageTitle = `No Coverage ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
   const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
   const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
@@ -83,69 +84,42 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     );
   }, []);
 
-  if (loading === "succeeded" && !coverage) {
-    return (
-      <>
-        <ThemeProvider theme={CarcomTheme}>
-          <MetaData title="No Coverage" />
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{
-              __html:
-                `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="` +
-                props.make.name +
-                `" aw-model="` +
-                props.model.name +
-                `" aw-zipcode="` +
-                props.fasZip +
-                `"></div>`,
-            }}
-          ></div>
-          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
-        </ThemeProvider>
-      </>
-    );
-  }
-
-  return (
+  return (loading === "failed" || loading === "succeeded") && !coverage ? (
     <>
-      {props.model !== null && props.zip.city !== null ? (
-        <ThemeProvider theme={CarcomTheme}>
-          <MetaData title={title} description={desc} keywords={keys} />
-          <GlobalStyles />
-          <DefaultLayout>
-            <Title>
-              Yes! We Located {make.name} {model.name} Internet Deals
-            </Title>
-            <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
-            <StepTwo
-              model={model}
-              city={`${zipcode.city}, ${zipcode.state} ${zipcode.zip}`}
-              zipcode={zipcode.zip}
-              onSubmit={handlerSubmit}
-            />
-          </DefaultLayout>
-        </ThemeProvider>
-      ) : (
-        <>
-          <MetaData title="Listings invalid Zip Code" />
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{
-              __html:
-                `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="` +
-                props.make.name +
-                `" aw-model="` +
-                props.model.name +
-                `" aw-zipcode="` +
-                props.fasZip +
-                `"></div>`,
-            }}
-          ></div>
-          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
-        </>
-      )}
+      <MetaData title={noCoverageTitle} />
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{
+          __html:
+            `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="` +
+            props.make.name +
+            `" aw-model="` +
+            props.model.name +
+            `" aw-zipcode="` +
+            props.fasZip +
+            `"></div>`,
+        }}
+      ></div>
+      {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
     </>
+  ) : (
+    <ThemeProvider theme={CarcomTheme}>
+      <MetaData title={title} description={desc} keywords={keys} />
+      <GlobalStyles />
+      <DefaultLayout>
+        <Title>
+          Yes! We Located {make.name} {model.name} Internet Deals
+        </Title>
+        <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
+        <StepTwo
+          model={model}
+          city={`${zipcode.city}, ${zipcode.state} ${zipcode.zip}`}
+          zipcode={zipcode.zip}
+          onSubmit={handlerSubmit}
+        />
+      </DefaultLayout>
+      {useScript("")}
+    </ThemeProvider>
   );
 };
 
@@ -158,8 +132,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtZip = context.query.zipcode;
   const auth: any = context.query.auth;
 
-  // const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
-  const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=auth-id=18416523405536563&zipcode=${cxtZip}`;
+  const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
 
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
   const resModels = await fetch(`${origin}/api/models/${cxtMake}`);

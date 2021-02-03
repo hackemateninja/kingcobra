@@ -13,10 +13,11 @@ import { setBoxActive } from "@/redux/slices/step-two";
 // Components
 import FormTwo from "../form";
 import DealersBox from "../dealers";
+import DealersSkeleton from "@/comp/dealers/skeleton";
+import Box from "@/comp/box";
 
 // Styles
 import { StepBoxWrapper } from "./style";
-import Loader from "@/comp/loader";
 
 const StepBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -29,6 +30,16 @@ const StepBox: React.FC<IPlainObject> = (props) => {
   useEffect(() => {
     dispatch(setBoxActive("dealers"));
   }, []);
+
+  if (ui.loading === "idle" || ui.loading === "pending") {
+    return (
+      <StepBoxWrapper one={dealers.length === 1}>
+        <Box step="2" totalSteps="3" title={"Choose Your Dealers"}>
+          <DealersSkeleton onlyOne={dealers.length === 1} />
+        </Box>
+      </StepBoxWrapper>
+    );
+  }
 
   return (
     <StepBoxWrapper one={dealers.length === 1} active={boxActive}>
@@ -47,14 +58,8 @@ const StepBox: React.FC<IPlainObject> = (props) => {
         </>
       ) : (
         <>
-          {ui.loading === "pending" ? (
-            <Loader />
-          ) : (
-            <>
-              <DealersBox handlerButton={handlerClick} />
-              <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-            </>
-          )}
+          <DealersBox handlerButton={handlerClick} />
+          <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
         </>
       )}
     </StepBoxWrapper>

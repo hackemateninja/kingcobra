@@ -4,7 +4,6 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
   box-shadow: 0 2px 11px 1px rgba(0, 0, 0, 0.37);
   border-radius: 7px;
   overflow: hidden;
-  min-height: 250px;
   ${(props) =>
     !props.one
       ? css`
