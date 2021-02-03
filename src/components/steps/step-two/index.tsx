@@ -17,29 +17,14 @@ import Quotes from "@/comp/quotes";
 import CarInfo from "@/comp/car-info";
 import CarInfoList from "@/comp/car-info/list";
 import StepBox from "@/comp/steps/step-two/box";
-import { setDealers } from "@/redux/slices/step-two";
-import { config } from "@/util/config";
 
 const StepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const quotes = useSelector((state: RootState) => state.site.quotes);
-  const stepOne = useSelector((state: RootState) => state.stepOne.data);
 
   useEffect(() => {
     dispatch(setQuotes());
-    const { selectedMake, selectedModel, zipcode } = stepOne;
-    if (selectedModel?.value && selectedMake?.value) {
-      dispatch(
-        setDealers({
-          make: selectedMake.value,
-          model: selectedModel.value,
-          sourceId: config.sourceId,
-          year: selectedModel.year,
-          zip: zipcode.zip,
-        })
-      );
-    }
-  }, [stepOne]);
+  }, []);
 
   return (
     <Row>

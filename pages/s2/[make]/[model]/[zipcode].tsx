@@ -35,6 +35,8 @@ import setPrefix from "@/util/prefix";
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
 import MetaData from "@/comp/meta-data";
+import { setDealers } from "@/redux/slices/step-two";
+import { config } from "@/util/config";
 
 const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -43,10 +45,14 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const month = useSelector((state: RootState) => state.site.month);
+  const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
+  const stepTwoUi = useSelector((state: RootState) => state.stepTwo.ui);
 
   const { models, make, model, zip } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
   const { zipcode } = stepOne;
+  const { loading } = stepTwoUi;
+  const { coverage } = stepTwo;
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -66,7 +72,40 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(setSelectedMake(make.value));
     dispatch(setSelectedModel(model.value));
     dispatch(zip.city !== null ? saveZipCode(zip) : saveZipCode({}));
+    dispatch(
+      setDealers({
+        make: make.value,
+        model: model.value,
+        sourceId: config.sourceId,
+        year: model.year,
+        zip: zip.zip,
+      })
+    );
   }, []);
+
+  if (loading === "succeeded" && !coverage) {
+    return (
+      <>
+        <ThemeProvider theme={CarcomTheme}>
+          <MetaData title="No Coverage" />
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{
+              __html:
+                `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="` +
+                props.make.name +
+                `" aw-model="` +
+                props.model.name +
+                `" aw-zipcode="` +
+                props.fasZip +
+                `"></div>`,
+            }}
+          ></div>
+          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
+        </ThemeProvider>
+      </>
+    );
+  }
 
   return (
     <>
@@ -103,8 +142,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
                 `"></div>`,
             }}
           ></div>
-          {/* 1505 is the no dealers screen */}
-          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "1505")}
+          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
         </>
       )}
     </>

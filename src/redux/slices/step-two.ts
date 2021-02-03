@@ -16,17 +16,19 @@ const initialStepTwo: IStateStepTwo = {
     phone: "",
     address: "",
     email: "",
+    coverage: false,
   },
   ui: {
     button: "Get Pricing",
     boxActive: "dealers",
+    loading: "idle",
   },
 };
 
 export const setDealers = createAsyncThunk(
   "get/dealers",
   async ({ sourceId, make, model, year, zip, trim, sessionId }: IDealersParams) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<IMldDealersResponse>((resolve, reject) => {
       const url = `${config.apiBaseUrl}/api/dealers`;
 
       fetch(
@@ -49,8 +51,23 @@ export const setDealers = createAsyncThunk(
   }
 );
 
-interface IMldDealerResponse {
-  payload: any;
+interface IMldDealer {
+  dealerID: string;
+  name: string;
+  dealerCode: string;
+  address: string;
+  city: string;
+  distance: string;
+  programID: number;
+  state: string;
+  zipCode: string;
+}
+
+interface IMldDealersResponse {
+  coverage: boolean;
+  dealers: Array<IMldDealer>;
+  errors: [];
+  transactionID: string;
 }
 
 const stepTwoSlice = createSlice({
@@ -85,20 +102,25 @@ const stepTwoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
       state.data.dealers = [];
+      state.ui.loading = "pending";
     });
 
-    builder.addCase(setDealers.fulfilled, (state, { payload }: IMldDealerResponse) => {
+    builder.addCase(setDealers.fulfilled, (state, { payload }) => {
       const pl = payload;
+      state.data.coverage = pl.coverage;
       if (pl.coverage) {
         const { dealers } = pl;
         state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID }));
       } else {
         state.data.dealers = [];
       }
+
+      state.ui.loading = "succeeded";
     });
 
     builder.addCase(setDealers.rejected, (state) => {
       state.data.dealers = [];
+      state.ui.loading = "failed";
     });
   },
 });

@@ -16,11 +16,13 @@ import DealersBox from "../dealers";
 
 // Styles
 import { StepBoxWrapper } from "./style";
+import Loader from "@/comp/loader";
 
 const StepBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const boxActive = useSelector((state: RootState) => state.stepTwo.ui.boxActive);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.dealers);
+  const ui = useSelector((state: RootState) => state.stepTwo.ui);
 
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => dispatch(setBoxActive("form"));
 
@@ -45,8 +47,14 @@ const StepBox: React.FC<IPlainObject> = (props) => {
         </>
       ) : (
         <>
-          <DealersBox handlerButton={handlerClick} />
-          <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
+          {ui.loading === "pending" ? (
+            <Loader />
+          ) : (
+            <>
+              <DealersBox handlerButton={handlerClick} />
+              <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
+            </>
+          )}
         </>
       )}
     </StepBoxWrapper>
