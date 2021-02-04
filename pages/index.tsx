@@ -43,7 +43,7 @@ const Home: React.FC<IPlainObject> = (props) => {
     const { city, state, zip } = zipcode;
     const encodedCityState = btoa(`${city}/${state}`);
     window.open(
-      `/s2/${selectedMake.value}/${selectedModel.value}/${zip}?auth=${encodedCityState}`,
+      `/s2/${selectedMake.value}/${selectedModel.value}/${zip}`,
       "",
       `width=${screen.width},height=${screen.height}`
     );

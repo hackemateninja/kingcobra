@@ -20,6 +20,7 @@ import DefaultLayout from "@/layout/default";
 // Slices
 import { setMonth } from "@/redux/slices/site";
 import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from "@/redux/slices/step-one";
+import { setDealers } from "@/redux/slices/step-two";
 
 // Components
 import StepTwo from "@/comp/steps/step-two";
@@ -30,13 +31,12 @@ import SubTitle from "@/comp/subtitle";
 import setSuffix from "@/util/suffix";
 import combineAnS from "@/util/combine-ans";
 import setPrefix from "@/util/prefix";
+import { config } from "@/util/config";
 
 // Styles
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
 import MetaData from "@/comp/meta-data";
-import { setDealers } from "@/redux/slices/step-two";
-import { config } from "@/util/config";
 
 const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -147,17 +147,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     zipcode = { city: cs[0], state: cs[1], zip: cxtZip };
   } else {
-    console.log("Remove the double diagonal from each line below to enable the SmartyStreet call");
-    // const resZipCode = await fetch( ssURL );
-    // const jsonZipCode = await resZipCode.json();
-    // const ssData = jsonZipCode[0];
+    const resZipCode = await fetch(ssURL);
+    const jsonZipCode = await resZipCode.json();
+    const ssData = jsonZipCode[0];
 
-    // if ( ssData.status === undefined ) {
-    // 	const zcData = ssData.zipcodes[0];
-    // 	zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: zipcode };
-    // } else {
-    zipcode = { city: null, state: null, zip: null };
-    // }
+    if (ssData.status === undefined) {
+      const zcData = ssData.zipcodes[0];
+      zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: cxtZip };
+    } else {
+      zipcode = { city: null, state: null, zip: null };
+    }
   }
 
   return {

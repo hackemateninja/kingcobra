@@ -250,7 +250,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   const handlerAutocomplete = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const ssURL = "https://us-autocomplete-pro.api.smartystreets.com/lookup";
-    const ssKey = "?auth-id=18416523405536563";
+    const ssKey = `?auth-id=${config.ssAuthToken}`;
     const ssZipCode = `&include_only_zip_codes=${props.zipcode}`;
     const ssSearch = `&search=${e.target.value}`;
     setAddressValue(e.target.value);
@@ -324,13 +324,12 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         cue={cue === "address"}
         error={error === "address"}
         success={fields["address"].status === "success"}
-        // dynamicValue={addressValue}
+        dynamicValue={addressValue}
         message="Enter a"
         autocomplete="off"
         city={props.city}
         handlerBlur={(e) => validateInput(e, "address", saveAddress)}
-        // handlerChange={handlerAutocomplete}
-        handlerChange={(e) => setAddressValue(e.target.value)}
+        handlerChange={handlerAutocomplete}
       />
       {autocomplete.show && autocomplete.lastValue !== addressValue && (
         <AddressAutocomplete items={addressAutocomplete} value={addressValue} handlerClick={setNewAddress} />
