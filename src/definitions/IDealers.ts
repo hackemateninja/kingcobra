@@ -6,6 +6,9 @@ export interface IDealer {
   one?: boolean;
   all?: boolean;
   cue?: boolean;
+  programId?: number;
+  dealerCode?: string;
+  distance?: string;
   handlerChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

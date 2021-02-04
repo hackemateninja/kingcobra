@@ -4,13 +4,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // Definitions
 import { IStateStepTwo } from "@/def/IStateStepTwo";
 import { IDealersParams } from "@/def/IDealers";
+import { IMldDealersResponse, IMldLeadResponse } from "@/def/IMldResponse";
 import { config } from "@/util/config";
+import { IPostLeadParams } from "@/def/IPostLeadParams";
 
 // Initial state
 const initialStepTwo: IStateStepTwo = {
   data: {
     dealers: [],
     selectedDealers: [],
+    leadDealers: [],
     first: "",
     last: "",
     phone: "",
@@ -51,24 +54,29 @@ export const setDealers = createAsyncThunk(
   }
 );
 
-interface IMldDealer {
-  dealerID: string;
-  name: string;
-  dealerCode: string;
-  address: string;
-  city: string;
-  distance: string;
-  programID: number;
-  state: string;
-  zipCode: string;
-}
-
-interface IMldDealersResponse {
-  coverage: boolean;
-  dealers: Array<IMldDealer>;
-  errors: [];
-  transactionID: string;
-}
+export const postLeads = createAsyncThunk("post/leads", async (lead: IPostLeadParams) => {
+  return new Promise<IMldLeadResponse>((resolve, reject) => {
+    const url = `${config.apiBaseUrl}/api/lead`;
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Something went wrong");
+        }
+      })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+});
 
 const stepTwoSlice = createSlice({
   name: "step-two",
@@ -98,6 +106,9 @@ const stepTwoSlice = createSlice({
     setDealers: (state, action) => {
       state.data.dealers = action.payload;
     },
+    postLeads: (state, action) => {
+      state.data.leadDealers = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -106,11 +117,10 @@ const stepTwoSlice = createSlice({
     });
 
     builder.addCase(setDealers.fulfilled, (state, { payload }) => {
-      const pl = payload;
-      state.data.coverage = pl.coverage;
-      if (pl.coverage) {
-        const { dealers } = pl;
-        state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID }));
+      state.data.coverage = payload.coverage;
+      if (payload.coverage) {
+        const { dealers } = payload;
+        state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID, programId: dealer.programID }));
       } else {
         state.data.dealers = [];
       }
@@ -121,6 +131,27 @@ const stepTwoSlice = createSlice({
     builder.addCase(setDealers.rejected, (state) => {
       state.data.dealers = [];
       state.ui.loading = "failed";
+    });
+
+    builder.addCase(postLeads.pending, (state) => {
+      state.data.leadDealers = [];
+    });
+
+    builder.addCase(postLeads.fulfilled, (state, { payload }) => {
+      if (payload.accepted) {
+        const { dealers } = payload;
+        state.data.leadDealers = dealers.map((dealer) => ({
+          ...dealer,
+          id: dealer.dealerID,
+          programId: dealer.programID,
+        }));
+      } else {
+        state.data.leadDealers = [];
+      }
+    });
+
+    builder.addCase(postLeads.rejected, (state) => {
+      state.data.leadDealers = [];
     });
   },
 });

@@ -3,6 +3,7 @@ import { IDealer } from "@/def/IDealers";
 interface IDataStepTwo {
   dealers: IDealer[];
   selectedDealers: IDealer[];
+  leadDealers: IDealer[];
   first: string;
   last: string;
   phone: string;
