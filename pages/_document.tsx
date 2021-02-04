@@ -67,17 +67,21 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
           <script
+            type="text/javascript"
+            aw-page-data=""
             dangerouslySetInnerHTML={{
               __html: `
-                var trackingConfig = {
-                  applicationId: ${config.UTSConfig.applicationId}, 
-                  trackingApi: "${config.UTSConfig.trackingApi}", 
-                  utsUrl: "${config.UTSConfig.utsUrl}"
+                var model = {
+                  trackingConfig: { 
+                    applicationId: ${config.UTSConfig.applicationId}, 
+                    trackingApi: "${config.UTSConfig.trackingApi}", 
+                    utsUrl: "${config.UTSConfig.utsUrl}"
+                  },
                 };
               `,
             }}
           ></script>
-          <script src="https://static.car.com/cars/assets/js/uts-service-uri-storage.js"></script>
+          <script src="/scripts/uts-service-uri-storage.js"></script>
         </body>
       </Html>
     );
