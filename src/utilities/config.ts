@@ -10,4 +10,5 @@ export const config: IConfig = {
   gtmId: process.env.NEXT_PUBLIC_GTM_ID,
   ssAuthToken: process.env.NEXT_PUBLIC_SS_TOKEN,
   sourceId: process.env.NEXT_PUBLIC_SOURCE_ID,
+  altSourceId: process.env.NEXT_PUBLIC_ALTERNATIVE_SOURCE_ID,
 };

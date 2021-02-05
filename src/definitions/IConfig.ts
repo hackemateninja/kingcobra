@@ -10,4 +10,5 @@ export interface IConfig {
   gtmId: string;
   ssAuthToken: string;
   sourceId: string;
+  altSourceId: string;
 }

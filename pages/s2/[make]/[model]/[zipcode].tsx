@@ -77,7 +77,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
       setDealers({
         make: make.value,
         model: model.value,
-        sourceId: config.sourceId,
+        sourceId: stepTwo.sourceId || config.sourceId,
         year: model.year,
         zip: zip.zip,
       })

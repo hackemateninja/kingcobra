@@ -20,6 +20,7 @@ const initialStepTwo: IStateStepTwo = {
     address: "",
     email: "",
     coverage: false,
+    sourceId: "",
   },
   ui: {
     button: "Get Pricing",
@@ -103,6 +104,9 @@ const stepTwoSlice = createSlice({
     saveEmail: (state, action) => {
       state.data.email = action.payload;
     },
+    saveSourceId: (state, action) => {
+      state.data.sourceId = action.payload;
+    },
     setDealers: (state, action) => {
       state.data.dealers = action.payload;
     },
@@ -164,6 +168,7 @@ export const {
   savePhoneNumber,
   saveAddress,
   saveEmail,
+  saveSourceId,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

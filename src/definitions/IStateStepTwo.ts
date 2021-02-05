@@ -10,6 +10,7 @@ interface IDataStepTwo {
   address: string;
   email: string;
   coverage: boolean;
+  sourceId: string;
 }
 
 interface IUIStepTwo {
