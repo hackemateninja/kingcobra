@@ -1,13 +1,14 @@
 import { IQuote } from "@/def/IQuotes";
 
 interface IUIStepOne {
-	modal: boolean,
-	modalType: string
+  modal: boolean;
+  modalType: string;
+  buttonLoading: boolean;
 }
 
 export interface IStateSite {
-	month: string,
-	year: number,
-	quotes: IQuote[],
-	ui: IUIStepOne
+  month: string;
+  year: number;
+  quotes: IQuote[];
+  ui: IUIStepOne;
 }

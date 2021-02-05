@@ -63,7 +63,7 @@ export default function Thanks() {
   const ignoredModels = useSelector((state: RootState) => state.thankyou.data.ignoredModels);
 
   if (ignoredModels !== undefined && ignoredModels.length !== 0) {
-    image = ignoredModels[ignoredModels.length - 1].image;
+    image = ignoredModels[ignoredModels.length - 1].pngImg || ignoredModels[ignoredModels.length - 1].image;
   } else {
     image = "/defaultImage.png";
   }

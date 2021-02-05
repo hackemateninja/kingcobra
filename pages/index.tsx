@@ -40,8 +40,7 @@ const Home: React.FC<IPlainObject> = (props) => {
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
-    const { city, state, zip } = zipcode;
-    const encodedCityState = btoa(`${city}/${state}`);
+    const { zip } = zipcode;
     window.open(
       `/s2/${selectedMake.value}/${selectedModel.value}/${zip}`,
       "",

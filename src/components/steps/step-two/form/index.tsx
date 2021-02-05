@@ -30,6 +30,7 @@ import { EmailSuggestedAnimation } from "@/comp/email-suggested/style";
 import { InputRow } from "./style";
 import { RootState } from "@/def/TRootReducer";
 import { config } from "@/util/config";
+import { setButtonLoading } from "@/redux/slices/site";
 
 const FormTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -207,11 +208,13 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    dispatch(setButtonLoading(true));
 
     // set error if any field is empty
     for (let i = 0; i < fieldsList.length; i++) {
       if (fields[fieldsList[i]].status === "empty") {
         setError(fieldsList[i]);
+        dispatch(setButtonLoading(false));
         return;
       }
     }
@@ -244,6 +247,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     dispatch(postLeads(values));
 
     props.onSubmit(e);
+    dispatch(setButtonLoading(false));
   };
 
   // Address autocomplete

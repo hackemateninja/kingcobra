@@ -15,6 +15,7 @@ import Box from "@/comp/box";
 import Button from "@/comp/button";
 import Input from "@/comp/form-elements/input";
 import Select from "@/comp/form-elements/select";
+import { setButtonLoading } from "@/redux/slices/site";
 
 const FormOne: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -95,7 +96,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     dispatchFunction: Function
   ) => {
     dispatch(dispatchFunction(e.target.value));
-    const option = e.target.options[e.target.selectedIndex] as HTMLOptionElement;
+    const option = e.target.options[e.target.selectedIndex];
 
     switch (true) {
       case inputIndex === 0:
@@ -149,6 +150,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
 
   const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    dispatch(setButtonLoading(true));
     updateInputs(true);
 
     const errorInputs = formFields.filter((item) => item["empty"] || item["error"]);
@@ -156,6 +158,8 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     if (errorInputs.length === 0) {
       props.onSubmit !== undefined && props.onSubmit(e);
     }
+
+    dispatch(setButtonLoading(false));
   };
 
   useEffect(() => {
