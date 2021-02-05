@@ -22,17 +22,20 @@ const Dealers: React.FC<IDealers> = (props) => {
           name="Select All Dealers"
         />
       )}
-      {props.items.map((dealer: IDealer, index: number) => (
-        <Checkbox
-          key={index}
-          one={props.items.length === 1}
-          id={dealer.id}
-          isChecked={dealer.isChecked}
-          handlerChange={props.handlerChange}
-          name={dealer.name}
-          address={dealer.address}
-        />
-      ))}
+      {props.items.map((dealer: IDealer, index: number) => {
+        const id = `${dealer.id}-${dealer.dealerCode}`;
+        return (
+          <Checkbox
+            key={index}
+            one={props.items.length === 1}
+            id={id}
+            isChecked={dealer.isChecked}
+            handlerChange={props.handlerChange}
+            name={dealer.name}
+            address={dealer.address}
+          />
+        );
+      })}
     </DealersWrapper>
   );
 };

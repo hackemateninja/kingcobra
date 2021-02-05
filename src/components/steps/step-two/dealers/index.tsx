@@ -28,7 +28,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
 
   const oneDealerCheck = () => {
     if (dealersList.length === 1) {
-      const list = dealersList.map((item) => ({ ...item, isChecked: true }));
+      const list = dealersList.map((item: IDealer) => ({ ...item, isChecked: true }));
       setDealers({ allChecked: true, list });
       dispatch(setSelectedDealers(list));
     }
@@ -42,7 +42,9 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     if (elemID === "all-dealers") {
       (allChecked = elemChecked), (list = list.map((item) => ({ ...item, isChecked: elemChecked })));
     } else {
-      list = list.map((item) => (item.id?.toString() === elemID ? { ...item, isChecked: elemChecked } : item));
+      list = list.map((item: IDealer) =>
+        `${item.id}-${item.dealerCode}` === elemID ? { ...item, isChecked: elemChecked } : item
+      );
       allChecked = list.every((item) => item.isChecked);
     }
 
