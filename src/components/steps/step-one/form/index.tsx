@@ -66,9 +66,9 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     setError("");
     setCue("");
     for (var i = 0; i < formFields.length; i++) {
-      var current = formFields[i]["field"];
-      var empty = formFields[i]["empty"];
-      var error = formFields[i]["error"];
+      const current = formFields[i]["field"];
+      const empty = formFields[i]["empty"];
+      const formFieldError = formFields[i]["error"];
 
       let next = "";
       i < 2 ? (next = formFields[i + 1]["field"]) : (next = "");
@@ -80,7 +80,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
             setError(current);
           }
           return;
-        case error:
+        case formFieldError:
           setCue(current);
           setError(current);
           return;
@@ -129,6 +129,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     } else {
       Object.assign(formFields[2], { empty: true, error: false, success: false, value: e.target.value });
     }
+
     setFormFields(formFields);
     updateInputs(false);
   };
@@ -138,13 +139,14 @@ const FormOne: React.FC<IPlainObject> = (props) => {
 
     if (zipRegex.test(e.target.value)) {
       dispatch(setZipCode(e.target.value));
-      Object.assign(formFields[2], { empty: false, value: e.target.value });
+      Object.assign(formFields[2], { empty: false, error: false, value: e.target.value });
       setFormFields(formFields);
     } else {
       dispatch(saveZipCode({}));
       Object.assign(formFields[2], { empty: true, error: false, success: false, value: e.target.value });
       setFormFields(formFields);
     }
+
     updateInputs(false);
   };
 
@@ -165,6 +167,10 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   useEffect(() => {
     updateInputs(false);
   }, []);
+
+  useEffect(() => {
+    updateInputs(false);
+  }, [zipcode.city]);
 
   return (
     <Box
