@@ -6,6 +6,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import absoluteUrl from "next-absolute-url";
 import useScript from "@/src/hooks/useScript";
+import { useUserAgent } from "next-useragent";
 
 // Data
 import { makes } from "@/data/makes";
@@ -20,7 +21,7 @@ import DefaultLayout from "@/layout/default";
 // Slices
 import { setMonth } from "@/redux/slices/site";
 import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from "@/redux/slices/step-one";
-import { setDealers } from "@/redux/slices/step-two";
+import { saveDeviceType, setDealers } from "@/redux/slices/step-two";
 
 // Components
 import StepTwo from "@/comp/steps/step-two";
@@ -48,7 +49,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
   const stepTwoUi = useSelector((state: RootState) => state.stepTwo.ui);
 
-  const { models, make, model, zip } = props;
+  const { models, make, model, zip, ua } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
   const { zipcode } = stepOne;
   const { loading } = stepTwoUi;
@@ -61,6 +62,19 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
   const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
   const keys = `${prekeys}, ${sufkeys}`;
+
+  useEffect(() => {
+    let device: string;
+    if (ua.isMobile) {
+      device = "Mobile";
+    } else if (ua.isTablet) {
+      device = "Tablet";
+    } else {
+      device = "Desktop";
+    }
+
+    dispatch(saveDeviceType(device));
+  }, []);
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push(`/thankyou`);
@@ -132,6 +146,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtZip = context.query.zipcode;
   const auth: any = context.query.auth;
 
+  const ua = useUserAgent(context.req.headers["user-agent"]);
+
   const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
 
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
@@ -166,6 +182,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       model: model.length !== 0 ? model[0] : null,
       zip: zipcode,
       fasZip: cxtZip,
+      ua: ua,
+      useragent: ua.source,
     },
   };
 };

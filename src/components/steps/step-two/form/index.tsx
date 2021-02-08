@@ -242,6 +242,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         dealerCode: dealer.dealerCode,
         distance: dealer.distance,
       })),
+      device: stepTwo.device,
     };
 
     dispatch(postLeads(values));

@@ -21,6 +21,7 @@ const initialStepTwo: IStateStepTwo = {
     email: "",
     coverage: false,
     sourceId: "",
+    device: "Unknown",
   },
   ui: {
     button: "Get Pricing",
@@ -113,6 +114,9 @@ const stepTwoSlice = createSlice({
     postLeads: (state, action) => {
       state.data.leadDealers = action.payload;
     },
+    saveDeviceType: (state, action) => {
+      state.data.device = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -169,6 +173,7 @@ export const {
   saveAddress,
   saveEmail,
   saveSourceId,
+  saveDeviceType,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

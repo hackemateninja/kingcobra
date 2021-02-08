@@ -11,6 +11,7 @@ interface IDataStepTwo {
   email: string;
   coverage: boolean;
   sourceId: string;
+  device: "Unknown" | "Mobile" | "Tablet" | "Desktop";
 }
 
 interface IUIStepTwo {
