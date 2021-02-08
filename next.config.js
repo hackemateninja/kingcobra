@@ -6,43 +6,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "/:path(.+\\.jpg)*",
-        headers: [
-          {
-            key: "cache-control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/:path(.+\\.webp)*",
-        headers: [
-          {
-            key: "cache-control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/:path(.+\\.png)*",
-        headers: [
-          {
-            key: "cache-control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/favicon/:path*",
-        headers: [
-          {
-            key: "cache-control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/scripts/:path*",
+        source: "/:path*",
         headers: [
           {
             key: "cache-control",
