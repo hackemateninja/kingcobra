@@ -290,6 +290,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           message="Enter"
           handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
           handlerChange={(e) => setFirstName(e.target.value)}
+          autofocus
         />
         <Input
           id="last-name"
