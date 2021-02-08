@@ -41,28 +41,24 @@ const StepBox: React.FC<IPlainObject> = (props) => {
     );
   }
 
-  return (
+  return dealers.length > 1 ? (
     <StepBoxWrapper one={dealers.length === 1} active={boxActive}>
-      {dealers.length > 1 ? (
-        <>
-          <CSSTransition unmountOnExit in={boxActive === "dealers"} timeout={300} classNames="s2-dealers">
-            <div className="s2-dealers">
-              <DealersBox handlerButton={handlerClick} />
-            </div>
-          </CSSTransition>
-          <CSSTransition unmountOnExit in={boxActive === "form"} timeout={300} classNames="s2-form">
-            <div className="s2-form">
-              <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-            </div>
-          </CSSTransition>
-        </>
-      ) : (
-        <>
+      <CSSTransition unmountOnExit in={boxActive === "dealers"} timeout={300} classNames="s2-dealers">
+        <div className="s2-dealers">
           <DealersBox handlerButton={handlerClick} />
+        </div>
+      </CSSTransition>
+      <CSSTransition unmountOnExit in={boxActive === "form"} timeout={300} classNames="s2-form">
+        <div className="s2-form">
           <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-        </>
-      )}
+        </div>
+      </CSSTransition>
     </StepBoxWrapper>
+  ) : (
+    <>
+      <DealersBox handlerButton={handlerClick} />
+      <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
+    </>
   );
 };
 
