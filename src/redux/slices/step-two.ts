@@ -27,6 +27,8 @@ const initialStepTwo: IStateStepTwo = {
     button: "Get Pricing",
     boxActive: "dealers",
     loading: "idle",
+    firstSuggested: true,
+		showSuggested: false
   },
 };
 
@@ -117,6 +119,12 @@ const stepTwoSlice = createSlice({
     saveDeviceType: (state, action) => {
       state.data.device = action.payload;
     },
+    saveFirstSuggested: (state, action) => {
+      state.ui.firstSuggested = action.payload;
+    },
+    saveShowSuggested: (state, action) => {
+      state.ui.showSuggested = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -174,6 +182,8 @@ export const {
   saveEmail,
   saveSourceId,
   saveDeviceType,
+  saveFirstSuggested,
+  saveShowSuggested,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

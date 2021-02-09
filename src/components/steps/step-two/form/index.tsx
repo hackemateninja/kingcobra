@@ -14,8 +14,10 @@ import {
   saveAddress,
   saveEmail,
   saveFirstName,
+  saveFirstSuggested,
   saveLastName,
   savePhoneNumber,
+  saveShowSuggested,
 } from "@/redux/slices/step-two";
 
 // Components
@@ -37,7 +39,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const [cue, setCue] = useState<string>("first-name");
   const [error, setError] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
-  const [showSuggested, setShowSuggested] = useState({ first: true, show: false });
   const [emailValue, setEmailValue] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -47,6 +48,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const [autocomplete, setAutocomplete] = useState({ show: false, lastValue: "" });
 
   const button = useSelector((state: RootState) => state.stepTwo.ui.button);
+  const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
 
@@ -183,8 +185,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       let newDomain: string = wordDifference(domain, 3, domains);
 
       newName.length !== 0 || newDomain.length !== 0
-        ? setShowSuggested({ first: showSuggested.first, show: true })
-        : setShowSuggested({ first: showSuggested.first, show: false });
+        ? dispatch(saveShowSuggested(true))
+        : dispatch(saveShowSuggested(false));
 
       newName = newName.length === 0 ? domainName[0] : newName;
       newDomain = newDomain.length === 0 ? domain : newDomain;
@@ -195,7 +197,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   const handlerSuggested = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
-    setShowSuggested({ first: false, show: false });
+    dispatch(saveShowSuggested(false));
+    dispatch(saveFirstSuggested(false));
     if (target.dataset.action === "yes") {
       setEmailValue(newEmail);
       dispatch(saveEmail(newEmail));
@@ -342,7 +345,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       )}
       <CSSTransition
         unmountOnExit
-        in={showSuggested.show && showSuggested.first}
+        in={uiSuggested.showSuggested && uiSuggested.firstSuggested}
         timeout={300}
         classNames="email-suggested"
       >

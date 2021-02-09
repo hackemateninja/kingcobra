@@ -18,6 +18,8 @@ interface IUIStepTwo {
   button: string;
   boxActive: "dealers" | "form";
   loading: "idle" | "pending" | "succeeded" | "failed";
+  firstSuggested: boolean;
+  showSuggested: boolean;
 }
 
 export interface IStateStepTwo {
