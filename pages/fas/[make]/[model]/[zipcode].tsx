@@ -28,7 +28,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
         className="content"
         dangerouslySetInnerHTML={{
           __html:
-            `<div class="awlistings" aw-implement="1" aw-category="1" aw-make="` +
+            `<div class="awlistings" aw-implement="1505" aw-category="1" aw-make="` +
             props.make +
             `" aw-model="` +
             props.model +
