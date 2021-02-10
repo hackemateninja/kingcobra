@@ -94,7 +94,7 @@ export default function Thanks() {
         <TypHeader />
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
-          <TypListing image={image} alt={`${make.name} ${model.name}`} listingInfo={listingInfo} />
+          <TypListing image={image} alt={`${make.name} ${model.name}`} listingInfo={listingInfo} make={make.name} model={model.name} zip={zipcode.zip} />
           <TypBottomContent makes={makes} onSubmit={handlerSubmit} />
           <TypFooter />
         </div>

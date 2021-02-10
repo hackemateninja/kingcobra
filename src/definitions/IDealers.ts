@@ -28,4 +28,5 @@ export interface IDealersParams {
   zip: string;
   trim?: string;
   sessionId?: string;
+  trackingId?: string;
 }

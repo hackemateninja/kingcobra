@@ -12,4 +12,7 @@ export interface IListing {
 	image: string,
 	alt: string,
 	listingInfo: IListingData[],
+	make: string,
+	model: string,
+	zip: string
 }

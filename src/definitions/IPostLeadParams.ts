@@ -18,6 +18,8 @@ export interface IPostLeadParams {
   selectedDealers: ISelectedDealers[];
   device?: "Unknown" | "Mobile" | "Tablet" | "Desktop";
   tracking?: string;
+  transactionId?: string;
+  sessionId?: string;
 }
 
 export interface ISelectedDealers {

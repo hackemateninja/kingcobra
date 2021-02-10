@@ -22,6 +22,7 @@ const initialStepTwo: IStateStepTwo = {
     coverage: false,
     sourceId: "",
     device: "Unknown",
+    transactionId: ""
   },
   ui: {
     button: "Get Pricing",
@@ -34,12 +35,12 @@ const initialStepTwo: IStateStepTwo = {
 
 export const setDealers = createAsyncThunk(
   "get/dealers",
-  async ({ sourceId, make, model, year, zip, trim, sessionId }: IDealersParams) => {
+  async ({ sourceId, make, model, year, zip, trim, trackingId, sessionId }: IDealersParams) => {
     return new Promise<IMldDealersResponse>((resolve, reject) => {
       const url = `${config.apiBaseUrl}/api/dealers`;
 
       fetch(
-        `${url}?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zip}&trim=${trim}&sessionId=${sessionId}`
+        `${url}?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zip}&trim=${trim}&trackingId=${trackingId}&sessionId=${sessionId}`
       )
         .then((response) => {
           if (response.ok) {
@@ -125,6 +126,9 @@ const stepTwoSlice = createSlice({
     saveShowSuggested: (state, action) => {
       state.ui.showSuggested = action.payload;
     },
+    saveTransactionId: (state, action) => {
+      state.data.transactionId = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -134,6 +138,8 @@ const stepTwoSlice = createSlice({
 
     builder.addCase(setDealers.fulfilled, (state, { payload }) => {
       state.data.coverage = payload.coverage;
+      state.data.transactionId = payload.transactionID;
+      
       if (payload.coverage) {
         const { dealers } = payload;
         state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID, programId: dealer.programID }));
@@ -184,6 +190,7 @@ export const {
   saveDeviceType,
   saveFirstSuggested,
   saveShowSuggested,
+  saveTransactionId
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

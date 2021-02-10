@@ -31,34 +31,30 @@ const StepBox: React.FC<IPlainObject> = (props) => {
     dispatch(setBoxActive("dealers"));
   }, []);
 
-  if (ui.loading === "idle" || ui.loading === "pending") {
-    return (
-      <StepBoxWrapper one={dealers.length === 1}>
-        <Box step="2" totalSteps="3" title={"Choose Your Dealers"}>
-          <DealersSkeleton onlyOne={dealers.length === 1} />
-        </Box>
-      </StepBoxWrapper>
-    );
-  }
+  const one = (ui.loading === "idle" || ui.loading === "pending") || dealers.length === 1;
 
-  return dealers.length > 1 ? (
-    <StepBoxWrapper one={dealers.length === 1} active={boxActive}>
-      <CSSTransition unmountOnExit in={boxActive === "dealers"} timeout={300} classNames="s2-dealers">
-        <div className="s2-dealers">
+  return (
+    <StepBoxWrapper one={one} active={boxActive}>
+      {dealers.length > 1 ? (
+        <>
+          <CSSTransition unmountOnExit in={boxActive === "dealers"} timeout={300} classNames="s2-dealers">
+            <div className="s2-dealers">
+              <DealersBox handlerButton={handlerClick} />
+            </div>
+          </CSSTransition>
+          <CSSTransition unmountOnExit in={boxActive === "form"} timeout={300} classNames="s2-form">
+            <div className="s2-form">
+              <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
+            </div>
+          </CSSTransition>
+        </>
+      ) : (
+        <>
           <DealersBox handlerButton={handlerClick} />
-        </div>
-      </CSSTransition>
-      <CSSTransition unmountOnExit in={boxActive === "form"} timeout={300} classNames="s2-form">
-        <div className="s2-form">
           <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-        </div>
-      </CSSTransition>
+        </>
+      )}
     </StepBoxWrapper>
-  ) : (
-    <>
-      <DealersBox handlerButton={handlerClick} />
-      <FormTwo city={props.city} zipcode={props.zipcode} onSubmit={props.onSubmit} />
-    </>
   );
 };
 

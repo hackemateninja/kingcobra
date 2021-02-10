@@ -12,6 +12,7 @@ interface IDataStepTwo {
   coverage: boolean;
   sourceId: string;
   device: "Unknown" | "Mobile" | "Tablet" | "Desktop";
+  transactionId: string;
 }
 
 interface IUIStepTwo {

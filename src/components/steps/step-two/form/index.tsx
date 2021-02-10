@@ -3,10 +3,12 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import { domains, names, wordDifference } from "./word-difference";
+import Cookies from "js-cookie";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { IFields, fieldAction } from "@/def/IValidations";
+import { IPostLeadParams } from "@/def/IPostLeadParams";
 
 // Slices
 import {
@@ -19,6 +21,7 @@ import {
   savePhoneNumber,
   saveShowSuggested,
 } from "@/redux/slices/step-two";
+import { setButtonLoading } from "@/redux/slices/site";
 
 // Components
 import Box from "@/comp/box";
@@ -31,8 +34,8 @@ import { EmailSuggestedAnimation } from "@/comp/email-suggested/style";
 // Styles
 import { InputRow } from "./style";
 import { RootState } from "@/def/TRootReducer";
+
 import { config } from "@/util/config";
-import { setButtonLoading } from "@/redux/slices/site";
 
 const FormTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -51,6 +54,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
+  const utsCookie = Cookies.get("uts-session");
 
   // form validation initialization
 
@@ -209,7 +213,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   // Form Submit
 
-  const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlerSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setButtonLoading(true));
 
@@ -222,7 +226,9 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       }
     }
 
-    const values = {
+    const utsValues = JSON.parse(decodeURI(utsCookie));
+
+    const values: IPostLeadParams = {
       customer: {
         firstName: firstName,
         lastName: lastName,
@@ -246,6 +252,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         distance: dealer.distance,
       })),
       device: stepTwo.device,
+      transactionId: stepTwo.transactionId,
+      sessionId: utsValues.utss,
     };
 
     dispatch(postLeads(values));
@@ -282,91 +290,92 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   return (
     <Box step="3" totalSteps="3" title="Complete Your Information">
-      <InputRow>
+      <form onSubmit={handlerSubmit}>
+        <InputRow>
+          <Input
+            id="first-name"
+            type="text"
+            name="first-name"
+            label="First Name"
+            cue={cue === "first-name"}
+            error={error === "first-name"}
+            success={fields["first-name"].status === "success"}
+            message="Enter"
+            handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
+            handlerChange={(e) => setFirstName(e.target.value)}
+            autofocus={true}
+          />
+          <Input
+            id="last-name"
+            type="text"
+            name="last-name"
+            label="Last Name"
+            cue={cue === "last-name"}
+            error={error === "last-name"}
+            success={fields["last-name"].status === "success"}
+            message="Enter"
+            handlerBlur={(e) => validateInput(e, "last-name", saveLastName)}
+            handlerChange={(e) => setLastName(e.target.value)}
+          />
+        </InputRow>
         <Input
-          id="first-name"
-          type="text"
-          name="first-name"
-          label="First Name"
-          cue={cue === "first-name"}
-          error={error === "first-name"}
-          success={fields["first-name"].status === "success"}
-          message="Enter"
-          handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
-          handlerChange={(e) => setFirstName(e.target.value)}
-          autofocus={true}
+          id="phone-number"
+          type="tel"
+          name="phone-number"
+          label="Phone Number"
+          cue={cue === "phone-number"}
+          error={error === "phone-number"}
+          success={fields["phone-number"].status === "success"}
+          dynamicValue={phoneValue}
+          length={14}
+          message="Enter a"
+          handlerBlur={(e) => validateInput(e, "phone-number", savePhoneNumber)}
+          handlerChange={handlerPhoneMask}
+          onlyNumbers
         />
         <Input
-          id="last-name"
+          id="address"
           type="text"
-          name="last-name"
-          label="Last Name"
-          cue={cue === "last-name"}
-          error={error === "last-name"}
-          success={fields["last-name"].status === "success"}
-          message="Enter"
-          handlerBlur={(e) => validateInput(e, "last-name", saveLastName)}
-          handlerChange={(e) => setLastName(e.target.value)}
+          name="address"
+          label="Address"
+          cue={cue === "address"}
+          error={error === "address"}
+          success={fields["address"].status === "success"}
+          dynamicValue={addressValue}
+          message="Enter a"
+          autocomplete="off"
+          city={props.city}
+          handlerBlur={(e) => validateInput(e, "address", saveAddress)}
+          handlerChange={handlerAutocomplete}
         />
-      </InputRow>
-      <Input
-        id="phone-number"
-        type="tel"
-        name="phone-number"
-        label="Phone Number"
-        cue={cue === "phone-number"}
-        error={error === "phone-number"}
-        success={fields["phone-number"].status === "success"}
-        dynamicValue={phoneValue}
-        length={14}
-        message="Enter a"
-        handlerBlur={(e) => validateInput(e, "phone-number", savePhoneNumber)}
-        handlerChange={handlerPhoneMask}
-        onlyNumbers
-      />
-      {/* Remove below // on the params commented to activate address autocomplete */}
-      <Input
-        id="address"
-        type="text"
-        name="address"
-        label="Address"
-        cue={cue === "address"}
-        error={error === "address"}
-        success={fields["address"].status === "success"}
-        dynamicValue={addressValue}
-        message="Enter a"
-        autocomplete="off"
-        city={props.city}
-        handlerBlur={(e) => validateInput(e, "address", saveAddress)}
-        handlerChange={handlerAutocomplete}
-      />
-      {autocomplete.show && autocomplete.lastValue !== addressValue && (
-        <AddressAutocomplete items={addressAutocomplete} value={addressValue} handlerClick={setNewAddress} />
-      )}
-      <CSSTransition
-        unmountOnExit
-        in={uiSuggested.showSuggested && uiSuggested.firstSuggested}
-        timeout={300}
-        classNames="email-suggested"
-      >
-        <EmailSuggestedAnimation>
-          <EmailSuggested email={newEmail} hanlderAction={handlerSuggested} />
-        </EmailSuggestedAnimation>
-      </CSSTransition>
-      <Input
-        id="email"
-        dynamicValue={emailValue}
-        type="email"
-        name="email"
-        label="Email Address"
-        cue={cue === "email"}
-        error={error === "email"}
-        success={fields["email"].status === "success"}
-        message="Enter an"
-        handlerChange={handlerEmailChange}
-        handlerBlur={(e) => validateInput(e, "email", saveEmail)}
-      />
-      <Button handlerClick={handlerSubmit}>{button}</Button>
+        {autocomplete.show && autocomplete.lastValue !== addressValue && (
+          <AddressAutocomplete items={addressAutocomplete} value={addressValue} handlerClick={setNewAddress} />
+        )}
+        <CSSTransition
+          unmountOnExit
+          in={uiSuggested.showSuggested && uiSuggested.firstSuggested}
+          timeout={300}
+          classNames="email-suggested"
+        >
+          <EmailSuggestedAnimation>
+            <EmailSuggested email={newEmail} hanlderAction={handlerSuggested} />
+          </EmailSuggestedAnimation>
+        </CSSTransition>
+        <Input
+          id="email"
+          dynamicValue={emailValue}
+          type="email"
+          name="email"
+          label="Email Address"
+          cue={cue === "email"}
+          error={error === "email"}
+          success={fields["email"].status === "success"}
+          message="Enter an"
+          handlerChange={handlerEmailChange}
+          handlerBlur={(e) => validateInput(e, "email", saveEmail)}
+        />
+        <Button type="submit">{button}</Button>
+      </form>
     </Box>
   );
 };

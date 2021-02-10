@@ -14,6 +14,7 @@ import { setSelectedDealers } from "@/redux/slices/step-two";
 import Box from "@/comp/box";
 import Button from "@/comp/button";
 import Dealers from "@/comp/dealers";
+import DealersSkeleton from "@/comp/dealers/skeleton";
 
 const DealersBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     allChecked: false,
     list: [],
   });
+
+  const ui = useSelector((state: RootState) => state.stepTwo.ui);
 
   const oneDealerCheck = () => {
     if (dealersList.length === 1) {
@@ -73,23 +76,51 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
   }, [dealersList]);
 
   return (
+    // <Box
+    //   step="2"
+    //   totalSteps="3"
+    //   title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
+    //   subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
+    // >
+    //   <Dealers
+    //     cue={cue}
+    //     items={dealers.list}
+    //     allChecked={dealers.allChecked}
+    //     error={error}
+    //     handlerChange={handlerChange}
+    //   />
+    //   {dealers.list.length > 1 && (
+    //     <Button isDisabled={false} handlerClick={handlerClick}>
+    //       Continue
+    //     </Button>
+    //   )}
+    // </Box>
+
     <Box
       step="2"
       totalSteps="3"
       title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
       subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
     >
-      <Dealers
-        cue={cue}
-        items={dealers.list}
-        allChecked={dealers.allChecked}
-        error={error}
-        handlerChange={handlerChange}
-      />
-      {dealers.list.length > 1 && (
-        <Button isDisabled={false} handlerClick={handlerClick}>
-          Continue
-        </Button>
+      {ui.loading === "idle" || ui.loading === "pending" ? (
+        dealers.list.length > 1 ? (
+          <DealersSkeleton />
+        ) : (
+          <DealersSkeleton onlyOne />
+        )
+      ) : (
+        <>
+          <Dealers
+            cue={cue}
+            items={dealers.list}
+            allChecked={dealers.allChecked}
+            error={error}
+            handlerChange={handlerChange}
+          />
+          <Button isDisabled={false} handlerClick={handlerClick}>
+            Continue
+          </Button>
+        </>
       )}
     </Box>
   );
