@@ -31,7 +31,8 @@ const StepBox: React.FC<IPlainObject> = (props) => {
     dispatch(setBoxActive("dealers"));
   }, []);
 
-  const one = (ui.loading === "idle" || ui.loading === "pending") || dealers.length === 1;
+  const loading: boolean = ui.loading === "idle" || ui.loading === "pending";
+  const one: boolean = loading || dealers.length === 1;
 
   return (
     <StepBoxWrapper one={one} active={boxActive}>

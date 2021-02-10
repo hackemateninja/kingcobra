@@ -75,34 +75,16 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     oneDealerCheck();
   }, [dealersList]);
 
-  return (
-    // <Box
-    //   step="2"
-    //   totalSteps="3"
-    //   title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
-    //   subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
-    // >
-    //   <Dealers
-    //     cue={cue}
-    //     items={dealers.list}
-    //     allChecked={dealers.allChecked}
-    //     error={error}
-    //     handlerChange={handlerChange}
-    //   />
-    //   {dealers.list.length > 1 && (
-    //     <Button isDisabled={false} handlerClick={handlerClick}>
-    //       Continue
-    //     </Button>
-    //   )}
-    // </Box>
+  const loading: boolean = ui.loading === "idle" || ui.loading === "pending";
 
+  return (
     <Box
       step="2"
       totalSteps="3"
       title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
       subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
     >
-      {ui.loading === "idle" || ui.loading === "pending" ? (
+      {loading ? (
         dealers.list.length > 1 ? (
           <DealersSkeleton />
         ) : (
