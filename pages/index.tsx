@@ -63,7 +63,7 @@ const Home: React.FC<IPlainObject> = (props) => {
         <SubTitle>
           Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
         </SubTitle>
-        <StepOne onSubmit={handlerSubmit} />
+        <StepOne onSubmit={handlerSubmit} makes={makes} />
       </DefaultLayout>
     </ThemeProvider>
   );

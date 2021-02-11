@@ -165,7 +165,7 @@ export const makes = [
     id: 27,
     name: "Nissan",
     value: "nissan",
-    image: "//img.autobytel.com/2020/nissan/370z/2-550-threequartersview101-90625.jpg",
+    image: "//img.autobytel.com/2020/nissan/rogue/2-550-threequartersview101-92318.jpg",
   },
   {
     id: 32,

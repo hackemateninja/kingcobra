@@ -70,7 +70,7 @@ export const setZipCode = createAsyncThunk("get/zipcode", async (zip: string) =>
       },
     ];
   } else {
-    return {};
+    return [];
   }
 });
 
@@ -115,19 +115,23 @@ const stepOneSlice = createSlice({
     });
     // Zip Code
     builder.addCase(setZipCode.pending, (state) => {
-      state.data.zipcode = {};
+      state.data.zipcode = { loading: true };
     });
     builder.addCase(setZipCode.fulfilled, (state, action) => {
-      const pl = action.payload[0];
-      const isValid = pl.status === undefined;
+      const pl = action.payload;
 
-      if (isValid) {
-        const zc = pl.zipcodes[0];
-        const city = zc.default_city;
-        const st = zc.state_abbreviation;
-        const zip = zc.zipcode;
+      if (pl.length !== 0) {
+        if (pl[0]["status"] === undefined) {
+          const zc = pl[0].zipcodes[0];
+          const city = zc.default_city;
+          const st = zc.state_abbreviation;
+          const zip = zc.zipcode;
 
-        state.data.zipcode = { city, state: st, zip };
+          state.data.zipcode = { city, state: st, zip };
+          state.data.zipcode = { city, state: st, zip };
+        } else {
+          state.data.zipcode = {};
+        }
       } else {
         state.data.zipcode = {};
       }

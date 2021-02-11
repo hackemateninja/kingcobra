@@ -28,6 +28,7 @@ import { saveDeviceType, setDealers } from "@/redux/slices/step-two";
 import StepTwo from "@/comp/steps/step-two";
 import Title from "@/comp/title";
 import SubTitle from "@/comp/subtitle";
+import Display from "@/comp/container/display";
 
 // Utilities
 import setSuffix from "@/util/suffix";
@@ -98,7 +99,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         sourceId: stepTwo.sourceId || config.sourceId,
         year: model.year,
         zip: zip.zip,
-        sessionId: utsValues.utss
+        sessionId: utsValues.utss,
       })
     );
   }, []);
@@ -126,9 +127,11 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
       <MetaData title={title} description={desc} keywords={keys} />
       <GlobalStyles />
       <DefaultLayout>
-        <Title>
-          Yes! We Located {make.name} {model.name} Internet Deals
-        </Title>
+        <Display hide="mobile">
+          <Title>
+            Yes! We Located {make.name} {model.name} Internet Deals
+          </Title>
+        </Display>
         <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
         <StepTwo
           model={model}

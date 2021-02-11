@@ -1,3 +1,4 @@
 export interface IText {
-	center?: boolean
+  center?: boolean;
+  text?: string;
 }

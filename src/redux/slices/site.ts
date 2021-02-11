@@ -12,7 +12,7 @@ import randomizer from "@/util/random-quotes";
 // Initial state
 const initialSite: IStateSite = {
   month: "",
-  year: 2020,
+  year: 2021,
   quotes: [],
   ui: {
     modal: false,

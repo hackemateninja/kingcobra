@@ -7,7 +7,7 @@ import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 
 // Slices
-import { setModal, setModalType } from "@/redux/slices/site";
+import { setModal, setModalType, setYear } from "@/redux/slices/site";
 
 // Components
 import Container from "../container";
@@ -40,6 +40,8 @@ const Footer: React.FC<IPlainObject> = (props) => {
   };
 
   useEffect(() => {
+    dispatch(setYear());
+    
     window.__dcid = (function (__dcid, d) {
       __dcid.push(["DigiCertClickID_3shh8DtJ", "3", "m", "black", "3shh8DtJ"]);
       var cid = d.createElement("script");

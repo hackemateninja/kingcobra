@@ -18,4 +18,5 @@ export interface IInput {
   handlerFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   handlerBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   handlerChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlerEffect?: (value: string) => void;
 }

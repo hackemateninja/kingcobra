@@ -49,13 +49,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
       error: false,
       success: valueModel.length !== 0 ? true : false,
     },
-    {
-      field: "zip-code",
-      value: "",
-      empty: true,
-      error: zipcode.city === undefined,
-      success: zipcode.city !== undefined,
-    },
+    { field: "zip-code", value: "", empty: true, error: false, success: false },
   ];
 
   const [formFields, setFormFields] = useState<object[]>(fields);
@@ -121,33 +115,28 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     updateInputs(false);
   };
 
-  const hanlderZipBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const setZipData = (value: string) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
 
-    if (zipRegex.test(e.target.value)) {
-      Object.assign(formFields[2], { error: zipcode.city === undefined, success: zipcode.city !== undefined });
+    if (zipRegex.test(value)) {
+      Object.assign(formFields[2], { empty: false, value: value });
     } else {
-      Object.assign(formFields[2], { empty: true, error: false, success: false, value: e.target.value });
+      Object.assign(formFields[2], { empty: true, error: false, success: false, value: "" });
     }
 
     setFormFields(formFields);
     updateInputs(false);
   };
 
+  const hanlderZipBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setZipData(e.target.value);
+  };
+
   const validateZipCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
 
-    if (zipRegex.test(e.target.value)) {
-      dispatch(setZipCode(e.target.value));
-      Object.assign(formFields[2], { empty: false, error: false, value: e.target.value });
-      setFormFields(formFields);
-    } else {
-      dispatch(saveZipCode({}));
-      Object.assign(formFields[2], { empty: true, error: false, success: false, value: e.target.value });
-      setFormFields(formFields);
-    }
-
-    updateInputs(false);
+    setZipData(e.target.value);
+    zipRegex.test(e.target.value) ? dispatch(setZipCode(e.target.value)) : dispatch(setZipCode(""));
   };
 
   const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -164,13 +153,27 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     dispatch(setButtonLoading(false));
   };
 
+  // Ctrl + R on Firefox when the input is not empty
+  const valueFromReload = (value: string) => {
+    const zipRegex = /^\d{5}$|^\d{5}$/;
+
+    setZipData(value);
+    zipRegex.test(value) ? dispatch(setZipCode(value)) : dispatch(setZipCode(""));
+  };
+
   useEffect(() => {
     updateInputs(false);
   }, []);
 
   useEffect(() => {
-    updateInputs(false);
-  }, [zipcode.city]);
+    if (formFields[2]["value"] !== "") {
+      if (zipcode.loading === undefined) {
+        Object.assign(formFields[2], { error: zipcode.city === undefined, success: zipcode.city !== undefined });
+        setFormFields(formFields);
+        updateInputs(false);
+      }
+    }
+  }, [zipcode]);
 
   return (
     <Box
@@ -215,6 +218,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         handlerBlur={hanlderZipBlur}
         handlerChange={validateZipCode}
         onlyNumbers
+        handlerEffect={valueFromReload}
       />
       <Button isDisabled={false} handlerClick={handlerSubmit}>
         {button}
