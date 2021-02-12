@@ -7,7 +7,7 @@ import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 
 // Slices
-import { isLoading, setModels } from "@/redux/slices/step-one";
+import { setModels } from "@/redux/slices/step-one";
 import { setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
 
 // Components
@@ -38,9 +38,9 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     {
       field: "make",
       value: valueMake,
-      empty: valueMake ? false : true,
+      empty: valueMake.length !== 0 ? false : true,
       error: false,
-      success: valueMake ? true : false,
+      success: valueMake.length !== 0 ? true : false,
     },
     {
       field: "model",
@@ -183,16 +183,16 @@ const FormOne: React.FC<IPlainObject> = (props) => {
       subtitle="Select a Model and Enter Your Zip to Continue..."
     >
       <Select
-        id="make"
-        value={valueMake}
-        name="make"
-        label="Make"
-        cue={cue === "make"}
-        error={error === "make"}
-        message="Select a"
-        options={props.makes !== undefined ? props.makes : makes}
-        handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
-      />
+				id="make"
+				value={valueMake}
+				name="make"
+				label="Make"
+				cue={cue === "make"}
+				error={error === "make"}
+				message="Select a"
+				options={props.makes !== undefined ? props.makes : makes}
+				handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
+			/>
       <Select
         id="model"
         value={valueModel}

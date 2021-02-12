@@ -14,7 +14,7 @@ import { FormElement, FormElementLabel, FormElementMessage, Element, FormElement
 
 const Select: React.FC<ISelect> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [empty, setEmpty] = useState<boolean>(!props.value ? false : true);
+  const [empty, setEmpty] = useState<boolean>(props.value.length !== 0 ? false : true);
 
   const handlerFocus = (e: React.FocusEvent<HTMLSelectElement>) => setFocus(true);
   const handlerBlur = (e: React.FocusEvent<HTMLSelectElement>) => setFocus(false);

@@ -110,26 +110,32 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   useEffect(() => {
     updateCue();
     window.dataLayer && window.dataLayer.push({ event: "form_impression" });
-  });
+  }, []);
 
   // Input validation
 
-  const validateInput = (e: React.FocusEvent<HTMLInputElement>, inputName: string, dispatchFunction: Function) => {
+  const validateInput = (
+    e: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>,
+    inputName: string,
+    dispatchFunction: Function
+  ) => {
+    const target = e.target as HTMLInputElement;
+
     // reset error before update
     setError("");
     // update store
-    dispatch(dispatchFunction(e.target.value));
+    dispatch(dispatchFunction(target.value));
 
-    if (e.target.value.length > 0) {
+    if (target.value.length > 0) {
       switch (true) {
         case inputName === "phone-number":
-          validatePhone(e.target.value, inputName);
+          validatePhone(target.value, inputName);
           break;
         case inputName === "email":
-          validateEmail(e.target.value, inputName);
+          validateEmail(target.value, inputName);
           break;
         default:
-          formDispatch({ type: "setSuccess", payload: { field: inputName, value: e.target.value } });
+          formDispatch({ type: "setSuccess", payload: { field: inputName, value: target.value } });
       }
     } else {
       formDispatch({ type: "setEmpty", payload: { field: inputName, value: "" } });
@@ -234,10 +240,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     }
   };
 
-  // Form Submit
-
-  const handlerSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitAction = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     dispatch(setButtonLoading(true));
 
     // set error if any field is empty
@@ -250,7 +253,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     }
 
     const utsValues = JSON.parse(decodeURI(utsCookie));
-
     const values: IPostLeadParams = {
       customer: {
         firstName: stepTwo.first,
@@ -283,6 +285,16 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
     props.onSubmit(e);
     dispatch(setButtonLoading(false));
+  };
+
+  // Form Submit
+
+  const handlerSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!uiSuggested.showSuggested) {
+      submitAction(e);
+    }
   };
 
   // Form Autocomplete
@@ -329,6 +341,12 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     dispatch(saveAddress(address));
   };
 
+  const validateOnEnter = ( e: React.KeyboardEvent<HTMLInputElement> ) => {
+		if ( e.key === 'Enter' ) {
+			validateInput(e, 'email', saveEmail);
+		}
+	};
+
   // Reset errors
   const resetErrors = (elem: HTMLInputElement) => setError("");
 
@@ -348,7 +366,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
             handlerChange={(e) => handlerChange(e, saveFirstName)}
             handlerFocus={(e) => resetErrors(e.target)}
-            autofocus
           />
           <Input
             id="last-name"
@@ -419,6 +436,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           error={error === "email"}
           success={fields["email"].status === "success"}
           message="Enter an"
+          handlerKeypress={(e) => validateOnEnter(e)}
           handlerChange={handlerEmailChange}
           handlerBlur={(e) => validateInput(e, "email", saveEmail)}
           handlerFocus={(e) => resetErrors(e.target)}

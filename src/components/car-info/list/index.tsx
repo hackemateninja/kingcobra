@@ -8,7 +8,6 @@ import { IPlainObject } from '@/def/IPlainObject';
 import { CarInfoListWrapper, CarInfoListItem, CarInfoListIcon, CarInfoListText } from './style';
 
 const list = [
-	{title: 'Special prices you CAN’T get by walking into the dealership'},
 	{title: 'No obligation to buy'},
 	{title: 'Your information is protected'}
 ];
