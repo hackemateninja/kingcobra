@@ -46,8 +46,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  if(!props.make || !props.model || !props.zip) {
-    return <Redirect />
+  if (!props.make || !props.model || !props.zip) {
+    return <Redirect />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);
@@ -151,50 +151,50 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let cs: string[];
-  let zipcode: object;
-
-  const cxtMake = context.query.make;
-  const cxtModel = context.query.model;
-  const cxtZip = context.query.zipcode;
-  const auth: any = context.query.auth;
-
+  const zipRegex = /^\d{5}$|^\d{5}$/;
   const ua = useUserAgent(context.req.headers["user-agent"]);
 
-  const ssURL = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
-
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
-  const resModels = await fetch(`${origin}/api/models/${cxtMake}`);
-  const models = await resModels.json();
-
+  const cxtMake = context.query.make;
+  const cxtModel = context.query.model;
+  const cxtZip: any = context.query.zipcode;
   const make = makes.filter((item) => item.value === cxtMake);
-  const model = models.filter((item) => item.value === cxtModel);
 
-  if (auth !== undefined && auth !== "") {
-    const decodedAuth = Buffer.from(auth, "base64").toString();
-    cs = decodedAuth.split("/");
+  let models = [];
+  let model = [];
+  let zipcode = { city: null, state: null, zip: null };
 
-    zipcode = { city: cs[0], state: cs[1], zip: cxtZip };
-  } else {
-    const resZipCode = await fetch(ssURL);
-    const jsonZipCode = await resZipCode.json();
-    const ssData = jsonZipCode[0];
+  const ssAPI = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
 
-    if (ssData.status === undefined) {
-      const zcData = ssData.zipcodes[0];
-      zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: cxtZip };
-    } else {
-      zipcode = { city: null, state: null, zip: null };
+  if (make.length) {
+    const resModels = await fetch(`${origin}/api/models/${cxtMake}`);
+    models = await resModels.json();
+    model = models.filter((item) => item.value === cxtModel);
+
+    if (model.length && zipRegex.test(cxtZip)) {
+      const resZipCode = await fetch(ssAPI);
+      const jsonZipCode = await resZipCode.json();
+      const ssData = jsonZipCode[0];
+
+      if (ssData.status === undefined) {
+        const zcData = ssData.zipcodes[0];
+        zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: cxtZip };
+      } else {
+        if (cxtZip === "99999") {
+          zipcode = { city: "City", state: "ST", zip: cxtZip };
+        } else {
+          zipcode = { city: null, state: null, zip: cxtZip };
+        }
+      }
     }
   }
 
   return {
     props: {
-      models: models,
+      models: models.length !== 0 ? models : null,
       make: make.length !== 0 ? make[0] : null,
       model: model.length !== 0 ? model[0] : null,
       zip: zipcode,
-      fasZip: cxtZip,
       ua: ua,
       useragent: ua.source,
     },

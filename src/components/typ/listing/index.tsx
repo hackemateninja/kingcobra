@@ -14,6 +14,7 @@ import {
   ListingColInfo,
   ListingFooter,
   ListingFooterLink,
+  ListingTitle,
 } from "./style";
 
 // Components
@@ -28,6 +29,7 @@ const Listing: React.FC<IListing> = (props) => {
             <ListingImg alt={props.alt} src={props.image} />
           </ListingColImg>
           <ListingColInfo>
+            <ListingTitle>Don't stop <span>researching<span>!</span></span></ListingTitle>
             <div
               className="content"
               dangerouslySetInnerHTML={{

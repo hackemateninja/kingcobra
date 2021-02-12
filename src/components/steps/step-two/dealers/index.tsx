@@ -14,7 +14,8 @@ import { setSelectedDealers } from "@/redux/slices/step-two";
 import Box from "@/comp/box";
 import Button from "@/comp/button";
 import Dealers from "@/comp/dealers";
-import DealersSkeleton from "@/comp/dealers/skeleton";
+
+declare const window: any;
 
 const DealersBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -26,8 +27,6 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     allChecked: false,
     list: [],
   });
-
-  const ui = useSelector((state: RootState) => state.stepTwo.ui);
 
   const oneDealerCheck = () => {
     if (dealersList.length === 1) {
@@ -68,16 +67,15 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
       setDealers({
         ...dealers,
         list: dealersList.map((item: IDealer) => ({ ...item })),
-        allChecked: allChecked
+        allChecked: allChecked,
       });
     }
   }, [dealersList]);
 
   useEffect(() => {
     oneDealerCheck();
+    window.dataLayer && window.dataLayer.push({'event': 'dealer_impression'});
   }, [dealersList]);
-
-  const loading: boolean = ui.loading === "idle" || ui.loading === "pending";
 
   return (
     <Box
@@ -86,22 +84,16 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
       title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
       subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
     >
-      {loading ? (
-        <DealersSkeleton onlyOne />
-      ) : (
-        <>
-          <Dealers
-            cue={cue}
-            items={dealers.list}
-            allChecked={dealers.allChecked}
-            error={error}
-            handlerChange={handlerChange}
-          />
-          <Button isDisabled={false} handlerClick={handlerClick}>
-            Continue
-          </Button>
-        </>
-      )}
+      <Dealers
+        cue={cue}
+        items={dealers.list}
+        allChecked={dealers.allChecked}
+        error={error}
+        handlerChange={handlerChange}
+      />
+      <Button isDisabled={false} handlerClick={handlerClick}>
+        Continue
+      </Button>
     </Box>
   );
 };

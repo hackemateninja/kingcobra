@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // Definitions
 import { IStateStepTwo } from "@/def/IStateStepTwo";
-import { IDealersParams } from "@/def/IDealers";
+import { IDealer, IDealersParams } from "@/def/IDealers";
 import { IMldDealersResponse, IMldLeadResponse } from "@/def/IMldResponse";
 import { config } from "@/util/config";
 import { IPostLeadParams } from "@/def/IPostLeadParams";
@@ -22,14 +22,14 @@ const initialStepTwo: IStateStepTwo = {
     coverage: false,
     sourceId: "",
     device: "Unknown",
-    transactionId: ""
+    transactionId: "",
   },
   ui: {
     button: "Get Pricing",
     boxActive: "dealers",
     loading: "idle",
     firstSuggested: true,
-		showSuggested: false
+    showSuggested: false,
   },
 };
 
@@ -40,7 +40,9 @@ export const setDealers = createAsyncThunk(
       const url = `${config.apiBaseUrl}/api/dealers`;
 
       fetch(
-        `${url}?sourceId=${sourceId}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${year}&zip=${zip}&trim=${trim}&trackingId=${trackingId}&sessionId=${sessionId}`
+        `${url}?sourceId=${sourceId}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(
+          model
+        )}&year=${year}&zip=${zip}&trim=${trim}&trackingId=${trackingId}&sessionId=${sessionId}`
       )
         .then((response) => {
           if (response.ok) {
@@ -128,7 +130,7 @@ const stepTwoSlice = createSlice({
     },
     saveTransactionId: (state, action) => {
       state.data.transactionId = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -139,7 +141,7 @@ const stepTwoSlice = createSlice({
     builder.addCase(setDealers.fulfilled, (state, { payload }) => {
       state.data.coverage = payload.coverage;
       state.data.transactionId = payload.transactionID;
-      
+
       if (payload.coverage) {
         const { dealers } = payload;
         state.data.dealers = dealers.map((dealer) => ({
@@ -148,6 +150,8 @@ const stepTwoSlice = createSlice({
           programId: dealer.programID,
           isChecked: dealer.programID === 1 || dealer.programID === 127,
         }));
+
+        state.data.selectedDealers = state.data.dealers.filter((d: IDealer) => d.isChecked);
       } else {
         state.data.dealers = [];
       }
@@ -195,7 +199,7 @@ export const {
   saveDeviceType,
   saveFirstSuggested,
   saveShowSuggested,
-  saveTransactionId
+  saveTransactionId,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

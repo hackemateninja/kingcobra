@@ -35,10 +35,10 @@ const Checkbox: React.FC<IDealer> = (props) => {
           </DealerCheckIcon>
         </DealerCheck>
         <DealerText>
-          {props.all !== undefined && <DealerAllSubtitle>To Compare All Available Prices.</DealerAllSubtitle>}
           <DealerName one={props.one} all={props.all}>
             {props.name}
           </DealerName>
+          {props.all !== undefined && <DealerAllSubtitle>To Compare All Available Prices.</DealerAllSubtitle>}
           {props.address !== undefined && (
             <DealerAddress one={props.one} all={props.all}>
               {props.address}

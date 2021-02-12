@@ -15,6 +15,7 @@ export interface IInput {
   autofocus?: boolean;
   autocomplete?: string;
   onlyNumbers?: boolean;
+  handlerKeypress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   handlerFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   handlerBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   handlerChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

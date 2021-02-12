@@ -240,6 +240,13 @@ const SVGs: React.FC<IPlainObject> = (props) => {
           fill="#4E4E4E"
         />
       </symbol>
+      <symbol id="typ-check" viewBox="0 0 14 12">
+        <path
+          d="M9.842,3.047A1.5,1.5,0,0,1,12.25,4.83l-.092.123-7.41,9a1.5,1.5,0,0,1-2.091.221l-.115-.1-3.59-3.5a1.5,1.5,0,0,1-.025-2.121A1.5,1.5,0,0,1,.933,8.32l.115.1,2.421,2.364Z"
+          transform="translate(1.5 -2.5)"
+          fill="#4f75ad"
+        />
+      </symbol>
     </svg>
   );
 };

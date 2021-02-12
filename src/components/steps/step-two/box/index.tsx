@@ -13,6 +13,9 @@ import { setBoxActive } from "@/redux/slices/step-two";
 // Components
 import FormTwo from "../form";
 import DealersBox from "../dealers";
+import Box from "@/comp/box";
+import DealersSkeleton from "@/comp/dealers/skeleton";
+import Display from "@/comp/container/display";
 
 // Styles
 import { StepBoxWrapper } from "./style";
@@ -31,6 +34,21 @@ const StepBox: React.FC<IPlainObject> = (props) => {
 
   const loading: boolean = ui.loading === "idle" || ui.loading === "pending";
   const one: boolean = loading || dealers.length === 1;
+
+  if (loading) {
+    return (
+      <StepBoxWrapper one={false}>
+        <Box step="2" totalSteps="3" title={"Choose Your Dealers"}>
+          <Display hide="mobile">
+            <DealersSkeleton />
+          </Display>
+          <Display hide="desktop">
+            <DealersSkeleton onlyOne />
+          </Display>
+        </Box>
+      </StepBoxWrapper>
+    );
+  }
 
   return (
     <StepBoxWrapper one={one} active={boxActive}>
