@@ -11,6 +11,7 @@ import { makes } from "@/data/makes";
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
+import { IPreload } from "@/def/IMetaData";
 
 // Layout
 import DefaultLayout from "@/layout/default";
@@ -44,7 +45,7 @@ const Make: React.FC<IPlainObject> = (props) => {
   const month = useSelector((state: RootState) => state.site.month);
   const { prefix, separator, description, keywordsPnS } = metadata.make;
 
-  const { name, value } = props.make !== null ? props.make : { name: null, value: null };
+  const { name, value, image } = props.make !== null ? props.make : { name: null, value: null, image: null };
 
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
@@ -60,7 +61,8 @@ const Make: React.FC<IPlainObject> = (props) => {
       "",
       `width=${screen.width},height=${screen.height}`
     );
-    router.push("/fas");
+
+    router.push(`/fas/${selectedMake.value}/${selectedModel.value}/${zip}`);
   };
 
   useEffect(() => {
@@ -70,23 +72,24 @@ const Make: React.FC<IPlainObject> = (props) => {
     dispatch(setModels(value));
   }, []);
 
+  if (props.make === undefined) {
+    return <Redirect />;
+  }
+
+  const preload: IPreload[] = [{ elem: props.make?.image, type: "image" }];
   return (
     <>
-      {props.make !== null ? (
-        <ThemeProvider theme={CarcomTheme}>
-          <MetaData title={title} description={desc} keywords={keys} />
-          <GlobalStyles />
-          <DefaultLayout>
-            <Title>Huge Markdowns on {name} This Month!</Title>
-            <SubTitle>
-              Compare Prices from Multiple {name} Dealers and <strong>Get the Lowest Price</strong>
-            </SubTitle>
-            <StepOne makes={makes} make={value} onSubmit={handlerSubmit} />
-          </DefaultLayout>
-        </ThemeProvider>
-      ) : (
-        <Redirect />
-      )}
+      <ThemeProvider theme={CarcomTheme}>
+        <MetaData title={title} description={desc} keywords={keys} preload={preload} />
+        <GlobalStyles />
+        <DefaultLayout>
+          <Title>Huge Markdowns on {name} This Month!</Title>
+          <SubTitle>
+            Compare Prices from Multiple {name} Dealers and <strong>Get the Lowest Price</strong>
+          </SubTitle>
+          <StepOne makes={makes} make={value} image={image} onSubmit={handlerSubmit} />
+        </DefaultLayout>
+      </ThemeProvider>
     </>
   );
 };

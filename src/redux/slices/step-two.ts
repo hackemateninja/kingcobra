@@ -40,7 +40,7 @@ export const setDealers = createAsyncThunk(
       const url = `${config.apiBaseUrl}/api/dealers`;
 
       fetch(
-        `${url}?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zip}&trim=${trim}&trackingId=${trackingId}&sessionId=${sessionId}`
+        `${url}?sourceId=${sourceId}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${year}&zip=${zip}&trim=${trim}&trackingId=${trackingId}&sessionId=${sessionId}`
       )
         .then((response) => {
           if (response.ok) {

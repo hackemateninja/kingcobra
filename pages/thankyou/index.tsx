@@ -51,7 +51,7 @@ export default function Thanks() {
   const metadata = useSelector((state: RootState) => state.metadata);
   const { prefix, separator } = metadata.thankyou;
 
-  const title = setPrefix(prefix, metadata.name, separator);
+  const title = setPrefix(prefix, "", separator);
 
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
@@ -94,7 +94,14 @@ export default function Thanks() {
         <TypHeader />
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
-          <TypListing image={image} alt={`${make.name} ${model.name}`} listingInfo={listingInfo} make={make.name} model={model.name} zip={zipcode.zip} />
+          <TypListing
+            image={image}
+            alt={`${make.name} ${model.name}`}
+            listingInfo={listingInfo}
+            make={make.name}
+            model={model.name}
+            zip={zipcode.zip}
+          />
           <TypBottomContent makes={makes} onSubmit={handlerSubmit} />
           <TypFooter />
         </div>

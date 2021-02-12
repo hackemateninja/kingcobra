@@ -10,6 +10,7 @@ import { makes } from "@/data/makes";
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/src/definitions/TRootReducer";
+import { IPreload } from "@/def/IMetaData"
 
 // Layout
 import DefaultLayout from "@/layout/default";
@@ -17,15 +18,16 @@ import DefaultLayout from "@/layout/default";
 // Styles
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
+
 // Slices
 import { setMonth } from "@/redux/slices/site";
+import { setMakes } from "@/redux/slices/step-one";
 
 // Components
 import Title from "@/comp/title";
 import SubTitle from "@/comp/subtitle";
 import StepOne from "@/comp/steps/step-one";
 import MetaData from "@/comp/meta-data";
-import { setMakes } from "@/redux/slices/step-one";
 
 const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -54,16 +56,18 @@ const Home: React.FC<IPlainObject> = (props) => {
     month.length === 0 && dispatch(setMonth());
   }, []);
 
+  const preload: IPreload[] = [{ type: "image", elem: "/hero-image.webp" }]
+
   return (
     <ThemeProvider theme={CarcomTheme}>
-      <MetaData title={title} description={description.join("")} keywords={keywords} />
+      <MetaData title={title} description={description.join("")} keywords={keywords} preload={preload} />
       <GlobalStyles />
       <DefaultLayout>
         <Title>Huge {month} Closeout on All New Vehicles</Title>
         <SubTitle>
           Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
         </SubTitle>
-        <StepOne onSubmit={handlerSubmit} makes={makes} />
+        <StepOne onSubmit={handlerSubmit} makes={makes} image={"/hero-image.webp"} />
       </DefaultLayout>
     </ThemeProvider>
   );

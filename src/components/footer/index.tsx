@@ -1,6 +1,7 @@
 // Packages
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import dynamic from "next/dynamic";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -11,7 +12,7 @@ import { setModal, setModalType, setYear } from "@/redux/slices/site";
 
 // Components
 import Container from "../container";
-import Modal from "../modal";
+const Modal = dynamic(() => import("../modal"));
 
 // Styles
 import { FooterWrapper, FooterCert, FooterContent, FooterText } from "./style";
@@ -41,7 +42,7 @@ const Footer: React.FC<IPlainObject> = (props) => {
 
   useEffect(() => {
     dispatch(setYear());
-    
+
     window.__dcid = (function (__dcid, d) {
       __dcid.push(["DigiCertClickID_3shh8DtJ", "3", "m", "black", "3shh8DtJ"]);
       var cid = d.createElement("script");

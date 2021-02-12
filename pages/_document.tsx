@@ -81,7 +81,7 @@ export default class MyDocument extends Document {
               `,
             }}
           ></script>
-          <script src="/scripts/uts-service-uri-storage.js"></script>
+          <script src="/scripts/uts-service-uri-storage.js" async></script>
         </body>
       </Html>
     );

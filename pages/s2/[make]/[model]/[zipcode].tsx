@@ -94,8 +94,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(zip.city !== null ? saveZipCode(zip) : saveZipCode({}));
     dispatch(
       setDealers({
-        make: make.value,
-        model: model.value,
+        make: make.name,
+        model: model.name,
         sourceId: stepTwo.sourceId || config.sourceId,
         year: model.year,
         zip: zip.zip,

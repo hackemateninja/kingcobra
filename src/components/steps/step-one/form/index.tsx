@@ -7,7 +7,7 @@ import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 
 // Slices
-import { saveZipCode, setModels } from "@/redux/slices/step-one";
+import { isLoading, setModels } from "@/redux/slices/step-one";
 import { setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
 
 // Components
@@ -38,9 +38,9 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     {
       field: "make",
       value: valueMake,
-      empty: valueMake.length !== 0 ? false : true,
+      empty: valueMake ? false : true,
       error: false,
-      success: valueMake.length !== 0 ? true : false,
+      success: valueMake ? true : false,
     },
     {
       field: "model",

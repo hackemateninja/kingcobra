@@ -20,7 +20,7 @@ import {
 
 const Input: React.FC<IInput> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [empty, setEmpty] = useState<boolean>(props.value !== undefined ? false : true);
+  const [empty, setEmpty] = useState<boolean>(!props.value ? false : true);
   const inputElement = useRef(null);
 
   const onlyNumbers = (e: React.KeyboardEvent<HTMLInputElement>) => !e.key.match(/^[0-9]+$/) && e.preventDefault();

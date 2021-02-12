@@ -12,6 +12,7 @@ import { makes } from "@/data/makes";
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
+import { IPreload } from "@/def/IMetaData";
 
 // Layout
 import DefaultLayout from "@/layout/default";
@@ -62,7 +63,8 @@ const Home: React.FC<IPlainObject> = (props) => {
       "",
       `width=${screen.width},height=${screen.height}`
     );
-    router.push("/fas");
+
+    router.push(`/fas/${selectedMake.value}/${selectedModel.value}/${zip}`);
   };
 
   useEffect(() => {
@@ -73,23 +75,31 @@ const Home: React.FC<IPlainObject> = (props) => {
     dispatch(setSelectedModel(model.value));
   }, []);
 
+  if (props.model === undefined) {
+    return <Redirect />;
+  }
+
+  const preload: IPreload[] = [{ elem: props.model.image, type: "image" }];
   return (
     <>
-      {props.model.length !== 0 ? (
-        <ThemeProvider theme={CarcomTheme}>
-          <MetaData title={title} description={desc} keywords={keys} />
-          <GlobalStyles />
-          <DefaultLayout>
-            <Title>Huge Markdowns on {name} This Month!</Title>
-            <SubTitle>
-              Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
-            </SubTitle>
-            <StepOne makes={makes} models={models} make={make.value} model={model.value} onSubmit={handlerSubmit} />
-          </DefaultLayout>
-        </ThemeProvider>
-      ) : (
-        <Redirect />
-      )}
+      <ThemeProvider theme={CarcomTheme}>
+        <MetaData title={title} description={desc} keywords={keys} preload={preload} />
+        <GlobalStyles />
+        <DefaultLayout>
+          <Title>Huge Markdowns on {name} This Month!</Title>
+          <SubTitle>
+            Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
+          </SubTitle>
+          <StepOne
+            makes={makes}
+            models={models}
+            make={make.value}
+            model={model.value}
+            image={model.image}
+            onSubmit={handlerSubmit}
+          />
+        </DefaultLayout>
+      </ThemeProvider>
     </>
   );
 };

@@ -45,8 +45,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const [error, setError] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
   const [emailValue, setEmailValue] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
   const [phoneValue, setPhoneValue] = useState<string>("");
   const [addressValue, setAddressValue] = useState<string>("");
   const [addressAutocomplete, setAddressAutocomplete] = useState<object[]>([]);
@@ -251,8 +249,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
     const values: IPostLeadParams = {
       customer: {
-        firstName: firstName,
-        lastName: lastName,
+        firstName: stepTwo.first,
+        lastName: stepTwo.last,
         address: addressValue,
         phone: phoneValue,
         email: emailValue,
@@ -261,8 +259,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         state: stepOne.zipcode.state,
       },
       vehicle: {
-        make: stepOne.selectedMake.value,
-        model: stepOne.selectedModel.value,
+        make: stepOne.selectedMake.name,
+        model: stepOne.selectedModel.name,
         year: stepOne.selectedModel.year,
       },
       sourceId: config.sourceId,

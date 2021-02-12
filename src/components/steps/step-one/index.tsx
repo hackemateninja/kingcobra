@@ -30,7 +30,7 @@ const StepOne: React.FC<IPlainObject> = (props) => {
   return (
     <Row>
       <Column sm={1} md={2}>
-        <HeroImage />
+        <HeroImage image={props.image} />
         <Display hide="mobile">
           <Quotes items={quotes} />
         </Display>
