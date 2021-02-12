@@ -57,6 +57,7 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
             &:last-child {
               position: absolute;
               transform: translateX(100%);
+              visibility: hidden;
             }
             ${props.active === "form" &&
             css`
@@ -67,6 +68,7 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
               &:last-child {
                 position: relative;
                 transform: translateX(0);
+                visibility: visible;
               }
             `}
           }
@@ -94,6 +96,7 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
               &:last-child {
                 position: relative;
                 transform: translateX(0);
+                visibility: visible;
               }
             }
           }

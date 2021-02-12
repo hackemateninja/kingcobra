@@ -13,11 +13,6 @@ const list = [
 	{title: 'Your information is protected'}
 ];
 
-// const list = [
-// 	{title: 'Special Pricing', text: 'Prices you CAN’T get by walking into the dealership'},
-// 	{title: 'No obligation to buy', text: 'Your Privacy is Protected'},
-// ];
-
 const CarInfoList: React.FC<IPlainObject> = ( props ) => {
 	return (
 		<CarInfoListWrapper device={props.device}>

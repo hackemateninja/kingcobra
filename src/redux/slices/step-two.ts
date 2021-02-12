@@ -142,7 +142,12 @@ const stepTwoSlice = createSlice({
       
       if (payload.coverage) {
         const { dealers } = payload;
-        state.data.dealers = dealers.map((dealer) => ({ ...dealer, id: dealer.dealerID, programId: dealer.programID }));
+        state.data.dealers = dealers.map((dealer) => ({
+          ...dealer,
+          id: dealer.dealerID,
+          programId: dealer.programID,
+          isChecked: dealer.programID === 1 || dealer.programID === 127,
+        }));
       } else {
         state.data.dealers = [];
       }

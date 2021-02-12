@@ -29,6 +29,8 @@ import StepTwo from "@/comp/steps/step-two";
 import Title from "@/comp/title";
 import SubTitle from "@/comp/subtitle";
 import Display from "@/comp/container/display";
+import MetaData from "@/comp/meta-data";
+import Redirect from "@/comp/redirect";
 
 // Utilities
 import setSuffix from "@/util/suffix";
@@ -39,11 +41,14 @@ import { config } from "@/util/config";
 // Styles
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
-import MetaData from "@/comp/meta-data";
 
 const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  if(!props.make || !props.model || !props.zip) {
+    return <Redirect />
+  }
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
@@ -185,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      models: models.length !== 0 ? models : null,
+      models: models,
       make: make.length !== 0 ? make[0] : null,
       model: model.length !== 0 ? model[0] : null,
       zip: zipcode,

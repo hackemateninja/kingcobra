@@ -64,9 +64,11 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
 
   useEffect(() => {
     if (dealers.list.length != dealersList.length) {
+      const allChecked = dealersList.every((item: IDealer) => item.isChecked);
       setDealers({
         ...dealers,
-        list: dealersList.map((item: IDealer) => ({ ...item, isChecked: false })),
+        list: dealersList.map((item: IDealer) => ({ ...item })),
+        allChecked: allChecked
       });
     }
   }, [dealersList]);
@@ -85,11 +87,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
       subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
     >
       {loading ? (
-        dealers.list.length > 1 ? (
-          <DealersSkeleton />
-        ) : (
-          <DealersSkeleton onlyOne />
-        )
+        <DealersSkeleton onlyOne />
       ) : (
         <>
           <Dealers

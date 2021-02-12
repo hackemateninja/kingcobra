@@ -40,6 +40,10 @@ const Make: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  if (!props.make) {
+    return <Redirect />;
+  }
+
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const month = useSelector((state: RootState) => state.site.month);
@@ -71,10 +75,6 @@ const Make: React.FC<IPlainObject> = (props) => {
     dispatch(setSelectedMake(value));
     dispatch(setModels(value));
   }, []);
-
-  if (props.make === undefined) {
-    return <Redirect />;
-  }
 
   const preload: IPreload[] = [{ elem: props.make?.image, type: "image" }];
   return (

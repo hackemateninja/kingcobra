@@ -13,6 +13,7 @@ import { makes } from "@/data/makes";
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 import { IPreload } from "@/def/IMetaData";
+import { IModel } from "@/def/IModel";
 
 // Layout
 import DefaultLayout from "@/layout/default";
@@ -41,19 +42,14 @@ const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  if (!props.model || !props.make) {
+    return <Redirect />;
+  }
+
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const month = useSelector((state: RootState) => state.site.month);
-
-  const { models, make, model } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
-
-  const name = `${make.name} ${model.name}`;
-  const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
-  const desc = combineAnS(description, name);
-  const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
-  const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
-  const keys = `${prekeys}, ${sufkeys}`;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -75,11 +71,16 @@ const Home: React.FC<IPlainObject> = (props) => {
     dispatch(setSelectedModel(model.value));
   }, []);
 
-  if (props.model === undefined) {
-    return <Redirect />;
-  }
+  const { models, make, model } = props;
 
+  const name = `${make.name} ${model.name}`;
+  const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
+  const desc = combineAnS(description, name);
+  const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
+  const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
+  const keys = `${prekeys}, ${sufkeys}`;
   const preload: IPreload[] = [{ elem: props.model.image, type: "image" }];
+
   return (
     <>
       <ThemeProvider theme={CarcomTheme}>
@@ -106,10 +107,15 @@ const Home: React.FC<IPlainObject> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
-  const response = await fetch(`${origin}/api/models/${context.query.make}`);
-  const models = await response.json();
   const make = makes.filter((item) => item.value === context.query.make);
-  const model = models.filter((item) => item.value === context.query.model);
+  let models: IModel[] = [];
+  let model: IModel[] = [];
+
+  if (make.length) {
+    const response = await fetch(`${origin}/api/models/${context.query.make}`);
+    models = await response.json();
+    model = models.filter((item) => item.value === context.query.model);
+  }
 
   return {
     props: {

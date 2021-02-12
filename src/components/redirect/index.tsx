@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Redirect: React.FC = () => {
   const router = useRouter();
@@ -7,7 +8,12 @@ const Redirect: React.FC = () => {
   useEffect(() => {
     router.replace("/");
   }, []);
-  return null;
+
+  return (
+    <Head>
+      <title>Redirecting...</title>
+    </Head>
+  );
 };
 
 export default Redirect;

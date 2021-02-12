@@ -165,6 +165,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     } else {
       formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
     }
+
+    dispatch(savePhoneNumber(input.value));
   };
 
   // Email validation
@@ -193,6 +195,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     } else {
       formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
     }
+
+    dispatch(saveEmail(input.value));
   };
 
   const emailSuggested = (value: string) => {
@@ -282,13 +286,15 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   };
 
   // Form Autocomplete
-  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>, dispatchFunction: Function) => {
     const input = e.target;
     if (input.value.length !== 0) {
       formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
     } else {
       formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
     }
+
+    dispatch(dispatchFunction(input.value));
   };
 
   // Address autocomplete
@@ -313,11 +319,14 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       setAddressAutocomplete([]);
       formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
     }
+
+    dispatch(saveAddress(input.value));
   };
 
   const setNewAddress = (e: React.MouseEvent<HTMLLIElement>, address: string) => {
     setAddressValue(address);
     setAutocomplete({ show: false, lastValue: address });
+    dispatch(saveAddress(address));
   };
 
   // Reset errors
@@ -337,7 +346,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             success={fields["first-name"].status === "success"}
             message="Enter"
             handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
-            handlerChange={handlerChange}
+            handlerChange={(e) => handlerChange(e, saveFirstName)}
             handlerFocus={(e) => resetErrors(e.target)}
             autofocus
           />
@@ -352,7 +361,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             message="Enter"
             handlerBlur={(e) => validateInput(e, "last-name", saveLastName)}
             handlerFocus={(e) => resetErrors(e.target)}
-            handlerChange={handlerChange}
+            handlerChange={(e) => handlerChange(e, saveLastName)}
           />
         </InputRow>
         <Input

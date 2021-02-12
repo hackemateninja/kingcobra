@@ -13,8 +13,6 @@ import { setBoxActive } from "@/redux/slices/step-two";
 // Components
 import FormTwo from "../form";
 import DealersBox from "../dealers";
-import DealersSkeleton from "@/comp/dealers/skeleton";
-import Box from "@/comp/box";
 
 // Styles
 import { StepBoxWrapper } from "./style";
