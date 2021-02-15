@@ -126,7 +126,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     // update store
     dispatch(dispatchFunction(target.value));
 
-    if (target.value.length > 0) {
+    if (target.value.length > 0 && !target.value.startsWith(" ")) {
       switch (true) {
         case inputName === "phone-number":
           validatePhone(target.value, inputName);
@@ -206,7 +206,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   };
 
   const emailSuggested = (value: string) => {
-    if (value.length !== 0) {
+    if (value.length !== 0 && !value.startsWith(" ")) {
       const lastAt = value.lastIndexOf("@");
       const lastPoint = value.lastIndexOf(".");
       const name = value.substring(0, lastAt);
@@ -300,7 +300,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   // Form Autocomplete
   const handlerChange = (e: React.ChangeEvent<HTMLInputElement>, dispatchFunction: Function) => {
     const input = e.target;
-    if (input.value.length !== 0) {
+    if (input.value.length !== 0 && !input.value.startsWith(" ")) {
       formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
     } else {
       formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
@@ -319,7 +319,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     const ssSearch = `&search=${input.value}`;
     setAddressValue(input.value);
 
-    if (input.value.length !== 0) {
+    if (input.value.length !== 0 && !input.value.startsWith(" ")) {
       const resAutocomplete = await fetch(ssURL + ssKey + ssZipCode + ssSearch);
       const jsonAutocomplete = await resAutocomplete.json();
 
@@ -341,11 +341,11 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     dispatch(saveAddress(address));
   };
 
-  const validateOnEnter = ( e: React.KeyboardEvent<HTMLInputElement> ) => {
-		if ( e.key === 'Enter' ) {
-			validateInput(e, 'email', saveEmail);
-		}
-	};
+  const validateOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      validateInput(e, "email", saveEmail);
+    }
+  };
 
   // Reset errors
   const resetErrors = (elem: HTMLInputElement) => setError("");
