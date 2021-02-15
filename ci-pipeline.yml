@@ -1,5 +1,4 @@
-pool:
-  vmImage: 'ubuntu-latest'
+pool: Azure-01
 
 steps:
 
