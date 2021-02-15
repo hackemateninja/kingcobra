@@ -91,7 +91,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
         error={error}
         handlerChange={handlerChange}
       />
-      <Button isDisabled={false} handlerClick={handlerClick}>
+      <Button disabled={false} handlerClick={handlerClick}>
         Continue
       </Button>
     </Box>

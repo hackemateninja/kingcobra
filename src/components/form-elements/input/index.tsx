@@ -20,7 +20,7 @@ import {
 
 const Input: React.FC<IInput> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [empty, setEmpty] = useState<boolean>(props.value !== undefined ? false : true);
+  const [empty, setEmpty] = useState<boolean>(props.value === undefined || props.value === "" ? false : true);
   const inputElement = useRef(null);
 
   const onlyNumbers = (e: React.KeyboardEvent<HTMLInputElement>) => !e.key.match(/^[0-9]+$/) && e.preventDefault();
@@ -29,7 +29,7 @@ const Input: React.FC<IInput> = (props) => {
     props.handlerFocus !== undefined && props.handlerFocus(e);
     setFocus(true);
   };
-  
+
   const handlerBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.value.length !== 0 ? setEmpty(false) : setEmpty(true);
     props.handlerBlur !== undefined && props.handlerBlur(e);
@@ -52,6 +52,12 @@ const Input: React.FC<IInput> = (props) => {
       props.handlerEffect !== undefined && props.handlerEffect(inputElement.current.value);
     }
   }, []);
+
+  useEffect(() => {
+    if (props.dynamicValue !== undefined && props.dynamicValue !== "") {
+      setEmpty(false);
+    }
+  }, [props.dynamicValue]);
 
   return (
     <FormElement active={focus || !empty} cue={props.cue} error={props.error} city={props.city}>

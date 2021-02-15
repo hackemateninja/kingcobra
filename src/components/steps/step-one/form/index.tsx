@@ -25,6 +25,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
 
   // Step 1 Data
   const stepOne = useSelector((state: RootState) => state.stepOne);
+  const ui = useSelector((state: RootState) => state.stepOne.ui);
   const { button } = stepOne.ui;
 
   // Fill Models Select
@@ -175,6 +176,8 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     }
   }, [zipcode]);
 
+  const loading = ui.loading === "idle" || ui.loading == "pending";
+
   return (
     <Box
       step="1"
@@ -217,10 +220,11 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         length={5}
         handlerBlur={hanlderZipBlur}
         handlerChange={validateZipCode}
-        onlyNumbers
         handlerEffect={valueFromReload}
+        autocomplete="off"
+        onlyNumbers
       />
-      <Button isDisabled={false} handlerClick={handlerSubmit}>
+      <Button disabled={loading} loading={loading} handlerClick={handlerSubmit}>
         {button}
       </Button>
     </Box>

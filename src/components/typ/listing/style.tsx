@@ -1,5 +1,5 @@
 // Packages
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // Definitions
 import { ThemeType } from "@/def/TThemeTyp";
@@ -7,7 +7,8 @@ import { ThemeType } from "@/def/TThemeTyp";
 const ListingWrapper = styled.div`
   margin: 0 0 10px;
 `;
-const ListingContent = styled.div<{ theme: ThemeType }>`
+
+const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
   border-top: 1px solid ${(props) => props.theme.background.listing.border};
   background-color: ${(props) => props.theme.background.listing.default};
   display: block;
@@ -30,7 +31,37 @@ const ListingContent = styled.div<{ theme: ThemeType }>`
       background: url(${(props) => props.theme.background.listing.imageJpg}) right 70% no-repeat;
     }
   }
-  @media screen and (min-width: 1024px) {
+  ${(props) =>
+    props.bg === 2 &&
+    css`
+      background-color: #6e508c;
+      @media screen and (min-width: 768px) {
+        &:before {
+          background: url("/typ/background-desktop2.jpg") right 70% no-repeat;
+        }
+      }
+    `}
+  ${(props) =>
+    props.bg === 3 &&
+    css`
+      background-color: #3a903f;
+      @media screen and (min-width: 768px) {
+        &:before {
+          background: url("/typ/background-desktop3.jpg") right 70% no-repeat;
+        }
+      }
+    `}
+	${(props) =>
+    props.bg === 4 &&
+    css`
+      background-color: #2a826c;
+      @media screen and (min-width: 768px) {
+        &:before {
+          background: url("/typ/background-desktop4.jpg") right 70% no-repeat;
+        }
+      }
+    `}
+	@media screen and ( min-width: 1024px ) {
     padding: 70px 30px;
     &:before {
       width: 60%;
@@ -50,18 +81,31 @@ const ListingRow = styled.div`
     margin: auto;
   }
 `;
-const ListingColImg = styled.div`
+const ListingColImg = styled.div<{ bg: Number }>`
   padding: 5px 20px;
   width: 100%;
   display: block;
   background: url(${(props) => props.theme.background.listing.imageWebp}) center/cover no-repeat;
   @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-    &:before {
-      background: url(${(props) => props.theme.background.listing.imageJpg}) center/cover no-repeat;
-    }
+    background: url(${(props) => props.theme.background.listing.imageJpg}) center/cover no-repeat;
   }
-  @media screen and (min-width: 768px) {
-    background: 0 0;
+  ${(props) =>
+    props.bg === 2 &&
+    css`
+      background: url("/typ/background-desktop2.jpg") center/cover no-repeat;
+    `}
+  ${(props) =>
+    props.bg === 3 &&
+    css`
+      background: url("/typ/background-desktop3.jpg") center/cover no-repeat;
+    `}
+	${(props) =>
+    props.bg === 4 &&
+    css`
+      background: url("/typ/background-desktop4.jpg") center/cover no-repeat;
+    `}
+	@media screen and ( min-width: 768px ) {
+    background: none;
     width: auto;
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -86,12 +130,27 @@ const ListingImg = styled.img`
     width: 430px;
   }
 `;
-const ListingColInfo = styled.div`
+const ListingColInfo = styled.div<{ bg: Number }>`
   background-color: ${(props) => props.theme.background.listing.default};
   display: block;
   padding: 20px;
-  @media screen and (min-width: 768px) {
-    background: 0 0;
+  ${(props) =>
+    props.bg === 2 &&
+    css`
+      background-color: #6e508c;
+    `}
+  ${(props) =>
+    props.bg === 3 &&
+    css`
+      background-color: #3a903f;
+    `}
+	${(props) =>
+    props.bg === 4 &&
+    css`
+      background-color: #2a826c;
+    `}
+	@media screen and ( min-width: 768px ) {
+    background: none;
     padding: 0 0 0 10px;
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -100,9 +159,8 @@ const ListingColInfo = styled.div`
     max-width: 50%;
   }
   @media screen and (min-width: 1024px) {
-    padding: 0 20px 0 40px;
+    padding: 0 20px 0 30px;
   }
-
   #awLoaderContainer {
     display: none;
   }
@@ -114,29 +172,28 @@ const ListingTitle = styled.p`
   color: #fff;
   display: block;
   margin: 0;
-  span {
-    span {
-      color: ${(props) => props.theme.background.listing.border};
-      margin-left: 2px;
-    }
-  }
   @media screen and (min-width: 768px) {
     font-size: 35px;
     line-height: 35px;
-    max-width: 400px;
-    span {
-      display: block;
-      margin-top: 7px;
-      span {
-        display: inline-block;
-        vertical-align: middle;
-        margin-top: 0;
-      }
-    }
   }
   @media screen and (min-width: 1024px) {
     font-size: 48px;
     line-height: 55px;
+  }
+`;
+const ListingSide = styled.span`
+  @media screen and (min-width: 768px) {
+    display: block;
+    margin-top: 7px;
+  }
+`;
+const ListingMark = styled.span`
+  color: ${(props) => props.theme.background.listing.border};
+  margin-left: 2px;
+  @media screen and (min-width: 768px) {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0;
   }
 `;
 const ListingFooter = styled.div`
@@ -172,4 +229,6 @@ export {
   ListingTitle,
   ListingFooter,
   ListingFooterLink,
+  ListingSide,
+  ListingMark,
 };

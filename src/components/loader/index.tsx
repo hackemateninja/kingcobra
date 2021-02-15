@@ -9,7 +9,7 @@ import { LoaderIcon, LoaderWrapper } from "./style";
 
 const Loader: React.FC<IPlainObject> = (props) => {
   return (
-    <LoaderWrapper {...props.type}>
+    <LoaderWrapper type={props.type}>
       <LoaderIcon>
         <use xlinkHref="#loader" />
       </LoaderIcon>

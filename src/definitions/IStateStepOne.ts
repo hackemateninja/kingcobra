@@ -19,6 +19,7 @@ interface IDataStepOne {
 interface IUIStepOne {
   button: string;
   imageLoading: boolean;
+  loading: "idle" | "pending" | "completed";
 }
 
 export interface IStateStepOne {

@@ -17,6 +17,7 @@ const initialStepOne: IStateStepOne = {
   ui: {
     button: "Check Local Prices",
     imageLoading: false,
+    loading: "idle"
   },
 };
 
@@ -116,6 +117,7 @@ const stepOneSlice = createSlice({
     // Zip Code
     builder.addCase(setZipCode.pending, (state) => {
       state.data.zipcode = { loading: true };
+      state.ui.loading = "pending";
     });
     builder.addCase(setZipCode.fulfilled, (state, action) => {
       const pl = action.payload;
@@ -135,6 +137,8 @@ const stepOneSlice = createSlice({
       } else {
         state.data.zipcode = {};
       }
+
+      state.ui.loading = "completed";
     });
   },
 });

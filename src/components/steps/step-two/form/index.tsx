@@ -110,6 +110,22 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   useEffect(() => {
     updateCue();
     window.dataLayer && window.dataLayer.push({ event: "form_impression" });
+
+    stepTwo.first !== "" &&
+      formDispatch({ type: "setSuccess", payload: { field: "first-name", value: stepTwo.first } });
+    stepTwo.last !== "" && formDispatch({ type: "setSuccess", payload: { field: "last-name", value: stepTwo.last } });
+    if (stepTwo.phone !== "") {
+      setPhoneValue(stepTwo.phone);
+      formDispatch({ type: "setSuccess", payload: { field: "phone-number", value: stepTwo.phone } });
+    }
+    if (stepTwo.address !== "") {
+      setAddressValue(stepTwo.address);
+      formDispatch({ type: "setSuccess", payload: { field: "address", value: stepTwo.address } });
+    }
+    if (stepTwo.email !== "") {
+      setEmailValue(stepTwo.email);
+      formDispatch({ type: "setSuccess", payload: { field: "email", value: stepTwo.email } });
+    }
   }, []);
 
   // Input validation
@@ -355,6 +371,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       <form onSubmit={handlerSubmit}>
         <InputRow>
           <Input
+            value={stepTwo.first}
             id="first-name"
             type="text"
             name="first-name"
@@ -368,6 +385,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             handlerFocus={(e) => resetErrors(e.target)}
           />
           <Input
+            value={stepTwo.last}
             id="last-name"
             type="text"
             name="last-name"

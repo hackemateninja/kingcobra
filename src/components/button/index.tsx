@@ -12,8 +12,8 @@ const Button: React.FC<IButton> = (props) => {
   const loading = useSelector((state: RootState) => state.site.ui.buttonLoading);
 
   return (
-    <ButtonWrapper onClick={props.handlerClick} {...props.type}>
-      {loading === true ? <Loader type="button" /> : <ButtonSpan>{props.children}</ButtonSpan>}
+    <ButtonWrapper onClick={props.handlerClick} disabled={props.disabled} {...props.type}>
+      {loading || props.loading ? <Loader type="button" /> : <ButtonSpan>{props.children}</ButtonSpan>}
     </ButtonWrapper>
   );
 };

@@ -23,7 +23,7 @@ import setPrefix from "@/util/prefix";
 
 // Components
 import Typ from "@/comp/typ/typ";
-import TypHeader from "@/comp/typ/header";
+import TypHeader from '@/comp/typ/banners/president-day';
 import TypTopContent from "@/comp/typ/top-content";
 import TypListing from "@/comp/typ/listing";
 import TypBottomContent from "@/comp/typ/bottom-content";
@@ -99,7 +99,7 @@ export default function Thanks() {
             listingInfo={listingInfo}
             make={make.name}
             model={model.name}
-            zip={zipcode.zip}
+            zipcode={zipcode.zip}
           />
           <TypBottomContent makes={makesList} onSubmit={handlerSubmit} />
           <TypFooter />

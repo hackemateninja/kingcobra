@@ -1,5 +1,6 @@
 export interface IButton {
-  isDisabled?: boolean;
+  disabled?: boolean;
   type?: string;
+  loading?: boolean;
   handlerClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

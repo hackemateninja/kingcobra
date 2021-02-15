@@ -14,5 +14,5 @@ export interface IListing {
 	listingInfo: IListingData[],
 	make: string,
 	model: string,
-	zip: string
+	zipcode: string
 }
