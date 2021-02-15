@@ -9,5 +9,7 @@ steps:
 - script: npm install --legacy-peer-deps
   
 - script: npm audit --audit-level=high
-  
+
+- script: npm install -g win-node-env
+
 - script: npm run build
