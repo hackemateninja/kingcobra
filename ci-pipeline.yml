@@ -1,4 +1,5 @@
-pool: Azure-01
+pool:
+  vmImage: 'windows-latest'
 
 steps:
 
