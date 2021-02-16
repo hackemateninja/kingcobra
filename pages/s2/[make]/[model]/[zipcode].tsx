@@ -1,5 +1,5 @@
 // Packages
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { GetServerSideProps } from "next";
@@ -21,7 +21,7 @@ import DefaultLayout from "@/layout/default";
 
 // Slices
 import { setMonth } from "@/redux/slices/site";
-import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from "@/redux/slices/step-one";
+import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel} from "@/redux/slices/step-one";
 import { saveDeviceType, setDealers } from "@/redux/slices/step-two";
 
 // Components
@@ -42,16 +42,18 @@ import { config } from "@/util/config";
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
 
+const zipRegex = /^\d{5}$|^\d{5}$/;
+
 const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [zipcode, setZipcode] = useState({ city: null, state: null, zip: props.zip });
 
-  if (!props.make || !props.model || !props.zip) {
+  if (!props.make || !props.model || !props.zip || !zipRegex.test(props.zip)) {
     return <Redirect />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);
-  const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const month = useSelector((state: RootState) => state.site.month);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
   const stepTwoUi = useSelector((state: RootState) => state.stepTwo.ui);
@@ -59,9 +61,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 
   const { models, make, model, zip, ua } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
-  const { zipcode } = stepOne;
   const { loading } = stepTwoUi;
-  const { coverage } = stepTwo;
+  const { coverage, dealers } = stepTwo;
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -84,6 +85,27 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(saveDeviceType(device));
   }, []);
 
+  useEffect(() => {
+    async function validateZipCode() {
+      const ssAPI = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${config.ssAuthToken}&zipcode=${props.zip}`;
+      const resZipCode = await fetch(ssAPI);
+      const jsonZipCode = await resZipCode.json();
+      const ssData = jsonZipCode[0];
+      if (ssData.status === undefined) {
+        const zcData = ssData.zipcodes[0];
+        setZipcode({ city: zcData.default_city, state: zcData.state_abbreviation, zip: props.zip });
+      }
+    }
+
+    if (dealers.length) {
+      validateZipCode();
+    }
+  }, [dealers]);
+
+  useEffect(() => {
+    dispatch(zipcode.city !== null ? saveZipCode(zipcode) : saveZipCode({}));
+  }, [zipcode]);
+
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push(`/thankyou`);
   };
@@ -96,14 +118,13 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(saveModels(models));
     dispatch(setSelectedMake(make.value));
     dispatch(setSelectedModel(model.value));
-    dispatch(zip.city !== null ? saveZipCode(zip) : saveZipCode({}));
     dispatch(
       setDealers({
         make: make.name,
         model: model.name,
         sourceId: stepTwo.sourceId || config.sourceId,
         year: model.year,
-        zip: zip.zip,
+        zip: zip,
         sessionId: utsValues.utss,
       })
     );
@@ -121,7 +142,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
             `" aw-model="` +
             props.model.name +
             `" aw-zipcode="` +
-            props.fasZip +
+            props.zip +
             `"></div>`,
         }}
       ></div>
@@ -141,7 +162,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         <StepTwo
           model={model}
           city={`${zipcode.city}, ${zipcode.state} ${zipcode.zip}`}
-          zipcode={zipcode.zip}
+          zipcode={props.zip}
           onSubmit={handlerSubmit}
         />
       </DefaultLayout>
@@ -151,42 +172,20 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const zipRegex = /^\d{5}$|^\d{5}$/;
   const ua = useUserAgent(context.req.headers["user-agent"]);
 
   const { origin } = absoluteUrl(context.req, context.req.headers.host);
   const cxtMake = context.query.make;
   const cxtModel = context.query.model;
-  const cxtZip: any = context.query.zipcode;
+  const cxtZip = context.query.zipcode;
   const make = makes.filter((item) => item.value === cxtMake);
 
   let models = [];
   let model = [];
-  let zipcode = { city: null, state: null, zip: null };
-
-  const ssAPI = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${process.env.SS_API_KEY}&auth-token=${process.env.SS_API_TOKEN}&zipcode=${cxtZip}`;
-
   if (make.length) {
     const resModels = await fetch(`${origin}/api/models/${cxtMake}`);
     models = await resModels.json();
     model = models.filter((item) => item.value === cxtModel);
-
-    if (model.length && zipRegex.test(cxtZip)) {
-      const resZipCode = await fetch(ssAPI);
-      const jsonZipCode = await resZipCode.json();
-      const ssData = jsonZipCode[0];
-
-      if (ssData.status === undefined) {
-        const zcData = ssData.zipcodes[0];
-        zipcode = { city: zcData.default_city, state: zcData.state_abbreviation, zip: cxtZip };
-      } else {
-        if (cxtZip === "99999") {
-          zipcode = { city: "City", state: "ST", zip: cxtZip };
-        } else {
-          zipcode = { city: null, state: null, zip: cxtZip };
-        }
-      }
-    }
   }
 
   return {
@@ -194,7 +193,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       models: models.length !== 0 ? models : null,
       make: make.length !== 0 ? make[0] : null,
       model: model.length !== 0 ? model[0] : null,
-      zip: zipcode,
+      zip: cxtZip,
       ua: ua,
       useragent: ua.source,
     },

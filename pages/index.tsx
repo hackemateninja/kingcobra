@@ -56,7 +56,7 @@ const Home: React.FC<IPlainObject> = (props) => {
     month.length === 0 && dispatch(setMonth());
   }, []);
 
-  const preload: IPreload[] = [{ type: "image", elem: "/hero-image.webp" }]
+  const preload: IPreload[] = [{ type: "image", elem: "/hero-image.png" }]
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -67,7 +67,7 @@ const Home: React.FC<IPlainObject> = (props) => {
         <SubTitle>
           Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
         </SubTitle>
-        <StepOne onSubmit={handlerSubmit} makes={makes} image={"/hero-image.webp"} />
+        <StepOne onSubmit={handlerSubmit} makes={makes} image={"/hero-image.png"} />
       </DefaultLayout>
     </ThemeProvider>
   );

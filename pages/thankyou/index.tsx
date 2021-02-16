@@ -11,7 +11,6 @@ import { makes } from "@/data/makes";
 import { RootState } from "@/def/TRootReducer";
 
 // Slices
-import { setIgnoredModels } from "@/redux/slices/thankyou";
 import { setMakes } from "@/redux/slices/step-one";
 
 // Styles
@@ -23,7 +22,7 @@ import setPrefix from "@/util/prefix";
 
 // Components
 import Typ from "@/comp/typ/typ";
-import TypHeader from '@/comp/typ/banners/president-day';
+import TypHeader from "@/comp/typ/banners/president-day";
 import TypTopContent from "@/comp/typ/top-content";
 import TypListing from "@/comp/typ/listing";
 import TypBottomContent from "@/comp/typ/bottom-content";
@@ -80,7 +79,6 @@ export default function Thanks() {
 
   useEffect(() => {
     dispatch(setMakes(makes));
-    if (model.image !== undefined) dispatch(setIgnoredModels(model));
   }, []);
 
   const makesList = makes.filter((m) => m.value !== make.value);

@@ -9,6 +9,7 @@ import { RootState } from "@/def/TRootReducer";
 // Slices
 import { setSelectedMake, setSelectedModel, setModels } from "@/redux/slices/step-one";
 import { saveSourceId } from "@/redux/slices/step-two";
+import { setButtonClick } from "@/redux/slices/thankyou";
 
 // Styles
 import {
@@ -128,6 +129,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
     e.preventDefault();
     updateInputs(true);
     dispatch(saveSourceId(config.altSourceId));
+    dispatch(setButtonClick(true));
     const errorInputs = formFields.filter((item) => item["empty"] || item["error"]);
 
     if (errorInputs.length === 0) {

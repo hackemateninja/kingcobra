@@ -3,15 +3,26 @@ import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import useScript from "@/src/hooks/useScript";
 import { GetServerSideProps } from "next";
+import { useSelector } from "react-redux";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
+import { RootState } from "@/def/TRootReducer";
+
+// Components
+import RedirectFas from "@/comp/redirect/fas/";
 
 // Styles
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
 
 const FAS: React.FC<IPlainObject> = (props) => {
+  const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
+  const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
+  const buttonClick = useSelector((state: RootState) => state.thankyou.ui.buttonClick);
+  const date = new Date();
+  const ms = date.getMilliseconds();
+
   return (
     <ThemeProvider theme={CarcomTheme}>
       <Head>
@@ -37,7 +48,14 @@ const FAS: React.FC<IPlainObject> = (props) => {
             `"></div>`,
         }}
       ></div>
-      {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
+      {buttonClick ? (
+        <>
+          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js?ms=" + ms, "3382")}
+          <RedirectFas make={make.value} model={model.value} zip={props.zip} />
+        </>
+      ) : (
+        useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")
+      )}
     </ThemeProvider>
   );
 };

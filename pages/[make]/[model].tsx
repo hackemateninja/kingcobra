@@ -24,6 +24,7 @@ import { setMakes, setSelectedMake, saveModels, setSelectedModel } from "@/redux
 
 // Components
 import StepOne from "@/comp/steps/step-one";
+import RedirectModel from "@/comp/redirect/model";
 import Redirect from "@/comp/redirect";
 import Title from "@/comp/title";
 import SubTitle from "@/comp/subtitle";
@@ -42,8 +43,12 @@ const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  if (!props.model || !props.make) {
+  if (!props.make) {
     return <Redirect />;
+  }
+
+  if (!props.model) {
+    return <RedirectModel make={props.make.value} />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);

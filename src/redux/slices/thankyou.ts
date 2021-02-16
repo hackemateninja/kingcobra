@@ -7,21 +7,34 @@ import { IStateThankyou } from "@/def/IStateThankyou";
 // Initial state
 const initialThankyou: IStateThankyou = {
   data: {
-    ignoredModels: [],
+    make: {},
+    model: {},
+    zipcode: {},
   },
-  ui: {},
+  ui: {
+    buttonClick: false,
+  },
 };
 
 const thankyouSlice = createSlice({
   name: "thankyou",
   initialState: initialThankyou,
   reducers: {
-    setIgnoredModels: (state, action) => {
-      state.data.ignoredModels = state.data.ignoredModels.concat(action.payload);
+    setSelectedMakeTYP: (state, action) => {
+      state.data.make = action.payload;
+    },
+    setSelectedModelTYP: (state, action) => {
+      state.data.model = action.payload;
+    },
+    setZipCodeTYP: (state, action) => {
+      state.data.zipcode = action.payload;
+    },
+    setButtonClick: (state, action) => {
+      state.ui.buttonClick = action.payload;
     },
   },
 });
 
-export const { setIgnoredModels } = thankyouSlice.actions;
+export const { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP, setButtonClick } = thankyouSlice.actions;
 
 export default thankyouSlice.reducer;

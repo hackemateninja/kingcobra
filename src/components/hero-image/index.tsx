@@ -17,7 +17,7 @@ import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from "./style";
 
 const HeroImage: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
-  const [image, setImage] = useState(props.image || "/hero-image.webp");
+  const [image, setImage] = useState(props.image || "/hero-image.png");
 
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);

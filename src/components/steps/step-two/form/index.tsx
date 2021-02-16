@@ -261,7 +261,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
     // set error if any field is empty
     for (let i = 0; i < fieldsList.length; i++) {
-      if (fields[fieldsList[i]].status === "empty") {
+      const status = fields[fieldsList[i]].status;
+      if ( status === "empty" || status === "error") {
         setError(fieldsList[i]);
         dispatch(setButtonLoading(false));
         return;
