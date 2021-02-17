@@ -4,6 +4,8 @@ import { ThemeProvider } from "styled-components";
 import useScript from "@/src/hooks/useScript";
 import { GetServerSideProps } from "next";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -16,12 +18,20 @@ import RedirectFas from "@/comp/redirect/fas/";
 import GlobalStyles from "@/theme/global";
 import CarcomTheme from "@/theme/carcom";
 
+declare const window: any;
+
 const FAS: React.FC<IPlainObject> = (props) => {
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
   const buttonClick = useSelector((state: RootState) => state.thankyou.ui.buttonClick);
   const date = new Date();
   const ms = date.getMilliseconds();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.query.rd && window.AutoWeb.reload(make.value, model.value, props.zip);
+  }, [router]);
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -48,14 +58,8 @@ const FAS: React.FC<IPlainObject> = (props) => {
             `"></div>`,
         }}
       ></div>
-      {buttonClick ? (
-        <>
-          {useScript("//cdn.awadserver.com/widget/js/awloader.min.js?ms=" + ms, "3382")}
-          <RedirectFas make={make.value} model={model.value} zip={props.zip} />
-        </>
-      ) : (
-        useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")
-      )}
+      {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
+      {buttonClick && <RedirectFas make={make.value} model={model.value} zip={props.zip} />}
     </ThemeProvider>
   );
 };

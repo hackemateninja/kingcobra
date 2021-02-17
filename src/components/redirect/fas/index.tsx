@@ -14,7 +14,7 @@ const RedirectFas: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    router.replace(`/fas/${props.make}/${props.model}/${props.zip}`);
+    router.replace(`/fas/${props.make}/${props.model}/${props.zip}?rd=true`);
     dispatch(setButtonClick(false));
   }, []);
   return (
