@@ -54,6 +54,8 @@ export default class MyDocument extends Document {
             `,
             }}
           ></script>
+
+          <link rel="preload" href="/scripts/uts-service-uri-storage.js" as="script" />
         </Head>
         <body>
           <Main />
