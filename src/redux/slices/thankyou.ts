@@ -9,7 +9,7 @@ const initialThankyou: IStateThankyou = {
   data: {
     make: {},
     model: {},
-    zipcode: {},
+    zipcode: "",
   },
   ui: {
     buttonClick: false,

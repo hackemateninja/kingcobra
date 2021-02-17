@@ -21,8 +21,9 @@ import DefaultLayout from "@/layout/default";
 
 // Slices
 import { setMonth } from "@/redux/slices/site";
-import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel} from "@/redux/slices/step-one";
+import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from "@/redux/slices/step-one";
 import { saveDeviceType, setDealers } from "@/redux/slices/step-two";
+import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from "@/redux/slices/thankyou";
 
 // Components
 import StepTwo from "@/comp/steps/step-two";
@@ -107,6 +108,9 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }, [zipcode]);
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(setSelectedMakeTYP(props.make));
+    dispatch(setSelectedModelTYP(props.model));
+    dispatch(setZipCodeTYP(props.zip));
     router.push(`/thankyou`);
   };
 

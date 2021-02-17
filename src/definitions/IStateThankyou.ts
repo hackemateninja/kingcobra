@@ -11,7 +11,7 @@ interface IZipCode {
 interface IDataThankyou {
   make: IMake;
   model: IModel;
-  zipcode: IZipCode;
+  zipcode: string;
 }
 
 interface IUIThankyou {

@@ -52,9 +52,10 @@ export default function Thanks() {
 
   const title = setPrefix(prefix, "", separator);
 
-  const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
-  const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
-  const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
+  const selectedInfo = useSelector((state: RootState) => state.stepOne.data);
+  const make = useSelector((state: RootState) => state.thankyou.data.make);
+  const model = useSelector((state: RootState) => state.thankyou.data.model);
+  const zipcode = useSelector((state: RootState) => state.thankyou.data.zipcode);
   const name = useSelector((state: RootState) => state.stepTwo.data.first);
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
@@ -68,10 +69,10 @@ export default function Thanks() {
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     let url: string;
 
-    if (zipcode.zip === undefined) {
-      url = `/${make.value}/${model.value}/`;
+    if (zipcode === undefined) {
+      url = `/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/`;
     } else {
-      url = `/s2/${make.value}/${model.value}/${zipcode.zip}`;
+      url = `/s2/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/${zipcode}`;
     }
 
     router.push(url);
@@ -97,7 +98,7 @@ export default function Thanks() {
             listingInfo={listingInfo}
             make={make.name}
             model={model.name}
-            zipcode={zipcode.zip}
+            zipcode={zipcode}
           />
           <TypBottomContent makes={makesList} onSubmit={handlerSubmit} />
           <TypFooter />
