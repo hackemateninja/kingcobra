@@ -22,7 +22,7 @@ import setPrefix from "@/util/prefix";
 
 // Components
 import Typ from "@/comp/typ/typ";
-import TypHeader from "@/comp/typ/banners/president-day";
+import TypHeader from "@/comp/typ/header";
 import TypTopContent from "@/comp/typ/top-content";
 import TypListing from "@/comp/typ/listing";
 import TypBottomContent from "@/comp/typ/bottom-content";

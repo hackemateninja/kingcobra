@@ -5,7 +5,7 @@ import React from "react";
 import { IPlainObject } from "../../definitions/IPlainObject";
 
 // Components
-import Header from "../../components/banners/president-day";
+import Header from "../../components/header";
 import SVGs from "../../components/svgs";
 import Footer from "../../components/footer";
 import Container from "../../components/container";
