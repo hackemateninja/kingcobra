@@ -41,6 +41,7 @@
     "@types/styled-components": "^5.1.4",
     "babel-loader": "^8.1.0",
     "react-is": "^17.0.1",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "next-with-sitemap": "^2.5.2"
   }
 }
