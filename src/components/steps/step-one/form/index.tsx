@@ -216,7 +216,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         error={error === "zip-code"}
         success={zipcode.city !== undefined}
         type="tel"
-        message="Enter a valid"
+        message="Please enter a valid"
         length={5}
         handlerBlur={hanlderZipBlur}
         handlerChange={validateZipCode}
