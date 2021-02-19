@@ -1,6 +1,6 @@
 // Packages
 import React, { useEffect, useRef, useState } from "react";
-import { useMeasure } from "react-use";
+import { useScroll, useMeasure } from "react-use";
 import useSmoothScroll from "react-smooth-scroll-hook";
 
 // Definitions
@@ -24,6 +24,25 @@ const Quotes: React.FC<IQuotes> = (props) => {
   const [active, setActive] = useState<number>(1);
   const scroll = useRef(null);
   const [quotes, { width }] = useMeasure();
+  const { x } = useScroll(scroll);
+
+  const quoteActive = () => {
+    const elemWidth = width + 15;
+
+    switch (Math.floor(x) / Math.floor(elemWidth)) {
+      case 0:
+        setActive(1);
+        break;
+      case 1:
+        setActive(2);
+        break;
+      case 2:
+        setActive(3);
+        break;
+      default:
+        return null;
+    }
+  };
 
   const { scrollTo } = useSmoothScroll({
     ref: scroll,
@@ -40,8 +59,6 @@ const Quotes: React.FC<IQuotes> = (props) => {
     const id = `#quote-${target.dataset.id}`;
 
     !touchDevice() && scrollTo(id);
-    const activeQuote = parseInt(target.dataset.id);
-    setActive(activeQuote + 1);
   };
 
   const fixScrollResize = () => {
@@ -59,6 +76,10 @@ const Quotes: React.FC<IQuotes> = (props) => {
       window.removeEventListener("resize", eventListeners.current, false);
     };
   }, [fixScrollResize]);
+
+  useEffect(() => {
+    quoteActive();
+  });
 
   return (
     <QuotesWapper ref={quotes}>
