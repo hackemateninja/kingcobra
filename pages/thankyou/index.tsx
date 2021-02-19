@@ -12,6 +12,7 @@ import { RootState } from "@/def/TRootReducer";
 
 // Slices
 import { setMakes } from "@/redux/slices/step-one";
+import { setSelectedMakes } from "@/redux/slices/thankyou";
 
 // Styles
 import GlobalStyles from "@/theme/global";
@@ -59,6 +60,7 @@ export default function Thanks() {
   const name = useSelector((state: RootState) => state.stepTwo.data.first);
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
+  const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
 
   if (model.image !== undefined) {
     image = model.pngImg !== undefined ? model.pngImg : model.image;
@@ -80,9 +82,12 @@ export default function Thanks() {
 
   useEffect(() => {
     dispatch(setMakes(makes));
+
+    dispatch(setSelectedMakes([...selectedMakes, make]));
   }, []);
 
-  const makesList = makes.filter((m) => m.value !== make.value);
+  const values = selectedMakes.map(m => m.value);
+  const makesList = makes.filter((m) => !values.includes(m.value));
 
   return (
     <ThemeProvider theme={CarcomTheme}>

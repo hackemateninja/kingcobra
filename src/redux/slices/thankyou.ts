@@ -10,6 +10,7 @@ const initialThankyou: IStateThankyou = {
     make: {},
     model: {},
     zipcode: "",
+    selectedMakes: [],
   },
   ui: {
     buttonClick: false,
@@ -29,12 +30,15 @@ const thankyouSlice = createSlice({
     setZipCodeTYP: (state, action) => {
       state.data.zipcode = action.payload;
     },
+    setSelectedMakes: (state, action) => {
+      state.data.selectedMakes = action.payload;
+    },
     setButtonClick: (state, action) => {
       state.ui.buttonClick = action.payload;
     },
   },
 });
 
-export const { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP, setButtonClick } = thankyouSlice.actions;
+export const { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP, setSelectedMakes, setButtonClick } = thankyouSlice.actions;
 
 export default thankyouSlice.reducer;

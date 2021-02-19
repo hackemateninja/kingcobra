@@ -12,6 +12,7 @@ interface IDataThankyou {
   make: IMake;
   model: IModel;
   zipcode: string;
+  selectedMakes: IMake[]
 }
 
 interface IUIThankyou {
