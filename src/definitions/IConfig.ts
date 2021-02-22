@@ -11,4 +11,5 @@ export interface IConfig {
   ssAuthToken: string;
   sourceId: string;
   altSourceId: string;
+  appInsightsKey: string;
 }

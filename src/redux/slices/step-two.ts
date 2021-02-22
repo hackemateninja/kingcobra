@@ -1,12 +1,17 @@
 // Packages
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { SeverityLevel } from "@microsoft/applicationinsights-web";
 
 // Definitions
 import { IStateStepTwo } from "@/def/IStateStepTwo";
 import { IDealer, IDealersParams } from "@/def/IDealers";
 import { IMldDealersResponse, IMldLeadResponse } from "@/def/IMldResponse";
-import { config } from "@/util/config";
 import { IPostLeadParams } from "@/def/IPostLeadParams";
+
+// Utilities
+import { config } from "@/util/config";
+import { appInsights } from "@/util/app-insights";
+import { mainModule } from "process";
 
 // Initial state
 const initialStepTwo: IStateStepTwo = {
@@ -48,14 +53,25 @@ export const setDealers = createAsyncThunk(
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error("Something went wrong");
+            appInsights.trackTrace({
+              message: `${response.statusText} - Something went wrong getting dealers: ${make}-${model}-${zip}`,
+              properties: {
+                make: make,
+                model: model,
+                zip: zip,
+              },
+              severityLevel: SeverityLevel.Error,
+            });
+
+            throw new Error(`Something went wrong getting dealers: ${make}-${model}-${zip}`);
           }
         })
         .then((response) => {
           resolve(response);
         })
-        .catch((err) => {
-          reject(err);
+        .catch((error) => {
+          appInsights.trackException({ exception: error, properties: { make: make, model: model, zip: zip } });
+          reject(error);
         });
     });
   }
@@ -64,6 +80,9 @@ export const setDealers = createAsyncThunk(
 export const postLeads = createAsyncThunk("post/leads", async (lead: IPostLeadParams) => {
   return new Promise<IMldLeadResponse>((resolve, reject) => {
     const url = `${config.apiBaseUrl}/api/lead`;
+    const { make, model } = lead.vehicle;
+    const { zip } = lead.customer;
+
     fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -73,14 +92,25 @@ export const postLeads = createAsyncThunk("post/leads", async (lead: IPostLeadPa
         if (response.ok) {
           return response.json();
         } else {
-          throw new Error("Something went wrong");
+          appInsights.trackTrace({
+            message: `${response.statusText} - Something went wrong posting lead: ${make}-${model}-${zip}`,
+            properties: {
+              make: make,
+              model: model,
+              zip: zip,
+            },
+            severityLevel: SeverityLevel.Error,
+          });
+
+          throw new Error(`Something went wrong posting lead: ${make}-${model}-${zip}`);
         }
       })
       .then((response) => {
         resolve(response);
       })
-      .catch((err) => {
-        reject(err);
+      .catch((error) => {
+        appInsights.trackException({ exception: error, properties: { make: make, model: model, zip: zip } });
+        reject(error);
       });
   });
 });

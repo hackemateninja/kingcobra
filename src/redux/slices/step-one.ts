@@ -1,9 +1,13 @@
 // Packages
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { SeverityLevel } from "@microsoft/applicationinsights-web";
 
 // Definitions
 import { IStateStepOne } from "@/def/IStateStepOne";
+
+// Utilities
 import { config } from "@/util/config";
+import { appInsights } from "@/util/app-insights";
 
 // Initial state
 const initialStepOne: IStateStepOne = {
@@ -17,7 +21,7 @@ const initialStepOne: IStateStepOne = {
   ui: {
     button: "Check Local Prices",
     imageLoading: false,
-    loading: "idle"
+    loading: "idle",
   },
 };
 
@@ -30,13 +34,22 @@ export const setModels = createAsyncThunk("get/models", async (make: string) => 
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error("Something went wrong");
+            appInsights.trackTrace({
+              message: `${response.statusText} - Something went wrong getting make: ${make}`,
+              properties: {
+                make: make,
+              },
+              severityLevel: SeverityLevel.Error,
+            });
+
+            throw new Error(`Something went wrong getting make: ${make}`);
           }
         })
         .then((response) => {
           resolve(response);
         })
         .catch((error) => {
+          appInsights.trackException({ exception: error, properties: { make: make } });
           reject(error);
         });
     });
@@ -49,18 +62,27 @@ export const setModels = createAsyncThunk("get/models", async (make: string) => 
 export const setZipCode = createAsyncThunk("get/zipcode", async (zip: string) => {
   if (zip !== "" && zip !== "99999") {
     return new Promise((resolve, reject) => {
-      fetch(`https://us-zipcode.api.smartystreets.com/lookup?auth-id=${config.ssAuthToken}&zipcode=${zip}`)
+      fetch(`https://usssss-zipcode.api.smartystreets.com/lookup?auth-id=${config.ssAuthToken}&zipcode=${zip}`)
         .then((response) => {
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error("Something went wrong");
+            appInsights.trackTrace({
+              message: `${response.statusText} - Something went wrong getting zipcode: ${zip}`,
+              properties: {
+                zip: zip,
+              },
+              severityLevel: SeverityLevel.Error,
+            });
+
+            throw new Error(`Something went wrong getting zipcode: ${zip}`);
           }
         })
         .then((response) => {
           resolve(response);
         })
         .catch((error) => {
+          appInsights.trackException({ exception: error, properties: { zip: zip } });
           reject(error);
         });
     });
