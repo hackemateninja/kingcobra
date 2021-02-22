@@ -1,4 +1,5 @@
 const withSitemap = require("next-with-sitemap");
+const { createSecureHeaders } = require("next-secure-headers");
 
 module.exports = withSitemap({
   sitemap: {
@@ -29,6 +30,7 @@ module.exports = withSitemap({
   },
   async headers() {
     return [
+      { source: "/(.*)", headers: createSecureHeaders() },
       {
         source: "/:path*",
         headers: [
