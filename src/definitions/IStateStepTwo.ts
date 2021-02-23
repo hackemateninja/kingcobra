@@ -13,6 +13,7 @@ interface IDataStepTwo {
   sourceId: string;
   device: "Unknown" | "Mobile" | "Tablet" | "Desktop";
   transactionId: string;
+  sendInfo: boolean;
 }
 
 interface IUIStepTwo {

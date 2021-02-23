@@ -11,7 +11,6 @@ import { IPostLeadParams } from "@/def/IPostLeadParams";
 // Utilities
 import { config } from "@/util/config";
 import { appInsights } from "@/util/app-insights";
-import { mainModule } from "process";
 
 // Initial state
 const initialStepTwo: IStateStepTwo = {
@@ -28,6 +27,7 @@ const initialStepTwo: IStateStepTwo = {
     sourceId: "",
     device: "Unknown",
     transactionId: "",
+    sendInfo: true,
   },
   ui: {
     button: "Get Pricing",
@@ -161,6 +161,9 @@ const stepTwoSlice = createSlice({
     saveTransactionId: (state, action) => {
       state.data.transactionId = action.payload;
     },
+    saveSendInfo: (state, action) => {
+      state.data.sendInfo = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -230,6 +233,7 @@ export const {
   saveFirstSuggested,
   saveShowSuggested,
   saveTransactionId,
+  saveSendInfo,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

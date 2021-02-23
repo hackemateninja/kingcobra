@@ -30,11 +30,13 @@ import Input from "@/comp/form-elements/input";
 import EmailSuggested from "@/comp/email-suggested";
 import AddressAutocomplete from "@/comp/address-autocomplete";
 import { EmailSuggestedAnimation } from "@/comp/email-suggested/style";
+import SendInfo from "@/comp/send-info";
 
 // Styles
 import { InputRow } from "./style";
 import { RootState } from "@/def/TRootReducer";
 
+// Utilities
 import { config } from "@/util/config";
 
 declare const window: any;
@@ -259,10 +261,16 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const submitAction = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     dispatch(setButtonLoading(true));
 
+    const { sendInfo } = stepTwo;
+
+    if (!sendInfo) {
+      return;
+    }
+
     // set error if any field is empty
     for (let i = 0; i < fieldsList.length; i++) {
       const status = fields[fieldsList[i]].status;
-      if ( status === "empty" || status === "error") {
+      if (status === "empty" || status === "error") {
         setError(fieldsList[i]);
         dispatch(setButtonLoading(false));
         return;
@@ -460,7 +468,10 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           handlerBlur={(e) => validateInput(e, "email", saveEmail)}
           handlerFocus={(e) => resetErrors(e.target)}
         />
-        <Button type="submit">{button}</Button>
+        <SendInfo />
+        <Button type="submit" disabled={!stepTwo.sendInfo}>
+          {button}
+        </Button>
       </form>
     </Box>
   );
