@@ -263,10 +263,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
     const { sendInfo } = stepTwo;
 
-    if (!sendInfo) {
-      return;
-    }
-
     // set error if any field is empty
     for (let i = 0; i < fieldsList.length; i++) {
       const status = fields[fieldsList[i]].status;
@@ -277,36 +273,38 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
       }
     }
 
-    const utsValues = JSON.parse(decodeURI(utsCookie));
-    const values: IPostLeadParams = {
-      customer: {
-        firstName: stepTwo.first,
-        lastName: stepTwo.last,
-        address: addressValue,
-        phone: phoneValue,
-        email: emailValue,
-        zip: stepOne.zipcode.zip,
-        city: stepOne.zipcode.city,
-        state: stepOne.zipcode.state,
-      },
-      vehicle: {
-        make: stepOne.selectedMake.name,
-        model: stepOne.selectedModel.name,
-        year: stepOne.selectedModel.year,
-      },
-      sourceId: config.sourceId,
-      selectedDealers: stepTwo.selectedDealers.map((dealer) => ({
-        programId: dealer.programId,
-        dealerId: dealer.id,
-        dealerCode: dealer.dealerCode,
-        distance: dealer.distance,
-      })),
-      device: stepTwo.device,
-      transactionId: stepTwo.transactionId,
-      sessionId: utsValues.utss,
-    };
+    if (sendInfo) {
+      const utsValues = JSON.parse(decodeURI(utsCookie));
+      const values: IPostLeadParams = {
+        customer: {
+          firstName: stepTwo.first,
+          lastName: stepTwo.last,
+          address: addressValue,
+          phone: phoneValue,
+          email: emailValue,
+          zip: stepOne.zipcode.zip,
+          city: stepOne.zipcode.city,
+          state: stepOne.zipcode.state,
+        },
+        vehicle: {
+          make: stepOne.selectedMake.name,
+          model: stepOne.selectedModel.name,
+          year: stepOne.selectedModel.year,
+        },
+        sourceId: config.sourceId,
+        selectedDealers: stepTwo.selectedDealers.map((dealer) => ({
+          programId: dealer.programId,
+          dealerId: dealer.id,
+          dealerCode: dealer.dealerCode,
+          distance: dealer.distance,
+        })),
+        device: stepTwo.device,
+        transactionId: stepTwo.transactionId,
+        sessionId: utsValues.utss,
+      };
 
-    dispatch(postLeads(values));
+      dispatch(postLeads(values));
+    }
 
     props.onSubmit(e);
     dispatch(setButtonLoading(false));
@@ -469,9 +467,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           handlerFocus={(e) => resetErrors(e.target)}
         />
         <SendInfo />
-        <Button type="submit" disabled={!stepTwo.sendInfo}>
-          {button}
-        </Button>
+        <Button type="submit">{button}</Button>
       </form>
     </Box>
   );
