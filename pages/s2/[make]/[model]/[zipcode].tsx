@@ -58,7 +58,6 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const month = useSelector((state: RootState) => state.site.month);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
   const stepTwoUi = useSelector((state: RootState) => state.stepTwo.ui);
-  const utsCookie = Cookies.get("uts-session");
 
   const { models, make, model, zip, ua } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
@@ -115,7 +114,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   };
 
   useEffect(() => {
-    const utsValues = JSON.parse(decodeURI(utsCookie));
+    const utsCookie = Cookies.get("uts-session");
+    const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
 
     month.length === 0 && dispatch(setMonth());
     dispatch(setMakes(makes));
@@ -129,7 +129,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         sourceId: stepTwo.sourceId || config.sourceId,
         year: model.year,
         zip: zip,
-        sessionId: utsValues.utss,
+        sessionId: utsValues?.utss,
       })
     );
   }, []);

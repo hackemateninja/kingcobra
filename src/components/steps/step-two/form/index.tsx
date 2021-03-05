@@ -56,7 +56,6 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
-  const utsCookie = Cookies.get("uts-session");
 
   // form validation initialization
 
@@ -274,7 +273,8 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     }
 
     if (sendInfo) {
-      const utsValues = JSON.parse(decodeURI(utsCookie));
+      const utsCookie = Cookies.get("uts-session");
+      const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
       const values: IPostLeadParams = {
         customer: {
           firstName: stepTwo.first,
@@ -300,7 +300,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         })),
         device: stepTwo.device,
         transactionId: stepTwo.transactionId,
-        sessionId: utsValues.utss,
+        sessionId: utsValues?.utss,
       };
 
       dispatch(postLeads(values));
