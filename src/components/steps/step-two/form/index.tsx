@@ -291,7 +291,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           model: stepOne.selectedModel.name,
           year: stepOne.selectedModel.year,
         },
-        sourceId: config.sourceId,
+        sourceId: stepTwo.sourceId || config.sourceId,
         selectedDealers: stepTwo.selectedDealers.map((dealer) => ({
           programId: dealer.programId,
           dealerId: dealer.id,

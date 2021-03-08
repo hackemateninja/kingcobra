@@ -152,7 +152,6 @@ const stepOneSlice = createSlice({
           const zip = zc.zipcode;
 
           state.data.zipcode = { city, state: st, zip };
-          state.data.zipcode = { city, state: st, zip };
         } else {
           state.data.zipcode = {};
         }

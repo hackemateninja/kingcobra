@@ -21,7 +21,7 @@ import DefaultLayout from "@/layout/default";
 
 // Slices
 import { setMonth } from "@/redux/slices/site";
-import { saveModels, saveZipCode, setMakes, setSelectedMake, setSelectedModel } from "@/redux/slices/step-one";
+import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
 import { saveDeviceType, setDealers } from "@/redux/slices/step-two";
 import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from "@/redux/slices/thankyou";
 
@@ -48,7 +48,6 @@ const zipRegex = /^\d{5}$|^\d{5}$/;
 const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [zipcode, setZipcode] = useState({ city: null, state: null, zip: props.zip });
 
   if (!props.make || !props.model || !props.zip || !zipRegex.test(props.zip)) {
     return <Redirect />;
@@ -58,6 +57,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const month = useSelector((state: RootState) => state.site.month);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
   const stepTwoUi = useSelector((state: RootState) => state.stepTwo.ui);
+  const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
 
   const { models, make, model, zip, ua } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
@@ -86,25 +86,10 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    async function validateZipCode() {
-      const ssAPI = `https://us-zipcode.api.smartystreets.com/lookup?auth-id=${config.ssAuthToken}&zipcode=${props.zip}`;
-      const resZipCode = await fetch(ssAPI);
-      const jsonZipCode = await resZipCode.json();
-      const ssData = jsonZipCode[0];
-      if (ssData.status === undefined) {
-        const zcData = ssData.zipcodes[0];
-        setZipcode({ city: zcData.default_city, state: zcData.state_abbreviation, zip: props.zip });
-      }
-    }
-
     if (dealers.length) {
-      validateZipCode();
+      dispatch(setZipCode(props.zip));
     }
   }, [dealers]);
-
-  useEffect(() => {
-    dispatch(zipcode.city !== null ? saveZipCode(zipcode) : saveZipCode({}));
-  }, [zipcode]);
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(setSelectedMakeTYP(props.make));
@@ -133,6 +118,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
       })
     );
   }, []);
+
+  const city = zipcode.zip && `${zipcode.city}, ${zipcode.state} ${zipcode.zip}`;
 
   return (loading === "failed" || loading === "succeeded") && !coverage ? (
     <>
@@ -163,12 +150,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
           </Title>
         </Display>
         <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
-        <StepTwo
-          model={model}
-          city={`${zipcode.city}, ${zipcode.state} ${zipcode.zip}`}
-          zipcode={props.zip}
-          onSubmit={handlerSubmit}
-        />
+        <StepTwo model={model} city={city} zipcode={props.zip} onSubmit={handlerSubmit} />
       </DefaultLayout>
       {useScript("")}
     </ThemeProvider>
