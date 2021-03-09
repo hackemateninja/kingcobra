@@ -1,14 +1,15 @@
 // Packages
 import { useEffect } from "react";
+import { GetServerSideProps, GetStaticProps } from "next";
 import { ThemeProvider } from "styled-components";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-
-// Data
-import { makes } from "@/data/makes";
+import { config } from "@/util/config";
 
 // Definitions
 import { RootState } from "@/def/TRootReducer";
+import { IMake } from "@/def/IMake";
+import { IPlainObject } from "@/def/IPlainObject";
 
 // Slices
 import { setMakes } from "@/redux/slices/step-one";
@@ -43,10 +44,9 @@ const listingInfo = [
   },
 ];
 
-export default function Thanks() {
+const Thanks: React.FC<IPlainObject> = (props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  let image: string;
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const { prefix, separator } = metadata.thankyou;
@@ -61,33 +61,27 @@ export default function Thanks() {
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
   const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
-
-  if (model.image !== undefined) {
-    image = model.pngImg !== undefined ? model.pngImg : model.image;
-  } else {
-    image = "/defaultImage.png";
-  }
+  const image = model.imagePng ?? model.imageJpg ?? "/defaultImage.png";
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     let url: string;
 
     if (zipcode === undefined) {
-      url = `/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/`;
+      url = `/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/`;
     } else {
-      url = `/s2/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/${zipcode}?sl=true`;
+      url = `/s2/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/${zipcode}?sl=true`;
     }
 
     router.push(url);
   };
 
   useEffect(() => {
-    dispatch(setMakes(makes));
-
+    dispatch(setMakes(props.makes));
     dispatch(setSelectedMakes([...selectedMakes, make]));
   }, []);
 
-  const values = selectedMakes.map(m => m.value);
-  const makesList = makes.filter((m) => !values.includes(m.value));
+  const values = selectedMakes.map((m) => m.seoName);
+  const makesList = props.makes.filter((m) => !values.includes(m.seoName));
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -112,4 +106,11 @@ export default function Thanks() {
       <SVGs />
     </ThemeProvider>
   );
-}
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  return { props: { makes }, revalidate: 86400 };
+};
+
+export default Thanks;

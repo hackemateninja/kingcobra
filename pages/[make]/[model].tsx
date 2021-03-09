@@ -1,25 +1,21 @@
 // Packages
 import { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import absoluteUrl from "next-absolute-url";
-
-// Data
-import { makes } from "@/data/makes";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 import { IPreload } from "@/def/IMetaData";
 import { IModel } from "@/def/IModel";
+import { IMake } from "@/def/IMake";
 
 // Layout
 import DefaultLayout from "@/layout/default";
 
 // Slices
-import { setMonth } from "@/redux/slices/site";
 import { setMakes, setSelectedMake, saveModels, setSelectedModel } from "@/redux/slices/step-one";
 
 // Components
@@ -34,6 +30,10 @@ import MetaData from "@/comp/meta-data";
 import setSuffix from "@/util/suffix";
 import combineAnS from "@/util/combine-ans";
 import setPrefix from "@/util/prefix";
+import { config } from "@/util/config";
+import getYear from "@/util/get-year";
+import getMonth from "@/util/get-month";
+import randomizer from "@/util/random-quotes";
 
 // Styles
 import GlobalStyles from "@/theme/global";
@@ -48,35 +48,33 @@ const Home: React.FC<IPlainObject> = (props) => {
   }
 
   if (!props.model) {
-    return <RedirectModel make={props.make.value} />;
+    return <RedirectModel make={props.make.seoName} />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
-  const month = useSelector((state: RootState) => state.site.month);
   const { prefix, separator, description, keywordsPnS } = metadata.model;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
     const { zip } = zipcode;
     window.open(
-      `/s2/${selectedMake.value}/${selectedModel.value}/${zip}`,
+      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`,
       "",
       `width=${screen.width},height=${screen.height}`
     );
 
-    router.push(`/fas/${selectedMake.value}/${selectedModel.value}/${zip}`);
+    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`);
   };
 
-  useEffect(() => {
-    month.length === 0 && dispatch(setMonth());
-    dispatch(setMakes(makes));
-    dispatch(setSelectedMake(make.value));
-    dispatch(saveModels(models));
-    dispatch(setSelectedModel(model.value));
-  }, []);
+  const { makes, models, make, model } = props;
 
-  const { models, make, model } = props;
+  useEffect(() => {
+    dispatch(setMakes(makes));
+    dispatch(setSelectedMake(make.seoName));
+    dispatch(saveModels(models));
+    dispatch(setSelectedModel(model.seoName));
+  }, []);
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -84,14 +82,17 @@ const Home: React.FC<IPlainObject> = (props) => {
   const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
   const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
   const keys = `${prekeys}, ${sufkeys}`;
-  const preload: IPreload[] = [{ elem: props.model.image, type: "image" }];
+  const preload: IPreload[] = [
+    { elem: props.model.imageJpg, type: "image" },
+    { elem: props.model.smallJpg, type: "image" },
+  ];
 
   return (
     <>
       <ThemeProvider theme={CarcomTheme}>
         <MetaData title={title} description={desc} keywords={keys} preload={preload} />
         <GlobalStyles />
-        <DefaultLayout>
+        <DefaultLayout year={props.year} month={props.month}>
           <Title>Huge Markdowns on {name} This Month!</Title>
           <SubTitle>
             Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
@@ -99,10 +100,11 @@ const Home: React.FC<IPlainObject> = (props) => {
           <StepOne
             makes={makes}
             models={models}
-            make={make.value}
-            model={model.value}
-            image={model.image}
+            make={make.seoName}
+            model={model.seoName}
+            image={model.imageJpg}
             onSubmit={handlerSubmit}
+            quotes={props.quotes}
           />
         </DefaultLayout>
       </ThemeProvider>
@@ -110,23 +112,36 @@ const Home: React.FC<IPlainObject> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { origin } = absoluteUrl(context.req, context.req.headers.host);
-  const make = makes.filter((item) => item.value === context.query.make);
-  let models: IModel[] = [];
-  let model: IModel[] = [];
+export const getStaticPaths: GetStaticPaths = async () => {
+  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  const models = await fetch(`${config.apiBaseUrl}/api/models`).then<IModel[]>((r) => r.json());
+  const paths = models.map((model: IModel) => {
+    const make = makes.find((m) => m.id === model.makeId);
+    return { params: { make: make.seoName, model: model.seoName } };
+  });
 
-  if (make.length) {
-    const response = await fetch(`${origin}/api/models/${context.query.make}`);
-    models = await response.json();
-    model = models.filter((item) => item.value === context.query.model);
-  }
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const makes: IMake[] = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const make = makes.find((item) => item.seoName === params.make);
+  const models: IModel[] = await fetch(`${config.apiBaseUrl}/api/models/`).then((r) => r.json());
+  const model = models.find((item) => item.seoName === params.model);
+
+  const year = getYear();
+  const month = getMonth();
+  const quotes = randomizer();
 
   return {
     props: {
+      makes,
       models,
-      make: make.length !== 0 ? make[0] : null,
-      model: model.length !== 0 ? model[0] : null,
+      make,
+      model,
+      year,
+      month,
+      quotes,
     },
   };
 };

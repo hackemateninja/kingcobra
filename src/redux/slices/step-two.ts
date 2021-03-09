@@ -204,6 +204,7 @@ const stepTwoSlice = createSlice({
 
     builder.addCase(setDealers.rejected, (state) => {
       state.data.dealers = [];
+      state.data.coverage = false;
       state.ui.loading = "failed";
     });
 

@@ -4,15 +4,10 @@ import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import absoluteUrl from "next-absolute-url";
 import useScript from "@/src/hooks/useScript";
 import { useUserAgent } from "next-useragent";
-// import Cookies from "js-cookie";
 import * as cookie from "cookie";
 import { SeverityLevel } from "@microsoft/applicationinsights-web";
-
-// Data
-import { makes } from "@/data/makes";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -43,6 +38,8 @@ import combineAnS from "@/util/combine-ans";
 import setPrefix from "@/util/prefix";
 import { config } from "@/util/config";
 import { appInsights } from "@/util/app-insights";
+import getYear from "@/util/get-year";
+import getMonth from "@/util/get-month";
 
 // Styles
 import GlobalStyles from "@/theme/global";
@@ -62,7 +59,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const month = useSelector((state: RootState) => state.site.month);
   const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
 
-  const { models, make, model, ua, dealers } = props;
+  const { makes, models, make, model, ua, dealers } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
 
   const name = `${make.name} ${model.name}`;
@@ -116,11 +113,10 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   };
 
   useEffect(() => {
-    month.length === 0 && dispatch(setMonth());
     dispatch(setMakes(makes));
     dispatch(saveModels(models));
-    dispatch(setSelectedMake(make.value));
-    dispatch(setSelectedModel(model.value));
+    dispatch(setSelectedMake(make.seoName));
+    dispatch(setSelectedModel(model.seoName));
     if (dealers) {
       dispatch(saveDealers(dealers));
       dispatch(setZipCode(props.zip));
@@ -133,7 +129,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     <ThemeProvider theme={CarcomTheme}>
       <MetaData title={title} description={desc} keywords={keys} />
       <GlobalStyles />
-      <DefaultLayout>
+      <DefaultLayout year={props.year} month={props.month}>
         <Display hide="mobile">
           <Title>
             Yes! We Located {make.name} {model.name} Internet Deals
@@ -152,25 +148,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const utsCookie = cookies["uts-session"];
   const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
 
-  const { origin } = absoluteUrl(context.req, context.req.headers.host);
   const cxtMake = context.query.make;
   const cxtModel = context.query.model;
   const cxtZip = context.query.zipcode;
   const secondary = context.query.sl;
 
-  const make = makes.find((item) => item.value === cxtMake);
+  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const make = makes.find((item) => item.seoName === cxtMake);
 
-  let models = [];
-  let model: IModel;
-  if (make) {
-    models = await fetch(`${origin}/api/models/${cxtMake}`).then<IModel[]>((r) => r.json());
-    model = models.find((item) => item.value === cxtModel);
-  }
+  const models = await fetch(`${config.apiBaseUrl}/api/models/${cxtMake}`).then<IModel[]>((r) => r.json());
+  const model = models.find((item) => item.seoName === cxtModel);
 
   const sourceId = secondary ? config.altSourceId : config.sourceId;
   const url = `${config.apiBaseUrl}/api/dealers?sourceId=${sourceId}
-    &make=${encodeURIComponent(make.name)}&model=${encodeURIComponent(model.name)}
-    &year=${model.year}&zip=${cxtZip}&sessionId=${utsValues?.utss}`;
+    &make=${encodeURIComponent(make?.name)}&model=${encodeURIComponent(model?.name)}
+    &year=${model?.year}&zip=${cxtZip}&sessionId=${utsValues?.utss}`;
 
   const dealers = await fetch(url)
     .then<IMldDealersResponse>((r) => r.json())
@@ -188,15 +180,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return { coverage: false, dealers: [] };
     });
 
+  const year = getYear();
+  const month = getMonth();
+
   return {
     props: {
+      makes,
       models,
-      make,
-      model,
+      make: make || null,
+      model: model || null,
       zip: cxtZip,
       ua,
       useragent: ua.source,
       dealers,
+      year,
+      month,
     },
   };
 };

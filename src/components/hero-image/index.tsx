@@ -17,35 +17,30 @@ import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from "./style";
 
 const HeroImage: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
-  const [image, setImage] = useState(props.image || "/hero-image.jpg");
 
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
   const loading = useSelector((state: RootState) => state.stepOne.ui.imageLoading);
 
-  useEffect(() => {
-    if (make.image !== undefined) {
-      setImage(make.image);
-    }
+  const hanlderLoading = () => {
+    dispatch(isLoading(false));
+  };
 
-    dispatch(isLoading(false))
-  }, [make]);
-
-  useEffect(() => {
-    if (model.image !== undefined) {
-      setImage(model.image);
-    }    
-
-    dispatch(isLoading(false))
-  }, [model]);
-
-  const hanlderLoading = () => dispatch(isLoading(false));
+  const image = model.imageJpg ?? make.imageJpg ?? props.image ?? "/hero-image.jpg";
+  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? "/mobile-hero-image.jpg";
 
   return (
     <HeroImageWrapper>
       <HeroImageContainer>
         <HeroImageCover>
-          <img onLoad={hanlderLoading} src={image} decoding="async" alt="Hero image" />
+          <img
+            onLoad={hanlderLoading}
+            sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
+            srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
+            src={image}
+            decoding="async"
+            alt="Hero image"
+          />
         </HeroImageCover>
       </HeroImageContainer>
       {loading && <Loader />}

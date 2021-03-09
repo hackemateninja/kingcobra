@@ -1,15 +1,12 @@
-interface IMSRP {
-  min_msrp: number;
-  max_msrp: number;
-}
-
 export interface IModel {
   id?: number;
+  makeId?: number;
   name?: string;
-  value?: string;
-  year?: string;
-  msrp_range?: IMSRP;
-  image?: string;
-  pngImg?: string;
-  rank?: number;
+  seoName?: string;
+  year?: number;
+  msrp?: number;
+  imageJpg?: string;
+  smallJpg?: string;
+  imagePng?: string;
+  smallPng?: string;
 }

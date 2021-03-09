@@ -13,9 +13,9 @@ import Container from "../../components/container";
 const DefaultLayout: React.FC<IPlainObject> = (props) => {
   return (
     <>
-      <Header />
+      <Header month={props.month} />
       <Container>{props.children}</Container>
-      <Footer />
+      <Footer year={props.year} />
       <SVGs />
     </>
   );

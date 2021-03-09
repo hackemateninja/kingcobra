@@ -44,7 +44,7 @@ const Select: React.FC<ISelect> = (props) => {
         <option value="">Select a {props.label}</option>
         {props.options &&
           props.options.map((option: IMake | IModel, index: number) => (
-            <option key={index} id={`${option.id}`} value={option.value}>
+            <option key={index} id={`${option.id}`} value={option.seoName}>
               {option.name}
             </option>
           ))}

@@ -29,7 +29,8 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   const { button } = stepOne.ui;
 
   // Fill Models Select
-  const { makes, models, zipcode } = stepOne.data;
+  const { models, zipcode } = stepOne.data;
+  const { makes } = props;
 
   const valueMake = props.make !== undefined ? props.make : "";
   const valueModel = props.model !== undefined ? props.model : "";

@@ -1,11 +1,9 @@
 // Packages
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import { useSelector } from 'react-redux';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
 
 // Components
 import Container from '../container';
@@ -14,8 +12,8 @@ import Container from '../container';
 import { HeaderWrapper, HeaderLogo, HeaderContent, HeaderTitle, HeaderText, HeaderTitleBox } from './style';
 
 const Header: React.FC<IPlainObject> = (props) => {
-	const month = useSelector(( state: RootState ) => state.site.month );
 	const themeContext = useContext(ThemeContext);
+	const { month } = props;
 
 	return (
 		<HeaderWrapper>

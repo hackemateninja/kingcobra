@@ -27,12 +27,14 @@ const FAS: React.FC<IPlainObject> = (props) => {
 
   const router = useRouter();
 
+  const { make: ctxMake, model: ctxModel, zip } = router.query;
+
   useEffect(() => {
-    router.query.rd && window.AutoWeb.reload(make.name, model.name, props.zip);
+    router.query.rd && window.AutoWeb.reload(make.name, model.name, zip);
   }, [router]);
 
-  const makeName = make?.name || props.make;
-  const modelName = model?.name || props.model;
+  const makeName = make?.name || ctxMake;
+  const modelName = model?.name || ctxModel;
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -55,7 +57,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
             `" aw-model="` +
             modelName +
             `" aw-zipcode="` +
-            props.zip +
+            zip +
             `"></div>`,
         }}
       ></div>
@@ -63,20 +65,6 @@ const FAS: React.FC<IPlainObject> = (props) => {
       {buttonClick && <RedirectFas make={make.name} model={model.name} zip={props.zip} />}
     </ThemeProvider>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cxtMake = context.query.make;
-  const cxtModel = context.query.model;
-  const cxtZip = context.query.zipcode;
-
-  return {
-    props: {
-      make: cxtMake,
-      model: cxtModel,
-      zip: cxtZip,
-    },
-  };
 };
 
 export default FAS;

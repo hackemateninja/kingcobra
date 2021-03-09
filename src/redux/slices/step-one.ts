@@ -29,7 +29,7 @@ const initialStepOne: IStateStepOne = {
 export const setModels = createAsyncThunk("get/models", async (make: string) => {
   if (make !== "") {
     return new Promise((resolve, reject) => {
-      fetch(`${window.location.origin}/api/models/${make}`)
+      fetch(`${config.apiBaseUrl}/api/models/${make}`)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -105,18 +105,18 @@ const stepOneSlice = createSlice({
       state.data.makes = action.payload;
     },
     setSelectedMake: (state, action) => {
-      const make = state.data.makes.filter((make) => make.value === action.payload);
+      state.ui.imageLoading = true;
+      const make = state.data.makes.filter((make) => make.seoName === action.payload);
 
       state.data.selectedModel = {};
       state.data.selectedMake = make.length !== 0 ? make[0] : {};
       state.data.models = action.payload === "" ? [] : state.data.models;
-      state.ui.imageLoading = true;
     },
     setSelectedModel: (state, action) => {
-      const model = state.data.models.filter((model) => model.value === action.payload);
+      const model = state.data.models.filter((model) => model.seoName === action.payload);
 
       state.data.selectedModel = model.length !== 0 ? model[0] : {};
-      state.ui.imageLoading = state.data.selectedMake.image !== state.data.selectedModel.image ? true : false;
+      state.ui.imageLoading = state.data.selectedMake.imageJpg !== state.data.selectedModel.imageJpg ? true : false;
     },
     saveModels: (state, action) => {
       state.data.models = action.payload;

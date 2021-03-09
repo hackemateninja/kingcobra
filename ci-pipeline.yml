@@ -1,16 +1,29 @@
 pool:
-  vmImage: 'windows-latest'
+  vmImage: "windows-latest"
+
+variables:
+  yarn_cache_folder: $(Pipeline.Workspace)/.yarn
+  next_cache: $(System.DefaultWorkingDirectory)/.next/cache
 
 steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "14.x"
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '14.x'
+  - script: yarn --frozen-lockfile
+    displayName: Yarn Install
 
-- script: npm install --legacy-peer-deps
-  
-- script: npm audit --audit-level=high
+  - script: yarn audit --audit-level=high
+    displayName: Yarn Audit
 
-- script: npm install -g win-node-env
+  - script: npm install -g win-node-env
+    displayName: Install win-node-env
 
-- script: npm run build
+  - task: Cache@2
+    inputs:
+      key: next | $(Agent.OS) | yarn.lock
+      path: $(next_cache)
+    displayName: NextJS Cache
+
+  - script: yarn build
+    displayName: NextJS Build

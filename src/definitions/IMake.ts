@@ -1,6 +1,7 @@
 export interface IMake {
-	id?: number,
-	name?: string,
-	value?: string,
-	image?: string
+  id?: number;
+  name?: string;
+  seoName?: string;
+  imageJpg?: string;
+  smallJpg?: string;
 }

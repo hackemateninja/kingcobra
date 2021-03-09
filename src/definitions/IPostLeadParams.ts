@@ -12,7 +12,7 @@ export interface IPostLeadParams {
   vehicle: {
     make: string;
     model: string;
-    year: string;
+    year: number;
   };
   sourceId: string;
   selectedDealers: ISelectedDealers[];

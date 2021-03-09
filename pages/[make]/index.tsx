@@ -2,23 +2,21 @@
 import { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-
-// Data
-import { makes } from "@/data/makes";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 import { IPreload } from "@/def/IMetaData";
+import { IMake } from "@/def/IMake";
+import { IModel } from "@/def/IModel";
 
 // Layout
 import DefaultLayout from "@/layout/default";
 
 // Slices
-import { setMakes, setModels, setSelectedMake } from "@/redux/slices/step-one";
-import { setMonth } from "@/redux/slices/site";
+import { setMakes, setSelectedMake, saveModels } from "@/redux/slices/step-one";
 
 // Components
 import MetaData from "@/comp/meta-data";
@@ -31,6 +29,10 @@ import SubTitle from "@/comp/subtitle";
 import setSuffix from "@/util/suffix";
 import combineAnS from "@/util/combine-ans";
 import setPrefix from "@/util/prefix";
+import { config } from "@/util/config";
+import getYear from "@/util/get-year";
+import getMonth from "@/util/get-month";
+import randomizer from "@/util/random-quotes";
 
 // Styles
 import GlobalStyles from "@/theme/global";
@@ -46,10 +48,9 @@ const Make: React.FC<IPlainObject> = (props) => {
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
-  const month = useSelector((state: RootState) => state.site.month);
   const { prefix, separator, description, keywordsPnS } = metadata.make;
 
-  const { name, value, image } = props.make !== null ? props.make : { name: null, value: null, image: null };
+  const { name, seoName, imageJpg } = props.make !== null ? props.make : { name: null, seoName: null, imageJpg: null };
 
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
@@ -61,45 +62,68 @@ const Make: React.FC<IPlainObject> = (props) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
     const { zip } = zipcode;
     window.open(
-      `/s2/${selectedMake.value}/${selectedModel.value}/${zip}`,
+      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`,
       "",
       `width=${screen.width},height=${screen.height}`
     );
 
-    router.push(`/fas/${selectedMake.value}/${selectedModel.value}/${zip}`);
+    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`);
   };
 
   useEffect(() => {
-    month.length === 0 && dispatch(setMonth());
-    dispatch(setMakes(makes));
-    dispatch(setSelectedMake(value));
-    dispatch(setModels(value));
+    dispatch(setMakes(props.makes));
+    dispatch(setSelectedMake(seoName));
+    dispatch(saveModels(props.models));
   }, []);
 
-  const preload: IPreload[] = [{ elem: props.make?.image, type: "image" }];
+  const preload: IPreload[] = [
+    { elem: props.make.imageJpg, type: "image" },
+    { elem: props.make.smallJpg, type: "image" },
+  ];
+
   return (
     <>
       <ThemeProvider theme={CarcomTheme}>
         <MetaData title={title} description={desc} keywords={keys} preload={preload} />
         <GlobalStyles />
-        <DefaultLayout>
+        <DefaultLayout year={props.year} month={props.month}>
           <Title>Huge Markdowns on {name} This Month!</Title>
           <SubTitle>
             Compare Prices from Multiple {name} Dealers and <strong>Get the Lowest Price</strong>
           </SubTitle>
-          <StepOne makes={makes} make={value} image={image} onSubmit={handlerSubmit} />
+          <StepOne makes={props.makes} make={seoName} image={imageJpg} onSubmit={handlerSubmit} quotes={props.quotes} />
         </DefaultLayout>
       </ThemeProvider>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const make = makes.filter((item) => item.value === context.query.make);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  const paths = makes.map((make: IMake) => ({
+    params: { make: make.seoName },
+  }));
+
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const makes: IMake[] = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const models: IModel[] = await fetch(`${config.apiBaseUrl}/api/models/${params.make}`).then((r) => r.json());
+  const make = makes.find((item) => item.seoName === params.make);
+
+  const year = getYear();
+  const month = getMonth();
+  const quotes = randomizer();
 
   return {
     props: {
-      make: make.length !== 0 ? make[0] : null,
+      makes,
+      make,
+      models,
+      year,
+      month,
+      quotes,
     },
   };
 };

@@ -22,7 +22,7 @@ declare const window: any;
 
 const Footer: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
-  const year = useSelector((state: RootState) => state.site.year);
+  const { year } = props;
   const modal = useSelector((state: RootState) => state.site.ui.modal);
   const modalType = useSelector((state: RootState) => state.site.ui.modalType);
 
@@ -41,8 +41,6 @@ const Footer: React.FC<IPlainObject> = (props) => {
   };
 
   useEffect(() => {
-    dispatch(setYear());
-
     window.__dcid = (function (__dcid, d) {
       __dcid.push(["DigiCertClickID_3shh8DtJ", "3", "m", "black", "3shh8DtJ"]);
       var cid = d.createElement("script");
