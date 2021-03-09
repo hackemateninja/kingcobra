@@ -24,14 +24,15 @@ const FAS: React.FC<IPlainObject> = (props) => {
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
   const buttonClick = useSelector((state: RootState) => state.thankyou.ui.buttonClick);
-  const date = new Date();
-  const ms = date.getMilliseconds();
 
   const router = useRouter();
 
   useEffect(() => {
-    router.query.rd && window.AutoWeb.reload(make.value, model.value, props.zip);
+    router.query.rd && window.AutoWeb.reload(make.name, model.name, props.zip);
   }, [router]);
+
+  const makeName = make?.name || props.make;
+  const modelName = model?.name || props.model;
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -50,16 +51,16 @@ const FAS: React.FC<IPlainObject> = (props) => {
         dangerouslySetInnerHTML={{
           __html:
             `<div class="awlistings" aw-implement="1505" aw-category="1" aw-make="` +
-            props.make +
+            makeName +
             `" aw-model="` +
-            props.model +
+            modelName +
             `" aw-zipcode="` +
             props.zip +
             `"></div>`,
         }}
       ></div>
       {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
-      {buttonClick && <RedirectFas make={make.value} model={model.value} zip={props.zip} />}
+      {buttonClick && <RedirectFas make={make.name} model={model.name} zip={props.zip} />}
     </ThemeProvider>
   );
 };

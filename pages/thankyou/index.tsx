@@ -74,7 +74,7 @@ export default function Thanks() {
     if (zipcode === undefined) {
       url = `/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/`;
     } else {
-      url = `/s2/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/${zipcode}`;
+      url = `/s2/${selectedInfo.selectedMake.value}/${selectedInfo.selectedModel.value}/${zipcode}?sl=true`;
     }
 
     router.push(url);

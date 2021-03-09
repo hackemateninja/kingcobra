@@ -13,9 +13,6 @@ import { setBoxActive } from "@/redux/slices/step-two";
 // Components
 import FormTwo from "../form";
 import DealersBox from "../dealers";
-import Box from "@/comp/box";
-import DealersSkeleton from "@/comp/dealers/skeleton";
-import Display from "@/comp/container/display";
 
 // Styles
 import { StepBoxWrapper } from "./style";
@@ -24,7 +21,6 @@ const StepBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const boxActive = useSelector((state: RootState) => state.stepTwo.ui.boxActive);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.dealers);
-  const ui = useSelector((state: RootState) => state.stepTwo.ui);
 
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => dispatch(setBoxActive("form"));
 
@@ -32,23 +28,7 @@ const StepBox: React.FC<IPlainObject> = (props) => {
     dispatch(setBoxActive("dealers"));
   }, []);
 
-  const loading: boolean = ui.loading === "idle" || ui.loading === "pending";
-  const one: boolean = loading || dealers.length === 1;
-
-  if (loading) {
-    return (
-      <StepBoxWrapper one={false}>
-        <Box step="2" totalSteps="3" title={"Choose Your Dealers"}>
-          <Display hide="mobile">
-            <DealersSkeleton />
-          </Display>
-          <Display hide="desktop">
-            <DealersSkeleton onlyOne />
-          </Display>
-        </Box>
-      </StepBoxWrapper>
-    );
-  }
+  const one: boolean = dealers.length === 1;
 
   return (
     <StepBoxWrapper one={one} active={boxActive}>

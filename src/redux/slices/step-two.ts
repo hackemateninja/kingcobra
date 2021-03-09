@@ -143,8 +143,18 @@ const stepTwoSlice = createSlice({
     saveSourceId: (state, action) => {
       state.data.sourceId = action.payload;
     },
-    setDealers: (state, action) => {
-      state.data.dealers = action.payload;
+    saveDealers: (state, action) => {
+      const { dealers, coverage, transactionID } = action.payload;
+      state.data.dealers = dealers.map((dealer) => ({
+        ...dealer,
+        id: dealer.dealerID,
+        programId: dealer.programID,
+        isChecked: dealer.programID === 1 || dealer.programID === 127,
+      }));
+
+      state.data.selectedDealers = state.data.dealers.filter((d: IDealer) => d.isChecked);
+      state.data.coverage = coverage;
+      state.data.transactionId = transactionID;
     },
     postLeads: (state, action) => {
       state.data.leadDealers = action.payload;
@@ -228,6 +238,7 @@ export const {
   savePhoneNumber,
   saveAddress,
   saveEmail,
+  saveDealers,
   saveSourceId,
   saveDeviceType,
   saveFirstSuggested,
