@@ -126,7 +126,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const makes: IMake[] = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
   const make = makes.find((item) => item.seoName === params.make);
-  const models: IModel[] = await fetch(`${config.apiBaseUrl}/api/models/`).then((r) => r.json());
+  const models: IModel[] = await fetch(`${config.apiBaseUrl}/api/models/${params.make}`).then((r) => r.json());
   const model = models.find((item) => item.seoName === params.model);
 
   const year = getYear();
