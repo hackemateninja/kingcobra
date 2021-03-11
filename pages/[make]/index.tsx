@@ -77,7 +77,7 @@ const Make: React.FC<IPlainObject> = (props) => {
   }, []);
 
   const preload: IPreload[] = [
-    // { elem: props.make.imageJpg, type: "image" },
+    { elem: props.make.imageJpg, type: "image" },
     { elem: props.make.smallJpg, type: "image" },
   ];
 

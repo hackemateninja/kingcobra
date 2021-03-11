@@ -59,10 +59,7 @@ const Home: React.FC<IPlainObject> = (props) => {
     dispatch(setMakes(props.makes));
   }, []);
 
-  const preload: IPreload[] = [
-    { type: "image", elem: "/hero-image.jpg" },
-    { type: "image", elem: "/mobile-hero-image.jpg" },
-  ];
+  const preload: IPreload[] = [{ type: "image", elem: "/hero-image.jpg" }];
 
   return (
     <ThemeProvider theme={CarcomTheme}>
