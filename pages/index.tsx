@@ -73,7 +73,7 @@ const Home: React.FC<IPlainObject> = (props) => {
         <SubTitle>
           Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
         </SubTitle>
-        <StepOne onSubmit={handlerSubmit} makes={props.makes} image={"/hero-image.jpg"} quotes={props.quotes} />
+        <StepOne onSubmit={handlerSubmit} makes={props.makes} image="/hero-image.jpg" quotes={props.quotes} />
       </DefaultLayout>
     </ThemeProvider>
   );

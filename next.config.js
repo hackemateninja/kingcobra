@@ -65,4 +65,7 @@ module.exports = withSitemap({
       },
     ];
   },
+  experimental: {
+    optimizeCss: true,
+  },
 });

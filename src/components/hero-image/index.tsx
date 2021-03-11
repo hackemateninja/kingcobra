@@ -27,7 +27,7 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
   };
 
   const image = model.imageJpg ?? make.imageJpg ?? props.image ?? "/hero-image.jpg";
-  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? "/mobile-hero-image.jpg";
+  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? "/hero-image.jpg";
 
   return (
     <HeroImageWrapper>
@@ -37,7 +37,7 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
             onLoad={hanlderLoading}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
             srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
-            src={image}
+            src={smallImage}
             decoding="async"
             alt="Hero image"
           />

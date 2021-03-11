@@ -46,7 +46,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <script dangerouslySetInnerHTML={{ __html: loadVWO }} />
+          {/* <script dangerouslySetInnerHTML={{ __html: loadVWO }} /> */}
           <script
             dangerouslySetInnerHTML={{
               __html: `
