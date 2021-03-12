@@ -18,7 +18,7 @@ module.exports = withSitemap({
       "/s2/",
       "/thankyou/",
     ],
-    robots: false,
+    robots: true,
   },
   target: "serverless",
   images: {

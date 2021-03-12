@@ -38,7 +38,6 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
             srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
             src={smallImage}
-            decoding="async"
             alt="Hero image"
           />
         </HeroImageCover>

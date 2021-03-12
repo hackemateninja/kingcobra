@@ -102,7 +102,8 @@ const Home: React.FC<IPlainObject> = (props) => {
             models={models}
             make={make.seoName}
             model={model.seoName}
-            image={model.smallJpg}
+            image={model.imageJpg}
+            smallImage={model.smallJpg}
             onSubmit={handlerSubmit}
             quotes={props.quotes}
           />

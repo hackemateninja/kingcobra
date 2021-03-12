@@ -50,7 +50,7 @@ const Make: React.FC<IPlainObject> = (props) => {
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const { prefix, separator, description, keywordsPnS } = metadata.make;
 
-  const { name, seoName, smallJpg } = props.make !== null ? props.make : { name: null, seoName: null, smallJpg: null };
+  const { name, seoName, imageJpg, smallJpg } = props.make;
 
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
@@ -91,7 +91,14 @@ const Make: React.FC<IPlainObject> = (props) => {
           <SubTitle>
             Compare Prices from Multiple {name} Dealers and <strong>Get the Lowest Price</strong>
           </SubTitle>
-          <StepOne makes={props.makes} make={seoName} image={smallJpg} onSubmit={handlerSubmit} quotes={props.quotes} />
+          <StepOne
+            makes={props.makes}
+            make={seoName}
+            image={imageJpg}
+            smallImage={smallJpg}
+            onSubmit={handlerSubmit}
+            quotes={props.quotes}
+          />
         </DefaultLayout>
       </ThemeProvider>
     </>
