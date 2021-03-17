@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import * as QueryString from "query-string";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -61,13 +62,18 @@ const Make: React.FC<IPlainObject> = (props) => {
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
     const { zip } = zipcode;
+    
+    const queryparams = QueryString.parse(location.search);
+    const { utsu, utss } = queryparams;
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+
     window.open(
-      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`,
+      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
       "",
       `width=${screen.width},height=${screen.height}`
     );
 
-    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}`);
+    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`);
   };
 
   useEffect(() => {

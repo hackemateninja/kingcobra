@@ -177,7 +177,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     }
   }, [zipcode]);
 
-  const loading = ui.loading === "idle" || ui.loading == "pending";
+  const loading = ui.loading == "pending";
 
   return (
     <Box

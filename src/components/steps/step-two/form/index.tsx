@@ -1,5 +1,6 @@
 // Packages
 import React, { useEffect, useState, useReducer } from "react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import { domains, names, wordDifference } from "./word-difference";
@@ -43,6 +44,8 @@ declare const window: any;
 
 const FormTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const [cue, setCue] = useState<string>("first-name");
   const [error, setError] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
@@ -300,7 +303,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         })),
         device: stepTwo.device,
         transactionId: stepTwo.transactionId,
-        sessionId: utsValues?.utss,
+        sessionId: utsValues?.utss || router.query.utss,
       };
 
       dispatch(postLeads(values));

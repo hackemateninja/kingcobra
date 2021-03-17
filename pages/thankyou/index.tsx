@@ -1,10 +1,11 @@
 // Packages
 import { useEffect } from "react";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { ThemeProvider } from "styled-components";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { config } from "@/util/config";
+import * as QueryString from "query-string";
 
 // Definitions
 import { RootState } from "@/def/TRootReducer";
@@ -66,10 +67,15 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     let url: string;
 
+    const queryparams = QueryString.parse(location.search);
+    const { utsu, utss } = queryparams;
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+
     if (zipcode === undefined) {
-      url = `/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/`;
+      url = `/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}${query}`;
     } else {
-      url = `/s2/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/${zipcode}?sl=true`;
+      const slQuery = query ? `${query}&sl=true` : `?sl=true`;
+      url = `/s2/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/${zipcode}${slQuery}`;
     }
 
     router.push(url);

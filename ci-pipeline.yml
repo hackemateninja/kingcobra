@@ -13,8 +13,8 @@ steps:
   - script: yarn --frozen-lockfile
     displayName: Yarn Install
 
-  - script: yarn audit --audit-level=high
-    displayName: Yarn Audit
+  # - script: yarn audit --audit-level=high
+  #   displayName: Yarn Audit
 
   - script: npm install -g win-node-env
     displayName: Install win-node-env

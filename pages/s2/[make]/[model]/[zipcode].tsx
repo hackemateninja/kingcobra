@@ -8,6 +8,7 @@ import useScript from "@/src/hooks/useScript";
 import { useUserAgent } from "next-useragent";
 import * as cookie from "cookie";
 import { SeverityLevel } from "@microsoft/applicationinsights-web";
+import * as QueryString from "query-string";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -19,7 +20,6 @@ import { IMldDealersResponse } from "@/def/IMldResponse";
 import DefaultLayout from "@/layout/default";
 
 // Slices
-import { setMonth } from "@/redux/slices/site";
 import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
 import { saveDeviceType, saveDealers } from "@/redux/slices/step-two";
 import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from "@/redux/slices/thankyou";
@@ -56,7 +56,6 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);
-  const month = useSelector((state: RootState) => state.site.month);
   const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
 
   const { makes, models, make, model, ua, dealers } = props;
@@ -109,7 +108,12 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     dispatch(setSelectedMakeTYP(props.make));
     dispatch(setSelectedModelTYP(props.model));
     dispatch(setZipCodeTYP(props.zip));
-    router.push(`/thankyou`);
+
+    const queryparams = QueryString.parse(location.search);
+    const { utsu, utss } = queryparams;
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+
+    router.push(`/thankyou${query}`);
   };
 
   useEffect(() => {
@@ -144,9 +148,17 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const ua = useUserAgent(context.req.headers["user-agent"]);
-  const cookies = cookie.parse(context.req.headers.cookie);
-  const utsCookie = cookies["uts-session"];
-  const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
+
+  let utss = "";
+  if (context.query.utss) {
+    utss = context.query.utss as string;
+  } else {
+    const cookies = cookie.parse(context.req.headers.cookie);
+    const utsCookie = cookies["uts-session"];
+    const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
+
+    utss = utsValues?.utss;
+  }
 
   const cxtMake = context.query.make;
   const cxtModel = context.query.model;
@@ -162,7 +174,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const sourceId = secondary ? config.altSourceId : config.sourceId;
   const url = `${config.apiBaseUrl}/api/dealers?sourceId=${sourceId}
     &make=${encodeURIComponent(make?.name)}&model=${encodeURIComponent(model?.name)}
-    &year=${model?.year}&zip=${cxtZip}&sessionId=${utsValues?.utss}`;
+    &year=${model?.year}&zip=${cxtZip}&sessionId=${utss}`;
 
   const dealers = await fetch(url)
     .then<IMldDealersResponse>((r) => r.json())

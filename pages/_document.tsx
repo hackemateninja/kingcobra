@@ -55,6 +55,7 @@ export default class MyDocument extends Document {
             }}
           ></script>
 
+          <link rel="preload" href="https://static.car.com/cars/assets/js/cookies-disabled.js" as="script" />
           <link rel="preload" href="https://static.car.com/cars/assets/js/uts-service-uri-storage.js" as="script" />
         </Head>
         <body>
@@ -75,6 +76,7 @@ export default class MyDocument extends Document {
               `,
             }}
           ></script>
+          <script src="https://static.car.com/cars/assets/js/cookies-disabled.js" defer></script>
           <script src="https://static.car.com/cars/assets/js/uts-service-uri-storage.js" defer></script>
           <script
             dangerouslySetInnerHTML={{
