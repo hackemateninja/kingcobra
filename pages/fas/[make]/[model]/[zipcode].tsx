@@ -27,10 +27,10 @@ const FAS: React.FC<IPlainObject> = (props) => {
 
   const router = useRouter();
 
-  const { make: ctxMake, model: ctxModel, zip } = router.query;
+  const { make: ctxMake, model: ctxModel, zipcode } = router.query;
 
   useEffect(() => {
-    router.query.rd && window.AutoWeb.reload(make.name, model.name, zip);
+    router.query.rd && window.AutoWeb.reload(make.name, model.name, zipcode);
   }, [router]);
 
   const makeName = make?.name || ctxMake;
@@ -57,12 +57,12 @@ const FAS: React.FC<IPlainObject> = (props) => {
             `" aw-model="` +
             modelName +
             `" aw-zipcode="` +
-            zip +
+            zipcode +
             `"></div>`,
         }}
       ></div>
       {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
-      {buttonClick && <RedirectFas make={make.name} model={model.name} zip={props.zip} />}
+      {buttonClick && <RedirectFas make={make.name} model={model.name} zip={props.zipcode} />}
     </ThemeProvider>
   );
 };

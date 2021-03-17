@@ -150,14 +150,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const ua = useUserAgent(context.req.headers["user-agent"]);
 
   let utss = "";
-  if (context.query.utss) {
-    utss = context.query.utss as string;
-  } else {
+  if (context.req.headers.cookie) {
     const cookies = cookie.parse(context.req.headers.cookie);
     const utsCookie = cookies["uts-session"];
     const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
 
     utss = utsValues?.utss;
+  } else {
+    utss = context.query.utss as string;
   }
 
   const cxtMake = context.query.make;

@@ -278,6 +278,9 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     if (sendInfo) {
       const utsCookie = Cookies.get("uts-session");
       const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
+      const sourceId = stepTwo.sourceId || config.sourceId;
+      const utss = utsValues?.utss || router.query.utss;
+
       const values: IPostLeadParams = {
         customer: {
           firstName: stepTwo.first,
@@ -294,7 +297,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           model: stepOne.selectedModel.name,
           year: stepOne.selectedModel.year,
         },
-        sourceId: stepTwo.sourceId || config.sourceId,
+        sourceId: sourceId,
         selectedDealers: stepTwo.selectedDealers.map((dealer) => ({
           programId: dealer.programId,
           dealerId: dealer.id,
@@ -303,7 +306,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
         })),
         device: stepTwo.device,
         transactionId: stepTwo.transactionId,
-        sessionId: utsValues?.utss || router.query.utss,
+        sessionId: utss,
       };
 
       dispatch(postLeads(values));
