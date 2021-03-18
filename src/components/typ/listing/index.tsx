@@ -70,14 +70,12 @@ const Listing: React.FC<IListing> = (props) => {
               onClick={handlerChange}
               className="content"
               dangerouslySetInnerHTML={{
-                __html:
-                  `<div class="awlistings" aw-implement="1721" aw-category="1" aw-make="` +
-                  props.make +
-                  `" aw-model="` +
-                  props.model +
-                  `" aw-zipcode="` +
-                  props.zipcode +
-                  `"></div>`,
+                __html: `<div class="awlistings" aw-implement="1721" aw-category="1" 
+                    aw-make="${props.make}" 
+                    aw-model="${props.model}" 
+                    aw-zipcode="${props.zipcode}"
+                    aw-utrack="${props.utss}"
+                  ></div>`,
               }}
             ></div>
             {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3411")}

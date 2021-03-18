@@ -2,10 +2,10 @@
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import useScript from "@/src/hooks/useScript";
-import { GetServerSideProps } from "next";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 // Definitions
 import { IPlainObject } from "@/def/IPlainObject";
@@ -29,6 +29,10 @@ const FAS: React.FC<IPlainObject> = (props) => {
 
   const { make: ctxMake, model: ctxModel, zipcode } = router.query;
 
+  const utsCookie = Cookies.get("uts-session");
+  const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
+  const utss = utsValues?.utss || router.query.utss;
+
   useEffect(() => {
     router.query.rd && window.AutoWeb.reload(make.name, model.name, zipcode);
   }, [router]);
@@ -51,18 +55,17 @@ const FAS: React.FC<IPlainObject> = (props) => {
       <div
         className="content"
         dangerouslySetInnerHTML={{
-          __html:
-            `<div class="awlistings" aw-implement="1505" aw-category="1" aw-make="` +
-            makeName +
-            `" aw-model="` +
-            modelName +
-            `" aw-zipcode="` +
-            zipcode +
-            `"></div>`,
+          __html: `<div class="awlistings" aw-implement="1505" 
+            aw-category="1" 
+            aw-make="${makeName}" 
+            aw-model="${modelName}" 
+            aw-zipcode="${zipcode}"
+            aw-utrack="${utss}"
+          ></div>`,
         }}
       ></div>
       {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
-      {buttonClick && <RedirectFas make={make.name} model={model.name} zip={props.zipcode} />}
+      {buttonClick && <RedirectFas make={make.name} model={model.name} zip={zipcode} />}
     </ThemeProvider>
   );
 };

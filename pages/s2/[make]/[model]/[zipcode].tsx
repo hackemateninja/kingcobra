@@ -76,14 +76,12 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         <div
           className="content"
           dangerouslySetInnerHTML={{
-            __html:
-              `<div class="awlistings" aw-implement="1178" aw-category="1" aw-make="` +
-              props.make.name +
-              `" aw-model="` +
-              props.model.name +
-              `" aw-zipcode="` +
-              props.zip +
-              `"></div>`,
+            __html: `<div class="awlistings" aw-implement="1178" aw-category="1" 
+                aw-make="${props.make.name}"
+                aw-model="${props.model.name}" 
+                aw-zipcode="${props.zip}"
+                aw-utrack="${props.utss}"
+                ></div>`,
           }}
         ></div>
         {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
@@ -207,6 +205,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       dealers,
       year,
       month,
+      utss,
     },
   };
 };

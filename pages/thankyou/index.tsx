@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { config } from "@/util/config";
 import * as QueryString from "query-string";
+import Cookies from "js-cookie";
 
 // Definitions
 import { RootState } from "@/def/TRootReducer";
@@ -64,6 +65,10 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
   const image = model.imagePng ?? model.imageJpg ?? "/defaultImage.png";
 
+  const utsCookie = Cookies.get("uts-session");
+  const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
+  const utss = utsValues?.utss || router.query.utss;
+
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     let url: string;
 
@@ -104,6 +109,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
             make={make.name}
             model={model.name}
             zipcode={zipcode}
+            utss={utss}
           />
           <TypBottomContent makes={makesList} onSubmit={handlerSubmit} />
           <TypFooter />
