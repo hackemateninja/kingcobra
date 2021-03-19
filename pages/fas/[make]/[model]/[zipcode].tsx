@@ -40,6 +40,10 @@ const FAS: React.FC<IPlainObject> = (props) => {
   const makeName = make?.name || ctxMake;
   const modelName = model?.name || ctxModel;
 
+  useEffect(() => {
+    window && window.AutoWeb && window.AutoWeb.reload(make.name, model.name, zipcode);
+  }, [make, model, zipcode]);
+
   return (
     <ThemeProvider theme={CarcomTheme}>
       <Head>
