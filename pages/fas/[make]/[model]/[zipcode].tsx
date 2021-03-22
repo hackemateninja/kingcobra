@@ -1,7 +1,6 @@
 // Packages
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
-import useScript from "@/src/hooks/useScript";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -13,6 +12,7 @@ import { RootState } from "@/def/TRootReducer";
 
 // Components
 import RedirectFas from "@/comp/redirect/fas/";
+import DynamicAdWidget from "@/comp/dynamic-ad-widget";
 
 // Styles
 import GlobalStyles from "@/theme/global";
@@ -37,12 +37,8 @@ const FAS: React.FC<IPlainObject> = (props) => {
     router.query.rd && window.AutoWeb.reload(make.name, model.name, zipcode);
   }, [router]);
 
-  const makeName = make?.name || ctxMake;
-  const modelName = model?.name || ctxModel;
-
-  useEffect(() => {
-    window && window.AutoWeb && window.AutoWeb.reload(make.name, model.name, zipcode);
-  }, [make, model, zipcode]);
+  const makeName = make?.name || (ctxMake as string);
+  const modelName = model?.name || (ctxModel as string);
 
   return (
     <ThemeProvider theme={CarcomTheme}>
@@ -56,19 +52,14 @@ const FAS: React.FC<IPlainObject> = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
       </Head>
       <GlobalStyles />
-      <div
-        className="content"
-        dangerouslySetInnerHTML={{
-          __html: `<div class="awlistings" aw-implement="1505" 
-            aw-category="1" 
-            aw-make="${makeName}" 
-            aw-model="${modelName}" 
-            aw-zipcode="${zipcode}"
-            aw-utrack="${utss}"
-          ></div>`,
-        }}
-      ></div>
-      {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3382")}
+      <DynamicAdWidget
+        make={makeName}
+        implement="1505"
+        model={modelName}
+        zip={zipcode as string}
+        utss={utss}
+        category="3382"
+      />
       {buttonClick && <RedirectFas make={make.name} model={model.name} zip={zipcode} />}
     </ThemeProvider>
   );

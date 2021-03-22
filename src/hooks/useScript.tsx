@@ -4,7 +4,6 @@ const useScript = (url: string , placement?: string) => {
     useEffect(() => {
         const script = document.createElement("script");
         script.src = url;
-        script.async = true;
         if (placement !== undefined) script.setAttribute('aw-placement', placement);
 
         document.body.appendChild(script);

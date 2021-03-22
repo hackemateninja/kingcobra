@@ -1,6 +1,5 @@
 // Packages
 import React, { useState } from "react";
-import useScript from "@/src/hooks/useScript";
 
 // Definitions
 import { IListing } from "@/def/IListings";
@@ -19,6 +18,9 @@ import {
   ListingSide,
   ListingMark,
 } from "./style";
+
+// Components
+import DynamicAdWidget from "@/comp/dynamic-ad-widget";
 
 const Listing: React.FC<IListing> = (props) => {
   const [bg, setBg] = useState<number>(1);
@@ -66,19 +68,15 @@ const Listing: React.FC<IListing> = (props) => {
             {titleChange()}
             {/* LISTING */}
             {/* LISTING WIDGET */}
-            <div
+            <DynamicAdWidget
+              make={props.make}
+              model={props.model}
+              zip={props.zipcode}
+              utss={props.utss}
+              category="3411"
+              implement="1721"
               onClick={handlerChange}
-              className="content"
-              dangerouslySetInnerHTML={{
-                __html: `<div class="awlistings" aw-implement="1721" aw-category="1" 
-                    aw-make="${props.make}" 
-                    aw-model="${props.model}" 
-                    aw-zipcode="${props.zipcode}"
-                    aw-utrack="${props.utss}"
-                  ></div>`,
-              }}
-            ></div>
-            {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3411")}
+            />
           </ListingColInfo>
         </ListingRow>
       </ListingContent>

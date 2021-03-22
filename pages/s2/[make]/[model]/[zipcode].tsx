@@ -4,7 +4,6 @@ import { ThemeProvider } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import useScript from "@/src/hooks/useScript";
 import { useUserAgent } from "next-useragent";
 import * as cookie from "cookie";
 import { SeverityLevel } from "@microsoft/applicationinsights-web";
@@ -31,6 +30,7 @@ import SubTitle from "@/comp/subtitle";
 import Display from "@/comp/container/display";
 import MetaData from "@/comp/meta-data";
 import Redirect from "@/comp/redirect";
+import DynamicAdWidget from "@/comp/dynamic-ad-widget";
 
 // Utilities
 import setSuffix from "@/util/suffix";
@@ -71,21 +71,15 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 
   if (dealers && !dealers.coverage) {
     return (
-      <>
-        <MetaData title={noCoverageTitle} />
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{
-            __html: `<div class="awlistings" aw-implement="1178" aw-category="1" 
-                aw-make="${props.make.name}"
-                aw-model="${props.model.name}" 
-                aw-zipcode="${props.zip}"
-                aw-utrack="${props.utss}"
-                ></div>`,
-          }}
-        ></div>
-        {useScript("//cdn.awadserver.com/widget/js/awloader.min.js", "3410")}
-      </>
+      <DynamicAdWidget
+        title={noCoverageTitle}
+        make={props.make.name}
+        model={props.model.name}
+        zip={props.zip}
+        utss={props.utss}
+        category="3410"
+        implement="1178"
+      />
     );
   }
 
