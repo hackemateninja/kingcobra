@@ -31,7 +31,7 @@ const AdWidget: React.FC<IAdWidget> = (props) => {
         dangerouslySetInnerHTML={{
           __html: `<div class="awlistings" 
                 aw-implement="${implement}" 
-                aw-category="1" 
+                aw-category="${category}" 
                 aw-make="${make}"
                 aw-model="${model}" 
                 aw-zipcode="${zip}"

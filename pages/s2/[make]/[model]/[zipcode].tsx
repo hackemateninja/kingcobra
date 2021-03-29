@@ -77,7 +77,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         model={props.model.name}
         zip={props.zip}
         utss={props.utss}
-        category="3410"
+        category="1"
         implement="1178"
       />
     );

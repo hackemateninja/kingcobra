@@ -73,7 +73,7 @@ const Listing: React.FC<IListing> = (props) => {
               model={props.model}
               zip={props.zipcode}
               utss={props.utss}
-              category="3411"
+              category="1"
               implement="1721"
               onClick={handlerChange}
             />

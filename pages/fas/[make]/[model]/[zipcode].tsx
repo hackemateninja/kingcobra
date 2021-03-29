@@ -58,7 +58,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
         model={modelName}
         zip={zipcode as string}
         utss={utss}
-        category="3382"
+        category="1"
       />
       {buttonClick && <RedirectFas make={make.name} model={model.name} zip={zipcode} />}
     </ThemeProvider>
