@@ -10,7 +10,7 @@ const MetaData: React.FC<IMetaData> = (props) => {
       <title>{props.title}</title>
       {props.description !== undefined && <meta name="description" content={props.description} />}
       {props.keywords !== undefined && <meta name="keywords" content={props.keywords} />}
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0,user-scalable=5" />
       <meta name="robots" content="noindex, nofollow" />
       <meta name="audience" content="all" />
       <meta name="revisit-after" content="5 days" />
