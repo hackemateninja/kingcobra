@@ -141,7 +141,7 @@ const CarComTheme = {
         label: '#6B6B6B',
         quote: {
             default: '#272727',
-            secondary: '#787878',
+            secondary: '#525252',
         },
         dealers: {
             default: '#4D4D4D',
