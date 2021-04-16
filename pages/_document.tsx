@@ -74,7 +74,6 @@ export default class MyDocument extends Document {
             `,
             }}
           ></script>
-
           <link
             rel="preload"
             href="https://static.car.com/cars/assets/js/cookies-disabled.js"
@@ -85,6 +84,10 @@ export default class MyDocument extends Document {
             href="https://static.car.com/cars/assets/js/uts-service-uri-storage.js"
             as="script"
           />
+          <link rel="preconnect" href="https://seal.digicert.com" />
+          <link rel="preconnect" href="https://c.go-mpulse.net" />
+          <link rel="preconnect" href="https://www.googletagmanager.com" />
+          <link rel="preconnect" href="dev.visualwebsiteoptimizer.com" />
         </Head>
         <body>
           <Main />
