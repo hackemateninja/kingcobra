@@ -16,6 +16,14 @@ import Text from "@/comp/text/";
 
 const StepOne: React.FC<IPlainObject> = (props) => {
   const { quotes } = props;
+  const sloganContent = (
+    <Text center={true} text="authorized">
+      <span>
+        Search <strong>Authorized</strong> Dealers
+      </span>{" "}
+      Ready to Offer You Their <strong>Lowest</strong> Price!
+    </Text>
+  );
 
   return (
     <Row>
@@ -33,15 +41,13 @@ const StepOne: React.FC<IPlainObject> = (props) => {
           model={props.model}
           onSubmit={props.onSubmit}
         />
+        <Display hide="mobile">
+          {sloganContent}
+        </Display>
         <Advantages />
         <Display hide="desktop">
           <Quotes items={quotes} />
-          <Text center={true} text="authorized">
-            <span>
-              Search <strong>Authorized</strong> Dealers
-            </span>{" "}
-            Ready to Offer You Their <strong>Lowest</strong> Price!
-          </Text>
+          {sloganContent}
         </Display>
       </Column>
     </Row>
