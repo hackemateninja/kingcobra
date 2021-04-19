@@ -14,7 +14,7 @@ import { IMake } from "@/def/IMake";
 import { IPlainObject } from "@/def/IPlainObject";
 
 // Slices
-import { setMakes } from "@/redux/slices/step-one";
+import { setMakes, setModels } from '@/redux/slices/step-one';
 import { setSelectedMakes } from "@/redux/slices/thankyou";
 
 // Styles
@@ -87,6 +87,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   };
 
   useEffect(() => {
+    dispatch(setModels(''));
     dispatch(setMakes(props.makes));
     dispatch(setSelectedMakes([...selectedMakes, make]));
   }, []);
