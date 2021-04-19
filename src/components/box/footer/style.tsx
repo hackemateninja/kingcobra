@@ -33,10 +33,16 @@ const BoxFooterTCPA = styled.p<{ theme: ThemeType }>`
 		text-decoration: underline;
 	}
 `;
+const FormOneFooter = styled.p<{ theme: ThemeType }>`
+	color: ${props => props.theme.colors.primary};
+	text-align: center;
+	font-size: 14px;
+`;
 
 export {
 	BoxFooterWrapper,
 	BoxFooterProtect,
 	BoxFooterIcon,
-	BoxFooterTCPA
+	BoxFooterTCPA,
+	FormOneFooter
 }

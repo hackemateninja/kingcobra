@@ -13,7 +13,7 @@ import Text from "../../text";
 import Display from "@/comp/container/display";
 
 // Styles
-import { BoxFooterWrapper, BoxFooterProtect, BoxFooterIcon, BoxFooterTCPA } from "./style";
+import { BoxFooterWrapper, BoxFooterProtect, BoxFooterIcon, BoxFooterTCPA, FormOneFooter } from "./style";
 
 const BoxFooter: React.FC<IBoxFooter> = (props) => {
   const dispatch = useDispatch();
@@ -30,13 +30,11 @@ const BoxFooter: React.FC<IBoxFooter> = (props) => {
   return (
     <>
       {props.step === "1" && (
-        <Display hide="mobile">
-          <BoxFooterWrapper>
-            <Text center={true}>
-              Search <strong>Authorized</strong> Dealers Ready to Offer You Their <strong>Lowest</strong> Price!
-            </Text>
-          </BoxFooterWrapper>
-        </Display>
+        <BoxFooterWrapper>
+          <FormOneFooter>
+            Helping consumers find the car that's right for them since 1995.
+          </FormOneFooter>
+        </BoxFooterWrapper>
       )}
       {props.step === "3" && (
         <BoxFooterWrapper>
