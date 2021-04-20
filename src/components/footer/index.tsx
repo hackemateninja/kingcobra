@@ -44,6 +44,7 @@ const Footer: React.FC<IPlainObject> = (props) => {
     window.__dcid = (function (__dcid, d) {
       __dcid.push(["DigiCertClickID_3shh8DtJ", "3", "m", "black", "3shh8DtJ"]);
       var cid = d.createElement("script");
+      cid.defer = true;
       cid.async = true;
       cid.src = "//seal.digicert.com/seals/cascade/seal.min.js";
       var s = d.getElementsByTagName("script");
@@ -59,17 +60,25 @@ const Footer: React.FC<IPlainObject> = (props) => {
         <Container>
           <FooterCert>
             <div data-language="en" id="DigiCertClickID_3shh8DtJ">
-              <a href="https://www.digicert.com/wildcard-ssl-certificates.htm">Wildcard SSL Certificate</a>
+              <a href="https://www.digicert.com/wildcard-ssl-certificates.htm">
+                Wildcard SSL Certificate
+              </a>
             </div>
           </FooterCert>
           <FooterContent>
-            <FooterText>This is a free service with absolutely no obligation.</FooterText>
+            <FooterText>
+              This is a free service with absolutely no obligation.
+            </FooterText>
             <FooterText>
               <a href="#privacy" data-type="privacy" onClick={handlerModalOpen}>
                 Privacy Policy
               </a>{" "}
               |{" "}
-              <a href="#dont-sell" data-type="privacy-dont-sell" onClick={handlerModalOpen}>
+              <a
+                href="#dont-sell"
+                data-type="privacy-dont-sell"
+                onClick={handlerModalOpen}
+              >
                 Do Not Sell My Personal Information
               </a>{" "}
               |{" "}
@@ -81,7 +90,13 @@ const Footer: React.FC<IPlainObject> = (props) => {
           </FooterContent>
         </Container>
       </FooterWrapper>
-      {modal ? <Modal isActive={modal} modalType={modalType} handlerClose={handlerModalClose} /> : null}
+      {modal ? (
+        <Modal
+          isActive={modal}
+          modalType={modalType}
+          handlerClose={handlerModalClose}
+        />
+      ) : null}
     </>
   );
 };
