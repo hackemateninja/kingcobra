@@ -12,4 +12,5 @@ export interface IConfig {
   sourceId: string;
   altSourceId: string;
   appInsightsKey: string;
+  activateVWO: boolean;
 }

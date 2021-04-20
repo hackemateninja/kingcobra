@@ -49,7 +49,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
         <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5cb1e5" />
         <link rel="manifest" type="application/json" href="/favicon/manifest.json" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0,user-scalable=5" />
       </Head>
       <GlobalStyles />
       <DynamicAdWidget

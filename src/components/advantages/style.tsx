@@ -65,7 +65,7 @@ const AdvantageText = styled.span`
 		display: block;
 		font-size: 12px;
 		line-height: 16px;
-		color: #787878;
+		color: #545454;
 		text-align: center;
 	}
 `;

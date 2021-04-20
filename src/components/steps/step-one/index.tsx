@@ -23,6 +23,10 @@ const StepOne: React.FC<IPlainObject> = (props) => {
         <HeroImage image={props.image} smallImage={props.smallImage} />
         <Display hide="mobile">
           <Quotes items={quotes} />
+          <Text center={true} text="authorized">
+            Search <strong>Authorized</strong> Dealers Ready to Offer You Their{" "}
+            <strong>Lowest</strong> Price!
+          </Text>
         </Display>
       </Column>
       <Column sm={1} md={2}>
