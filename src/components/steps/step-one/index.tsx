@@ -1,8 +1,13 @@
 // Packages
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // Definitios
 import { IPlainObject } from "@/def/IPlainObject";
+import { RootState } from "@/def/TRootReducer";
+
+// Slices
+import { setQuotes } from "@/redux/slices/site";
 
 // Components
 import HeroImage from "@/comp/hero-image";
@@ -15,22 +20,23 @@ import Quotes from "@/comp/quotes";
 import Text from "@/comp/text/";
 
 const StepOne: React.FC<IPlainObject> = (props) => {
-  const { quotes } = props;
-  const sloganContent = (
-    <Text center={true} text="authorized">
-      <span>
-        Search <strong>Authorized</strong> Dealers
-      </span>{" "}
-      Ready to Offer You Their <strong>Lowest</strong> Price!
-    </Text>
-  );
+  const dispatch = useDispatch();
+  const quotes = useSelector((state: RootState) => state.site.quotes);
+
+  useEffect(() => {
+    dispatch(setQuotes());
+  }, []);
 
   return (
     <Row>
       <Column sm={1} md={2}>
-        <HeroImage image={props.image} smallImage={props.smallImage} />
+        <HeroImage image={props.image} />
         <Display hide="mobile">
           <Quotes items={quotes} />
+          <Text center={true} text="authorized">
+            Search <strong>Authorized</strong> Dealers Ready to Offer You Their{" "}
+            <strong>Lowest</strong> Price!
+          </Text>
         </Display>
       </Column>
       <Column sm={1} md={2}>
@@ -41,13 +47,15 @@ const StepOne: React.FC<IPlainObject> = (props) => {
           model={props.model}
           onSubmit={props.onSubmit}
         />
-        <Display hide="mobile">
-          {sloganContent}
-        </Display>
         <Advantages />
         <Display hide="desktop">
           <Quotes items={quotes} />
-          {sloganContent}
+          <Text center={true} text="authorized">
+            <span>
+              Search <strong>Authorized</strong> Dealers
+            </span>{" "}
+            Ready to Offer You Their <strong>Lowest</strong> Price!
+          </Text>
         </Display>
       </Column>
     </Row>
