@@ -1,13 +1,8 @@
 // Packages
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 // Definitios
 import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
-
-// Slices
-import { setQuotes } from "@/redux/slices/site";
 
 // Components
 import HeroImage from "@/comp/hero-image";
@@ -20,17 +15,12 @@ import Quotes from "@/comp/quotes";
 import Text from "@/comp/text/";
 
 const StepOne: React.FC<IPlainObject> = (props) => {
-  const dispatch = useDispatch();
-  const quotes = useSelector((state: RootState) => state.site.quotes);
-
-  useEffect(() => {
-    dispatch(setQuotes());
-  }, []);
+  const { quotes } = props;
 
   return (
     <Row>
       <Column sm={1} md={2}>
-        <HeroImage image={props.image} />
+        <HeroImage image={props.image} smallImage={props.smallImage} />
         <Display hide="mobile">
           <Quotes items={quotes} />
           <Text center={true} text="authorized">
