@@ -53,9 +53,9 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {process.env.NEXT_PUBLIC_USE_VWO && (
+          {config.activateVWO ? (
             <script dangerouslySetInnerHTML={{ __html: vwoInjectScript }} />
-          )}
+          ) : null}
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -73,8 +73,8 @@ export default class MyDocument extends Document {
             href="https://static.car.com/cars/assets/js/uts-service-uri-storage.js"
             as="script"
           />
-          <link rel="preconnect" href="https://www.googletagmanager.com" />
-          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+          <link rel="preconnect" href="https://tags.srv.stackadapt.com" />
+          <link rel="dns-prefetch" href="https://tags.srv.stackadapt.com" />
           <link
             rel="preconnect"
             href="https://dev.visualwebsiteoptimizer.com"
