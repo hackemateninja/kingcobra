@@ -13,4 +13,5 @@ export interface IConfig {
   altSourceId: string;
   appInsightsKey: string;
   activateVWO: boolean;
+  activateGTM: boolean;
 }
