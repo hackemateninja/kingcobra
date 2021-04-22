@@ -20,7 +20,6 @@ module.exports = withSitemap({
     ],
     robots: true,
   },
-  target: "serverless",
   images: {
     deviceSizes: [320, 768, 1024],
   },
