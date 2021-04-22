@@ -19,25 +19,6 @@ const FooterWrapper = styled.footer`
 	}
 `;
 
-const FooterCert = styled.div`
-	display: flex;
-	justify-content: center;
-	font-size: 10px;
-	padding-bottom: 15px;
-	img {
-		width: 55px !important;
-    height: auto !important;
-	}
-	span {
-		margin-top: 10px !important;
-	}
-
-	@media screen and ( min-width: 768px ) {
-		padding: 0;
-		margin-right: 20px;
-	}
-`;
-
 const FooterContent = styled.div`
 	margin: 0 -15px;
 	border-top: 1px solid #D8D8D8;
@@ -94,7 +75,6 @@ const FooterText = styled.p<{ theme: ThemeType }>`
 
 export {
 	FooterWrapper,
-	FooterCert,
 	FooterContent,
 	FooterText
 };
