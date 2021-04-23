@@ -9,6 +9,7 @@ export const config: IConfig = {
   },
   gtmId: process.env.NEXT_PUBLIC_GTM_ID,
   ssAuthToken: process.env.NEXT_PUBLIC_SS_TOKEN,
+  mPulseToken: process.env.NEXT_PUBLIC_MPULSE_TOKEN,
   sourceId: process.env.NEXT_PUBLIC_SOURCE_ID,
   altSourceId: process.env.NEXT_PUBLIC_ALTERNATIVE_SOURCE_ID,
   appInsightsKey: process.env.NEXT_PUBLIC_APP_INSIGHTS_KEY,

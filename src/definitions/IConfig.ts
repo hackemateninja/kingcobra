@@ -9,6 +9,7 @@ export interface IConfig {
   UTSConfig: IUTSConfig;
   gtmId: string;
   ssAuthToken: string;
+  mPulseToken: string;
   sourceId: string;
   altSourceId: string;
   appInsightsKey: string;
