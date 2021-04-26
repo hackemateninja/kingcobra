@@ -1,22 +1,22 @@
-const withSitemap = require("next-with-sitemap");
-const { createSecureHeaders } = require("next-secure-headers");
+const withSitemap = require('next-with-sitemap');
+const { createSecureHeaders } = require('next-secure-headers');
 
 module.exports = withSitemap({
   sitemap: {
-    baseUrl: process.env.SM_URL || "https://shop.car.com",
+    baseUrl: process.env.SM_URL || 'https://shop.car.com',
     excludedPaths: [
-      "/404/",
-      "/[make]/",
-      "/[make]/[model]",
-      "/fas/",
-      "/fas/[make]/[model]/[zipcode]",
-      "/fas/[make]/[model]/",
-      "/fas/[make]/",
-      "/s2/[make]/[model]/[zipcode]",
-      "/s2/[make]/[model]/",
-      "/s2/[make]/",
-      "/s2/",
-      "/thankyou/",
+      '/404/',
+      '/[make]/',
+      '/[make]/[model]',
+      '/fas/',
+      '/fas/[make]/[model]/[zipcode]',
+      '/fas/[make]/[model]/',
+      '/fas/[make]/',
+      '/s2/[make]/[model]/[zipcode]',
+      '/s2/[make]/[model]/',
+      '/s2/[make]/',
+      '/s2/',
+      '/thankyou/',
     ],
     robots: true,
   },
@@ -25,40 +25,40 @@ module.exports = withSitemap({
   },
   async headers() {
     return [
-      { source: "/(.*)", headers: createSecureHeaders() },
+      { source: '/(.*)', headers: createSecureHeaders() },
       {
-        source: "/:path*",
+        source: '/:path*',
         headers: [
           {
-            key: "cache-control",
-            value: "public, s-maxage=31536000, max-age=31536000",
+            key: 'cache-control',
+            value: 'public, s-maxage=31536000, max-age=31536000',
           },
         ],
       },
       {
-        source: "/",
+        source: '/',
         headers: [
           {
-            key: "cache-control",
-            value: "public, s-maxage=31536000, max-age=3600",
+            key: 'cache-control',
+            value: 'public, s-maxage=31536000, max-age=3600',
           },
         ],
       },
       {
-        source: "/:make([a-z-]{1,})",
+        source: '/:make([a-z-]{1,})',
         headers: [
           {
-            key: "cache-control",
-            value: "public, s-maxage=31536000, max-age=3600",
+            key: 'cache-control',
+            value: 'public, s-maxage=31536000, max-age=3600',
           },
         ],
       },
       {
-        source: "/:make([a-z-]{1,})/:model([a-z-]{1,})",
+        source: '/:make([a-z-]{1,})/:model([a-z-]{1,})',
         headers: [
           {
-            key: "cache-control",
-            value: "public, s-maxage=31536000, max-age=3600",
+            key: 'cache-control',
+            value: 'public, s-maxage=31536000, max-age=3600',
           },
         ],
       },
