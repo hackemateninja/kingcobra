@@ -10,7 +10,9 @@
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "export": "next export",
-    "debug": "NODE_OPTIONS='--inspect' next dev"
+    "debug": "NODE_OPTIONS='--inspect' next dev",
+    "lint": "eslint .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@microsoft/applicationinsights-web": "^2.5.11",
@@ -21,7 +23,10 @@
     "js-levenshtein": "^1.1.6",
     "next": "^10.0.8",
     "next-absolute-url": "^1.2.2",
+    "next-pwa": "^5.2.14",
+    "next-secure-headers": "^2.1.0",
     "next-useragent": "^2.4.0",
+    "next-with-sitemap": "^2.5.2",
     "query-string": "^6.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -44,9 +49,18 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-transition-group": "^4.4.0",
     "@types/styled-components": "^5.1.4",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
-    "next-secure-headers": "^2.1.0",
-    "next-with-sitemap": "^2.5.2",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^6.0.0",
+    "prettier": "^2.2.1",
     "react-is": "^17.0.1",
     "typescript": "^4.0.5"
   }

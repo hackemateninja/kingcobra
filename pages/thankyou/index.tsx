@@ -14,7 +14,7 @@ import { IMake } from "@/def/IMake";
 import { IPlainObject } from "@/def/IPlainObject";
 
 // Slices
-import { setMakes, setModels } from '@/redux/slices/step-one';
+import { setMakes, setModels } from "@/redux/slices/step-one";
 import { setSelectedMakes } from "@/redux/slices/thankyou";
 
 // Styles
@@ -58,18 +58,28 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const selectedInfo = useSelector((state: RootState) => state.stepOne.data);
   const make = useSelector((state: RootState) => state.thankyou.data.make);
   const model = useSelector((state: RootState) => state.thankyou.data.model);
-  const zipcode = useSelector((state: RootState) => state.thankyou.data.zipcode);
+  const zipcode = useSelector(
+    (state: RootState) => state.thankyou.data.zipcode
+  );
   const name = useSelector((state: RootState) => state.stepTwo.data.first);
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
-  const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
-  const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
+  const dealers = useSelector(
+    (state: RootState) => state.stepTwo.data.selectedDealers
+  );
+  const selectedMakes = useSelector(
+    (state: RootState) => state.thankyou.data.selectedMakes
+  );
   const image = model.imagePng ?? model.imageJpg ?? "/defaultImage.png";
 
   const utsCookie = Cookies.get("uts-session");
   const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
   const utss = utsValues?.utss || router.query.utss;
 
-  const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlerSubmit = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    make: string,
+    model: string
+  ) => {
     let url: string;
 
     const queryparams = QueryString.parse(location.search);
@@ -77,17 +87,16 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
 
     if (zipcode === undefined) {
-      url = `/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}${query}`;
+      url = `/${make}/${model}${query}`;
     } else {
       const slQuery = query ? `${query}&sl=true` : `?sl=true`;
-      url = `/s2/${selectedInfo.selectedMake.seoName}/${selectedInfo.selectedModel.seoName}/${zipcode}${slQuery}`;
+      url = `/s2/${make}/${model}/${zipcode}${slQuery}`;
     }
-
     router.push(url);
   };
 
   useEffect(() => {
-    dispatch(setModels(''));
+    dispatch(setModels(""));
     dispatch(setMakes(props.makes));
     dispatch(setSelectedMakes([...selectedMakes, make]));
   }, []);
@@ -102,7 +111,13 @@ const Thanks: React.FC<IPlainObject> = (props) => {
       <Typ>
         <TypHeader />
         <div>
-          <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
+          <TypTopContent
+            name={name}
+            last={lastname}
+            make={make.name}
+            model={model.name}
+            dealers={dealers}
+          />
           <TypListing
             image={image}
             alt={`${make.name} ${model.name}`}
@@ -122,7 +137,9 @@ const Thanks: React.FC<IPlainObject> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>(
+    (r) => r.json()
+  );
   return { props: { makes }, revalidate: 86400 };
 };
 

@@ -7,7 +7,11 @@ import { IPlainObject } from "@/def/IPlainObject";
 import { RootState } from "@/def/TRootReducer";
 
 // Slices
-import { setSelectedMake, setSelectedModel, setModels } from "@/redux/slices/step-one";
+import {
+  setSelectedMake,
+  setSelectedModel,
+  setModels,
+} from "@/redux/slices/step-one";
 import { saveSourceId } from "@/redux/slices/step-two";
 import { setButtonClick } from "@/redux/slices/thankyou";
 
@@ -44,7 +48,9 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
   // form fields
   const make = props.make !== undefined ? props.make : "";
   const model = props.model !== undefined ? props.model : "";
-  const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode.zip);
+  const zipcode = useSelector(
+    (state: RootState) => state.stepOne.data.zipcode.zip
+  );
   const fields = [
     {
       field: "make",
@@ -95,29 +101,46 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
 
   const validateDropdown = (
     e: React.ChangeEvent<HTMLSelectElement>,
-    inputIndex: number,
-    dispatchFunction: Function
+    inputIndex: number
   ) => {
     // dispatch image loader
 
-    dispatch(dispatchFunction(e.target.value));
-    const option = e.target.options[e.target.selectedIndex] as HTMLOptionElement;
+    // dispatch(dispatchFunction(e.target.value));
+    const option = e.target.options[
+      e.target.selectedIndex
+    ] as HTMLOptionElement;
 
     switch (true) {
       case inputIndex === 0:
         Object.assign(formFields[1], { empty: true, error: false, value: "" });
         if (e.target.value) {
-          Object.assign(formFields[inputIndex], { empty: false, error: false, value: option.value });
+          Object.assign(formFields[inputIndex], {
+            empty: false,
+            error: false,
+            value: option.value,
+          });
         } else {
-          Object.assign(formFields[inputIndex], { empty: true, error: false, value: option.value });
+          Object.assign(formFields[inputIndex], {
+            empty: true,
+            error: false,
+            value: option.value,
+          });
         }
         dispatch(setModels(e.target.value));
         break;
       case inputIndex === 1:
         if (e.target.value) {
-          Object.assign(formFields[inputIndex], { empty: false, error: false, value: option.value });
+          Object.assign(formFields[inputIndex], {
+            empty: false,
+            error: false,
+            value: option.value,
+          });
         } else {
-          Object.assign(formFields[inputIndex], { empty: true, error: false, value: option });
+          Object.assign(formFields[inputIndex], {
+            empty: true,
+            error: false,
+            value: option,
+          });
         }
         break;
     }
@@ -126,14 +149,20 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
   };
 
   const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const [{ value: make }, { value: model }]: any = formFields;
     e.preventDefault();
     updateInputs(true);
+
     dispatch(saveSourceId(config.altSourceId));
     dispatch(setButtonClick(true));
-    const errorInputs = formFields.filter((item) => item["empty"] || item["error"]);
+    const errorInputs = formFields.filter(
+      (item) => item["empty"] || item["error"]
+    );
 
     if (errorInputs.length === 0) {
-      props.onSubmit(e);
+      dispatch(setSelectedMake(make));
+      dispatch(setSelectedModel(model));
+      props.onSubmit(e, make, model);
     }
   };
 
@@ -146,11 +175,14 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
       <Container>
         <BottomTitle>Keep the deals coming</BottomTitle>
         <BottomDescription>
-          Either you have another car in mind or want to get more deals, we can help you out.
+          Either you have another car in mind or want to get more deals, we can
+          help you out.
         </BottomDescription>
         <BottomRow>
           <BottomCol>
-            <BottomFormTitle>Have another car model in mind? Get the closeout price quote too!</BottomFormTitle>
+            <BottomFormTitle>
+              Have another car model in mind? Get the closeout price quote too!
+            </BottomFormTitle>
             <BottomForm>
               <Select
                 id="make"
@@ -161,7 +193,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
                 error={error === "make"}
                 message="Select a"
                 options={props.makes}
-                handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
+                handlerChange={(e) => validateDropdown(e, 0)}
               />
               <Select
                 id="model"
@@ -172,9 +204,11 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
                 error={error === "model"}
                 message="Select a"
                 options={models}
-                handlerChange={(e) => validateDropdown(e, 1, setSelectedModel)}
+                handlerChange={(e) => validateDropdown(e, 1)}
               />
-              <Button handlerClick={handlerSubmit}>Connect me to Dealers</Button>
+              <Button handlerClick={handlerSubmit}>
+                Connect me to Dealers
+              </Button>
             </BottomForm>
           </BottomCol>
           <BottomCol>
@@ -182,7 +216,10 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
               <BottomImg>
                 <use xlinkHref="#abtl-logo" />
               </BottomImg>
-              <BottomText>Research with one of our partners to get more deals on the table!</BottomText>
+              <BottomText>
+                Research with one of our partners to get more deals on the
+                table!
+              </BottomText>
               <BottomLink href="https://www.autobytel.com" target="_blank">
                 Click Here
               </BottomLink>

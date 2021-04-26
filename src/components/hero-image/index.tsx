@@ -1,5 +1,5 @@
 // Packages
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Definitions
@@ -21,11 +21,19 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
   const loading = useSelector((state: RootState) => state.stepOne.ui.imageLoading);
+  const handleImageLoading = (input) => {
+    // onLoad replacement for SSR
+    if (!input) return;
 
-  const hanlderLoading = () => {
-    dispatch(isLoading(false));
+    const img = input;
+    const updateFunc = () => {
+      dispatch(isLoading(false));
+    };
+    img.onload = updateFunc;
+    if (img.complete) {
+      updateFunc();
+    }
   };
-
   const image = model.imageJpg ?? make.imageJpg ?? props.image ?? "/hero-image.jpg";
   const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? "/hero-image.jpg";
 
@@ -34,7 +42,7 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
       <HeroImageContainer>
         <HeroImageCover>
           <img
-            onLoad={hanlderLoading}
+            ref={handleImageLoading}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
             srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
             src={smallImage}

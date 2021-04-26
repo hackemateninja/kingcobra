@@ -2,8 +2,11 @@ pool:
   vmImage: "windows-latest"
 
 variables:
-  yarn_cache_folder: $(Pipeline.Workspace)/.yarn
-  next_cache: $(System.DefaultWorkingDirectory)/.next/cache
+- group: KingCobra-Dev-Vars
+- name: yarn_cache_folder
+  value: $(Pipeline.Workspace)/.yarn
+- name: next_cache
+  value: $(System.DefaultWorkingDirectory)/.next/cache
 
 steps:
   - task: NodeTool@0
