@@ -35,3 +35,7 @@ package-lock.json*
 # next-sitemap
 robots.txt
 sitemap.xml
+
+#workbox
+workbox-*.js
+sw.js

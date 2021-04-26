@@ -23,6 +23,7 @@
     "js-levenshtein": "^1.1.6",
     "next": "^10.0.8",
     "next-absolute-url": "^1.2.2",
+    "next-pwa": "^5.2.14",
     "next-secure-headers": "^2.1.0",
     "next-useragent": "^2.4.0",
     "next-with-sitemap": "^2.5.2",
