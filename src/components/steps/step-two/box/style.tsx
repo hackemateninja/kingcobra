@@ -1,9 +1,16 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
+import { TextWrapper } from '@/comp/text/style';
 
 const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
   box-shadow: 0 2px 11px 1px rgba(0, 0, 0, 0.37);
   border-radius: 7px;
   overflow: hidden;
+
+  ${TextWrapper} {
+    color: ${(props) => props.theme.colors.primary};
+    margin: 15px auto 0;
+  }
+
   ${(props) =>
     !props.one
       ? css`
@@ -59,7 +66,7 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
               transform: translateX(100%);
               visibility: hidden;
             }
-            ${props.active === "form" &&
+            ${props.active === 'form' &&
             css`
               &:first-child {
                 position: absolute;
@@ -74,6 +81,10 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
           }
 
           @media screen and (min-width: 768px) {
+            ${TextWrapper} {
+              margin: 15px auto -5px;
+            }
+
             > div {
               transition: none;
               &:first-child {
@@ -83,7 +94,7 @@ const StepBoxWrapper = styled.div<{ one?: boolean; active?: string }>`
               }
               &:not(:first-child) {
                 &:before {
-                  content: "";
+                  content: '';
                   position: absolute;
                   top: 0;
                   left: 30px;

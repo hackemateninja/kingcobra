@@ -1,19 +1,20 @@
 // Packages
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
-import { IDealer } from "@/def/IDealers";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+import { IDealer } from '@/def/IDealers';
 
 // Slices
-import { setSelectedDealers } from "@/redux/slices/step-two";
+import { setSelectedDealers } from '@/redux/slices/step-two';
 
 // Components
-import Box from "@/comp/box";
-import Button from "@/comp/button";
-import Dealers from "@/comp/dealers";
+import Box from '@/comp/box';
+import Button from '@/comp/button';
+import Dealers from '@/comp/dealers';
+import Text from '@/comp/text';
 
 declare const window: any;
 
@@ -41,7 +42,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
     const elemChecked = e.target.checked;
     let { allChecked, list } = dealers;
 
-    if (elemID === "all-dealers") {
+    if (elemID === 'all-dealers') {
       (allChecked = elemChecked), (list = list.map((item) => ({ ...item, isChecked: elemChecked })));
     } else {
       list = list.map((item: IDealer) =>
@@ -74,15 +75,15 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
 
   useEffect(() => {
     oneDealerCheck();
-    window.dataLayer && window.dataLayer.push({'event': 'dealer_impression'});
+    window.dataLayer && window.dataLayer.push({ event: 'dealer_impression' });
   }, [dealersList]);
 
   return (
     <Box
       step="2"
       totalSteps="3"
-      title={dealers.list.length > 1 ? "Choose Your Dealers" : "We found this matching dealer!"}
-      subtitle={dealers.list.length > 1 && "Compare prices from multiple dealers"}
+      title={dealers.list.length > 1 ? 'Choose Your Dealers' : 'We found this matching dealer!'}
+      subtitle={dealers.list.length > 1 && 'Compare prices from multiple dealers'}
     >
       <Dealers
         cue={cue}
@@ -91,9 +92,10 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
         error={error}
         handlerChange={handlerChange}
       />
-      <Button handlerClick={handlerClick}>
-        Continue
-      </Button>
+      <Button handlerClick={handlerClick}>Continue</Button>
+      <Text center={true} text="authorized">
+        Let our <strong>trusted</strong> network get you the <strong>best</strong> deal.
+      </Text>
     </Box>
   );
 };
