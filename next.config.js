@@ -3,6 +3,9 @@ const { createSecureHeaders } = require('next-secure-headers');
 const withPWA = require('next-pwa');
 
 const enablePWAConfig = process.env.USE_PWA_CONFIG === 'true';
+const shouldEnableCDN = process.env.NODE_ENV === 'production';
+
+const envPrefix = () => (shouldEnableCDN ? `.${process.env.DEPLOY_ENV_PREFIX}` : '');
 
 const baseNextConfig = {
   sitemap: {
@@ -70,6 +73,7 @@ const baseNextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  assetPrefix: shouldEnableCDN ? `https://shop${envPrefix()}.car.com` : '',
 };
 const pwaConfig = {
   pwa: {
