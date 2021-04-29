@@ -1,6 +1,7 @@
 const withSitemap = require('next-with-sitemap');
 const { createSecureHeaders } = require('next-secure-headers');
 const withPWA = require('next-pwa');
+const withPreact = require('next-plugin-preact');
 
 const enablePWAConfig = process.env.USE_PWA_CONFIG === 'true';
 const shouldEnableCDN = process.env.NODE_ENV === 'production';
@@ -270,6 +271,8 @@ const pwaConfig = {
 const nextConfig = enablePWAConfig
   ? { ...baseNextConfig, ...pwaConfig }
   : baseNextConfig;
-const siteMapConfig = withSitemap(nextConfig);
 
-module.exports = enablePWAConfig ? withPWA(siteMapConfig) : siteMapConfig;
+const siteMapConfig = withSitemap(nextConfig);
+const preactConfig = withPreact(siteMapConfig);
+
+module.exports = enablePWAConfig ? withPWA(preactConfig) : preactConfig;
