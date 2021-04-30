@@ -1,3 +1,3 @@
 export interface IDisplay {
-	hide: string
+  hide: string;
 }

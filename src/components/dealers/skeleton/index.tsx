@@ -1,6 +1,6 @@
 // Styles
-import { IPlainObject } from "@/def/IPlainObject";
-import { DealersSkeletonWrapper, DealersSkeletonItem, DealersSkeletonButton } from "./style";
+import { IPlainObject } from '@/def/IPlainObject';
+import { DealersSkeletonWrapper, DealersSkeletonItem, DealersSkeletonButton } from './style';
 
 const DealersSkeleton: React.FC<IPlainObject> = (props) => {
   return (

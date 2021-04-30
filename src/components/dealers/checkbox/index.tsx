@@ -1,9 +1,9 @@
 // Packages
-import React from "react";
+import React from 'react';
 
 // Definitions
-import { IDealer } from "@/def/IDealers";
-import Cue from "../../form-elements/cue";
+import { IDealer } from '@/def/IDealers';
+import Cue from '../../form-elements/cue';
 
 // Styles
 import {
@@ -16,7 +16,7 @@ import {
   DealerName,
   DealerAddress,
   DealerAllSubtitle,
-} from "./style";
+} from './style';
 
 const Checkbox: React.FC<IDealer> = (props) => {
   return (

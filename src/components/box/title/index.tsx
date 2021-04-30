@@ -1,8 +1,8 @@
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
+import { IPlainObject } from '@/def/IPlainObject';
 
 // Styles
-import { BoxTitleDesktop, BoxTitleMobile } from "./style";
+import { BoxTitleDesktop, BoxTitleMobile } from './style';
 
 const Title: React.FC<IPlainObject> = (props) => {
   return (

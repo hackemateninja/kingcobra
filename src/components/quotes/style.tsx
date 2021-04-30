@@ -1,6 +1,6 @@
 // Packages
-import styled from "styled-components";
-import { ThemeType } from "@/def/TTheme";
+import styled from 'styled-components';
+import { ThemeType } from '@/def/TTheme';
 
 const QuotesWapper = styled.div`
   overflow: hidden;
@@ -94,7 +94,7 @@ const QuoteDot = styled.div<{ theme: ThemeType }>`
   height: 20px;
   overflow: hidden;
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;

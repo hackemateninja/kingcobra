@@ -1,22 +1,22 @@
 // Packages
-import Head from "next/head";
-import { ThemeProvider } from "styled-components";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
+import Head from 'next/head';
+import { ThemeProvider } from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
 
 // Components
-import RedirectFas from "@/comp/redirect/fas/";
-import DynamicAdWidget from "@/comp/dynamic-ad-widget";
+import RedirectFas from '@/comp/redirect/fas/';
+import DynamicAdWidget from '@/comp/dynamic-ad-widget';
 
 // Styles
-import GlobalStyles from "@/theme/global";
-import CarcomTheme from "@/theme/carcom";
+import GlobalStyles from '@/theme/global';
+import CarcomTheme from '@/theme/carcom';
 
 declare const window: any;
 
@@ -29,7 +29,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
 
   const { make: ctxMake, model: ctxModel, zipcode } = router.query;
 
-  const utsCookie = Cookies.get("uts-session");
+  const utsCookie = Cookies.get('uts-session');
   const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
   const utss = utsValues?.utss || router.query.utss;
 

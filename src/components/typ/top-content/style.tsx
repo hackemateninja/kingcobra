@@ -1,8 +1,8 @@
 // Packages
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TThemeTyp";
+import { ThemeType } from '@/def/TThemeTyp';
 
 const TopContentWrapper = styled.div`
   padding: 20px 0;

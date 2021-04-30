@@ -1,19 +1,19 @@
 // Packages
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
 
 // Slices
-import { isLoading } from "@/redux/slices/step-one";
+import { isLoading } from '@/redux/slices/step-one';
 
 // Components
-import Loader from "../loader";
+import Loader from '../loader';
 
 // Styles
-import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from "./style";
+import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from './style';
 
 const HeroImage: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -34,8 +34,8 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
       updateFunc();
     }
   };
-  const image = model.imageJpg ?? make.imageJpg ?? props.image ?? "/hero-image.jpg";
-  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? "/hero-image.jpg";
+  const image = model.imageJpg ?? make.imageJpg ?? props.image ?? '/hero-image.jpg';
+  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? '/hero-image.jpg';
 
   return (
     <HeroImageWrapper>

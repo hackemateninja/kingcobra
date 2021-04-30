@@ -8,11 +8,7 @@ import { IPlainObject } from '@/def/IPlainObject';
 import { TypWrapper } from './style';
 
 const Typ: React.FC<IPlainObject> = (props) => {
-	return (
-		<TypWrapper>
-			{props.children}
-		</TypWrapper>
-	);
+  return <TypWrapper>{props.children}</TypWrapper>;
 };
 
 export default Typ;

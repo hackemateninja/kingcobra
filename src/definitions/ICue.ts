@@ -1,3 +1,3 @@
 export interface ICue {
-	dealers?: boolean
+  dealers?: boolean;
 }

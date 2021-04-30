@@ -1,12 +1,12 @@
 // Packages
-import React from "react";
+import React from 'react';
 
 // Definitions
-import { IDealer, IDealers } from "@/def/IDealers";
-import Checkbox from "./checkbox";
+import { IDealer, IDealers } from '@/def/IDealers';
+import Checkbox from './checkbox';
 
 // Styles
-import { DealersError, DealersWrapper } from "./style";
+import { DealersError, DealersWrapper } from './style';
 
 const Dealers: React.FC<IDealers> = (props) => {
   return (

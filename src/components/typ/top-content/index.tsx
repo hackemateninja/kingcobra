@@ -1,21 +1,21 @@
 // Packages
-import React from "react";
+import React from 'react';
 
 // Definitions
-import { ITypTop, ISelectedDealers } from "@/def/ITypTop";
+import { ITypTop, ISelectedDealers } from '@/def/ITypTop';
 
 // Styles
-import { TopContentWrapper, TopTitle, TopSubTitle, TopText, TopDealers, TopUser } from "./style";
+import { TopContentWrapper, TopTitle, TopSubTitle, TopText, TopDealers, TopUser } from './style';
 
 // Components
-import Container from "../container";
+import Container from '../container';
 
 const TopContent: React.FC<ITypTop> = (props) => {
   return (
     <TopContentWrapper>
       <Container>
         <TopTitle>
-          Thank You,{" "}
+          Thank You,{' '}
           <TopUser>
             {props.name} {props.last}
           </TopUser>

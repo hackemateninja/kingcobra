@@ -1,10 +1,10 @@
 // Packages
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 // Slice
-import { saveSendInfo } from "@/redux/slices/step-two";
+import { saveSendInfo } from '@/redux/slices/step-two';
 
 const SendInfoWrapper = styled.div`
   display: none;

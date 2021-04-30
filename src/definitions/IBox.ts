@@ -1,10 +1,10 @@
 export interface IBoxFooter {
-	step: string
+  step: string;
 }
 
 export interface IBox {
-	step: string,
-	totalSteps: string,
-	title: string,
-	subtitle?: string
+  step: string;
+  totalSteps: string;
+  title: string;
+  subtitle?: string;
 }

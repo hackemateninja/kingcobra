@@ -1,26 +1,26 @@
 // Packages
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
 
 // Slices
-import { setModels } from "@/redux/slices/step-one";
-import { setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
+import { setModels } from '@/redux/slices/step-one';
+import { setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
 
 // Components
-import Box from "@/comp/box";
-import Button from "@/comp/button";
-import Input from "@/comp/form-elements/input";
-import Select from "@/comp/form-elements/select";
-import { setButtonLoading } from "@/redux/slices/site";
+import Box from '@/comp/box';
+import Button from '@/comp/button';
+import Input from '@/comp/form-elements/input';
+import Select from '@/comp/form-elements/select';
+import { setButtonLoading } from '@/redux/slices/site';
 
 const FormOne: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
-  const [cue, setCue] = useState<string>("make");
-  const [error, setError] = useState<string>("");
+  const [cue, setCue] = useState<string>('make');
+  const [error, setError] = useState<string>('');
   const [modelURL, setModelURL] = useState(props.models !== undefined ? props.models : []);
 
   // Step 1 Data
@@ -32,26 +32,26 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   const { models, zipcode } = stepOne.data;
   const { makes } = props;
 
-  const valueMake = props.make !== undefined ? props.make : "";
-  const valueModel = props.model !== undefined ? props.model : "";
+  const valueMake = props.make !== undefined ? props.make : '';
+  const valueModel = props.model !== undefined ? props.model : '';
 
   // form fields
   const fields = [
     {
-      field: "make",
+      field: 'make',
       value: valueMake,
       empty: valueMake.length !== 0 ? false : true,
       error: false,
       success: valueMake.length !== 0 ? true : false,
     },
     {
-      field: "model",
+      field: 'model',
       value: valueModel,
       empty: valueModel.length !== 0 ? false : true,
       error: false,
       success: valueModel.length !== 0 ? true : false,
     },
-    { field: "zip-code", value: "", empty: true, error: false, success: false },
+    { field: 'zip-code', value: '', empty: true, error: false, success: false },
   ];
 
   const [formFields, setFormFields] = useState<object[]>(fields);
@@ -59,15 +59,15 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   // find next empty and update cue
 
   const updateInputs = (doError: boolean) => {
-    setError("");
-    setCue("");
-    for (var i = 0; i < formFields.length; i++) {
-      const current = formFields[i]["field"];
-      const empty = formFields[i]["empty"];
-      const formFieldError = formFields[i]["error"];
+    setError('');
+    setCue('');
+    for (let i = 0; i < formFields.length; i++) {
+      const current = formFields[i]['field'];
+      const empty = formFields[i]['empty'];
+      const formFieldError = formFields[i]['error'];
 
-      let next = "";
-      i < 2 ? (next = formFields[i + 1]["field"]) : (next = "");
+      let next = '';
+      i < 2 ? (next = formFields[i + 1]['field']) : (next = '');
 
       switch (true) {
         case empty:
@@ -102,7 +102,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         } else {
           Object.assign(formFields[inputIndex], { empty: true, error: false, value: option.value });
         }
-        Object.assign(formFields[1], { empty: true, error: false, value: "" });
+        Object.assign(formFields[1], { empty: true, error: false, value: '' });
         dispatch(setModels(e.target.value));
         break;
       case inputIndex === 1:
@@ -123,7 +123,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     if (zipRegex.test(value)) {
       Object.assign(formFields[2], { empty: false, value: value });
     } else {
-      Object.assign(formFields[2], { empty: true, error: false, success: false, value: "" });
+      Object.assign(formFields[2], { empty: true, error: false, success: false, value: '' });
     }
 
     setFormFields(formFields);
@@ -138,7 +138,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
 
     setZipData(e.target.value);
-    zipRegex.test(e.target.value) ? dispatch(setZipCode(e.target.value)) : dispatch(setZipCode(""));
+    zipRegex.test(e.target.value) ? dispatch(setZipCode(e.target.value)) : dispatch(setZipCode(''));
   };
 
   const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -146,7 +146,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     dispatch(setButtonLoading(true));
     updateInputs(true);
 
-    const errorInputs = formFields.filter((item) => item["empty"] || item["error"]);
+    const errorInputs = formFields.filter((item) => item['empty'] || item['error']);
 
     if (errorInputs.length === 0) {
       props.onSubmit !== undefined && props.onSubmit(e);
@@ -160,7 +160,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
 
     setZipData(value);
-    zipRegex.test(value) ? dispatch(setZipCode(value)) : dispatch(setZipCode(""));
+    zipRegex.test(value) ? dispatch(setZipCode(value)) : dispatch(setZipCode(''));
   };
 
   useEffect(() => {
@@ -168,7 +168,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (formFields[2]["value"] !== "") {
+    if (formFields[2]['value'] !== '') {
       if (zipcode.loading === undefined) {
         Object.assign(formFields[2], { error: zipcode.city === undefined, success: zipcode.city !== undefined });
         setFormFields(formFields);
@@ -177,7 +177,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     }
   }, [zipcode]);
 
-  const loading = ui.loading == "pending";
+  const loading = ui.loading == 'pending';
 
   return (
     <Box
@@ -187,23 +187,23 @@ const FormOne: React.FC<IPlainObject> = (props) => {
       subtitle="Select a Model and Enter Your Zip to Continue..."
     >
       <Select
-				id="make"
-				value={valueMake}
-				name="make"
-				label="Make"
-				cue={cue === "make"}
-				error={error === "make"}
-				message="Select a"
-				options={props.makes !== undefined ? props.makes : makes}
-				handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
-			/>
+        id="make"
+        value={valueMake}
+        name="make"
+        label="Make"
+        cue={cue === 'make'}
+        error={error === 'make'}
+        message="Select a"
+        options={props.makes !== undefined ? props.makes : makes}
+        handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
+      />
       <Select
         id="model"
         value={valueModel}
         name="model"
         label="Model"
-        cue={cue === "model"}
-        error={error === "model"}
+        cue={cue === 'model'}
+        error={error === 'model'}
         message="Select a"
         options={modelURL.length !== 0 ? modelURL : models}
         handlerChange={(e) => validateDropdown(e, 1, setSelectedModel)}
@@ -213,8 +213,8 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         name="zip-code"
         label="Zip Code"
         icon="#icon-location"
-        cue={cue === "zip-code"}
-        error={error === "zip-code"}
+        cue={cue === 'zip-code'}
+        error={error === 'zip-code'}
         success={zipcode.city !== undefined}
         type="tel"
         message="Please enter a valid"

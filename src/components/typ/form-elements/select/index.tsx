@@ -1,16 +1,16 @@
 // Packages
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // Definitions
-import { ISelect } from "@/def/ISelect";
+import { ISelect } from '@/def/ISelect';
 
 // Components
-import Cue from "../cue";
+import Cue from '../cue';
 
 // Styles
-import { FormElement, FormElementLabel, FormElementMessage, Element, FormElementArrow } from "../style";
-import { IMake } from "@/def/IMake";
-import { IModel } from "@/def/IModel";
+import { FormElement, FormElementLabel, FormElementMessage, Element, FormElementArrow } from '../style';
+import { IMake } from '@/def/IMake';
+import { IModel } from '@/def/IModel';
 
 const Select: React.FC<ISelect> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
