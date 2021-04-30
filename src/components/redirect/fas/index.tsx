@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { useDispatch } from 'react-redux';
 
 // Slices
-import { setButtonClick } from "@/redux/slices/thankyou";
+import { setButtonClick } from '@/redux/slices/thankyou';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
+import { IPlainObject } from '@/def/IPlainObject';
 
 const RedirectFas: React.FC<IPlainObject> = (props) => {
   const router = useRouter();

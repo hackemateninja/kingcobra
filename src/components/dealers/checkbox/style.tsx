@@ -1,8 +1,8 @@
 // Packages
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TTheme";
+import { ThemeType } from '@/def/TTheme';
 
 const Dealer = styled.div<{ theme: ThemeType; one?: boolean; all?: boolean }>`
   ${(props) =>
@@ -63,12 +63,12 @@ const DealerCheckIcon = styled.svg<{ theme: ThemeType }>`
 `;
 
 const DealerLabel = styled.label<{ theme: ThemeType; one?: boolean; all?: boolean }>`
-  cursor: ${(props) => (props.one ? "default" : "pointer")};
+  cursor: ${(props) => (props.one ? 'default' : 'pointer')};
   display: flex;
   flex-basis: 0;
   flex-grow: 1;
   max-width: 100%;
-  padding: ${(props) => (props.one ? "8px" : "8px 16px")};
+  padding: ${(props) => (props.one ? '8px' : '8px 16px')};
   ${(props) =>
     props.all &&
     css`
@@ -77,7 +77,7 @@ const DealerLabel = styled.label<{ theme: ThemeType; one?: boolean; all?: boolea
     `}
 
   @media screen and ( min-width: 768px ) {
-    padding: ${(props) => (props.one ? "10px" : "10px 30px")};
+    padding: ${(props) => (props.one ? '10px' : '10px 30px')};
     ${(props) =>
       props.all &&
       css`
@@ -108,7 +108,7 @@ const DealerName = styled.span<{ theme: ThemeType; one?: boolean; all?: boolean 
     props.one
       ? props.theme.font.lineHeight.dealers.one.title.xs
       : props.theme.font.lineHeight.dealers.default.title.xs};
-  font-weight: ${(props) => (props.one ? "normal" : "bold")};
+  font-weight: ${(props) => (props.one ? 'normal' : 'bold')};
   ${(props) =>
     props.all &&
     css`
@@ -165,4 +165,14 @@ const DealerAddress = styled.span<{ theme: ThemeType; one?: boolean; all?: boole
   }
 `;
 
-export { Dealer, DealerInput, DealerCheck, DealerCheckIcon, DealerLabel, DealerText, DealerName, DealerAllSubtitle, DealerAddress };
+export {
+  Dealer,
+  DealerInput,
+  DealerCheck,
+  DealerCheckIcon,
+  DealerLabel,
+  DealerText,
+  DealerName,
+  DealerAllSubtitle,
+  DealerAddress,
+};

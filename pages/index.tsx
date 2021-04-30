@@ -1,38 +1,38 @@
 // Packages
-import { useEffect } from "react";
-import { GetStaticProps } from "next";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { ThemeProvider } from "styled-components";
-import * as QueryString from "query-string";
+import { useEffect } from 'react';
+import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import * as QueryString from 'query-string';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/src/definitions/TRootReducer";
-import { IPreload } from "@/def/IMetaData";
-import { IMake } from "@/def/IMake";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/src/definitions/TRootReducer';
+import { IPreload } from '@/def/IMetaData';
+import { IMake } from '@/def/IMake';
 
 // Layout
-import DefaultLayout from "@/layout/default";
+import DefaultLayout from '@/layout/default';
 
 // Styles
-import GlobalStyles from "@/theme/global";
-import CarcomTheme from "@/theme/carcom";
+import GlobalStyles from '@/theme/global';
+import CarcomTheme from '@/theme/carcom';
 
 // Slices
-import { setMakes } from "@/redux/slices/step-one";
+import { setMakes } from '@/redux/slices/step-one';
 
 // Components
-import Title from "@/comp/title";
-import SubTitle from "@/comp/subtitle";
-import StepOne from "@/comp/steps/step-one";
-import MetaData from "@/comp/meta-data";
+import Title from '@/comp/title';
+import SubTitle from '@/comp/subtitle';
+import StepOne from '@/comp/steps/step-one';
+import MetaData from '@/comp/meta-data';
 
 // Utilities
-import { config } from "@/util/config";
-import getMonth from "@/util/get-month";
-import getYear from "@/util/get-year";
-import randomizer from "@/util/random-quotes";
+import { config } from '@/util/config';
+import getMonth from '@/util/get-month';
+import getYear from '@/util/get-year';
+import randomizer from '@/util/random-quotes';
 
 const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -51,11 +51,11 @@ const Home: React.FC<IPlainObject> = (props) => {
 
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
-    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
 
     window.open(
       `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
-      "",
+      '',
       `width=${screen.width},height=${screen.height}`
     );
     router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`);
@@ -65,11 +65,11 @@ const Home: React.FC<IPlainObject> = (props) => {
     dispatch(setMakes(props.makes));
   }, []);
 
-  const preload: IPreload[] = [{ type: "image", elem: "/hero-image.jpg" }];
+  const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
 
   return (
     <ThemeProvider theme={CarcomTheme}>
-      <MetaData title={title} description={description.join("")} keywords={keywords} preload={preload} />
+      <MetaData title={title} description={description.join('')} keywords={keywords} preload={preload} />
       <GlobalStyles />
       <DefaultLayout year={props.year} month={month}>
         <Title>Huge {month} Closeout on All New Vehicles</Title>

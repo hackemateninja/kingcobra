@@ -16,7 +16,7 @@ export interface IPostLeadParams {
   };
   sourceId: string;
   selectedDealers: ISelectedDealers[];
-  device?: "Unknown" | "Mobile" | "Tablet" | "Desktop";
+  device?: 'Unknown' | 'Mobile' | 'Tablet' | 'Desktop';
   tracking?: string;
   transactionId?: string;
   sessionId?: string;

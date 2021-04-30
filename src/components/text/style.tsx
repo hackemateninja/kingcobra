@@ -1,8 +1,8 @@
 // Packages
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TTheme";
+import { ThemeType } from '@/def/TTheme';
 
 const TextWrapper = styled.p<{
   theme: ThemeType;
@@ -19,7 +19,7 @@ const TextWrapper = styled.p<{
       text-align: center;
     `}
   ${(props) =>
-    props.text === "authorized" &&
+    props.text === 'authorized' &&
     css`
       font-size: 14px;
       line-height: 18px;
@@ -39,7 +39,7 @@ const TextWrapper = styled.p<{
       }
     `}
 	${(props) =>
-    props.text === "helping" &&
+    props.text === 'helping' &&
     css`
       font-size: 16px;
       line-height: 18px;

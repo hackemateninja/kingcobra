@@ -1,4 +1,4 @@
 export interface IColumn {
-	sm: number,
-	md: number
+  sm: number;
+  md: number;
 }

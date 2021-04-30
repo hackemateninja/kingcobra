@@ -1,5 +1,5 @@
-import { IMake } from "@/def/IMake";
-import { IModel } from "@/def/IModel";
+import { IMake } from '@/def/IMake';
+import { IModel } from '@/def/IModel';
 
 interface IZipCode {
   city?: string;
@@ -19,7 +19,7 @@ interface IDataStepOne {
 interface IUIStepOne {
   button: string;
   imageLoading: boolean;
-  loading: "idle" | "pending" | "completed";
+  loading: 'idle' | 'pending' | 'completed';
 }
 
 export interface IStateStepOne {

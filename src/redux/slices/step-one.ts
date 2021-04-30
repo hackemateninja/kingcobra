@@ -1,13 +1,13 @@
 // Packages
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SeverityLevel } from "@microsoft/applicationinsights-web";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 // Definitions
-import { IStateStepOne } from "@/def/IStateStepOne";
+import { IStateStepOne } from '@/def/IStateStepOne';
 
 // Utilities
-import { config } from "@/util/config";
-import { appInsights } from "@/util/app-insights";
+import { config } from '@/util/config';
+import { appInsights } from '@/util/app-insights';
 
 // Initial state
 const initialStepOne: IStateStepOne = {
@@ -19,15 +19,15 @@ const initialStepOne: IStateStepOne = {
     zipcode: {},
   },
   ui: {
-    button: "Check Local Prices",
+    button: 'Check Local Prices',
     imageLoading: false,
-    loading: "idle",
+    loading: 'idle',
   },
 };
 
 // Set Models
-export const setModels = createAsyncThunk("get/models", async (make: string) => {
-  if (make !== "") {
+export const setModels = createAsyncThunk('get/models', async (make: string) => {
+  if (make !== '') {
     return new Promise((resolve, reject) => {
       fetch(`${config.apiBaseUrl}/api/models/${make}`)
         .then((response) => {
@@ -59,8 +59,8 @@ export const setModels = createAsyncThunk("get/models", async (make: string) => 
 });
 
 // Set ZipCode
-export const setZipCode = createAsyncThunk("get/zipcode", async (zip: string) => {
-  if (zip !== "" && zip !== "99999") {
+export const setZipCode = createAsyncThunk('get/zipcode', async (zip: string) => {
+  if (zip !== '' && zip !== '99999') {
     return new Promise((resolve, reject) => {
       fetch(`https://us-zipcode.api.smartystreets.com/lookup?auth-id=${config.ssAuthToken}&zipcode=${zip}`)
         .then((response) => {
@@ -86,10 +86,10 @@ export const setZipCode = createAsyncThunk("get/zipcode", async (zip: string) =>
           reject(error);
         });
     });
-  } else if (zip === "99999") {
+  } else if (zip === '99999') {
     return [
       {
-        zipcodes: [{ default_city: "City", state_abbreviation: "ST", zipcode: zip }],
+        zipcodes: [{ default_city: 'City', state_abbreviation: 'ST', zipcode: zip }],
       },
     ];
   } else {
@@ -98,7 +98,7 @@ export const setZipCode = createAsyncThunk("get/zipcode", async (zip: string) =>
 });
 
 const stepOneSlice = createSlice({
-  name: "step-one",
+  name: 'step-one',
   initialState: initialStepOne,
   reducers: {
     setMakes: (state, action) => {
@@ -110,7 +110,7 @@ const stepOneSlice = createSlice({
 
       state.data.selectedModel = {};
       state.data.selectedMake = make.length !== 0 ? make[0] : {};
-      state.data.models = action.payload === "" ? [] : state.data.models;
+      state.data.models = action.payload === '' ? [] : state.data.models;
     },
     setSelectedModel: (state, action) => {
       const model = state.data.models.filter((model) => model.seoName === action.payload);
@@ -139,13 +139,13 @@ const stepOneSlice = createSlice({
     // Zip Code
     builder.addCase(setZipCode.pending, (state) => {
       state.data.zipcode = { loading: true };
-      state.ui.loading = "pending";
+      state.ui.loading = 'pending';
     });
     builder.addCase(setZipCode.fulfilled, (state, action) => {
       const pl = action.payload;
 
       if (pl.length !== 0) {
-        if (pl[0]["status"] === undefined) {
+        if (pl[0]['status'] === undefined) {
           const zc = pl[0].zipcodes[0];
           const city = zc.default_city;
           const st = zc.state_abbreviation;
@@ -159,7 +159,7 @@ const stepOneSlice = createSlice({
         state.data.zipcode = {};
       }
 
-      state.ui.loading = "completed";
+      state.ui.loading = 'completed';
     });
   },
 });

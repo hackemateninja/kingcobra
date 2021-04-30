@@ -1,8 +1,8 @@
 // Packages
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes, css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TTheme";
+import { ThemeType } from '@/def/TTheme';
 
 const loader = keyframes`
 	0% {
@@ -28,7 +28,7 @@ const LoaderWrapper = styled.div<{ type?: string }>`
   align-items: center;
   justify-content: center;
   ${(props) =>
-    props.type === "button" &&
+    props.type === 'button' &&
     css`
       background: transparent;
       box-shadow: none;
@@ -39,7 +39,7 @@ const LoaderWrapper = styled.div<{ type?: string }>`
       }
     `};
   ${(props) =>
-    props.type === "dealers" &&
+    props.type === 'dealers' &&
     css`
       position: relative;
       background: transparent;

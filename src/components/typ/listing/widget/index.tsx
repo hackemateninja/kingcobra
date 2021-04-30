@@ -5,11 +5,7 @@ import React from 'react';
 import { ListingWidgetWrapper } from './style';
 
 const ListingWidget: React.FC = () => {
-	return (
-		<ListingWidgetWrapper>
-			{/* WIDGET INIT */}
-		</ListingWidgetWrapper>
-	);
+  return <ListingWidgetWrapper>{/* WIDGET INIT */}</ListingWidgetWrapper>;
 };
 
 export default ListingWidget;

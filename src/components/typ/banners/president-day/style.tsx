@@ -1,8 +1,8 @@
 // Packages
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from "../../../../definitions/TTheme";
+import { ThemeType } from '../../../../definitions/TTheme';
 
 const HeaderWrapper = styled.header<{ theme: ThemeType }>`
   height: 55px;
@@ -17,7 +17,7 @@ const HeaderWrapper = styled.header<{ theme: ThemeType }>`
   padding: 0 126px 0 225px;
   box-sizing: border-box;
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     margin-top: -40vw;
@@ -69,7 +69,7 @@ const HeaderDiagonal = styled.div`
   z-index: 10;
   top: 0;
   left: 0;
-  background-image: url("//static.car.com/cars/assets/img/bnr_images/cc-icons.png");
+  background-image: url('//static.car.com/cars/assets/img/bnr_images/cc-icons.png');
   background-repeat: no-repeat;
   background-position: -102px -177px;
   height: 55px;
@@ -116,7 +116,7 @@ const HeaderCenter = styled.div`
   z-index: 30;
   &:before,
   &:after {
-    content: "";
+    content: '';
     flex: 1 0 auto;
   }
 `;

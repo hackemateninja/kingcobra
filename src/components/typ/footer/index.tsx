@@ -1,32 +1,32 @@
 // Packages
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 // Components
-import Container from "../container";
-const Modal = dynamic(() => import("../modal"));
+import Container from '../container';
+const Modal = dynamic(() => import('../modal'));
 
 // Styles
-import { FooterWrapper, FooterUsage, FooterLink, FooterText } from "./style";
+import { FooterWrapper, FooterUsage, FooterLink, FooterText } from './style';
 
 const Footer: React.FC = () => {
   const date = new Date();
   const [year] = useState<number>(date.getFullYear());
   const [modal, setModal] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<string>("");
+  const [modalType, setModalType] = useState<string>('');
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     setModal(true);
     setModalType(target.dataset.type);
   };
 
   const handlerModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    document.body.style.overflow = "unset";
+    document.body.style.overflow = 'unset';
     setModal(false);
-    setModalType("");
+    setModalType('');
   };
 
   return (
@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
       <FooterWrapper>
         <Container>
           <FooterUsage>
-            This is a free service with absolutely no obligation, subject to our{" "}
+            This is a free service with absolutely no obligation, subject to our{' '}
             <FooterLink href="#terms" data-type="terms" onClick={handlerModalOpen}>
               usage terms and disclaimers
             </FooterLink>
@@ -42,12 +42,12 @@ const Footer: React.FC = () => {
           <FooterText>
             <FooterLink href="#privacy" data-type="privacy" onClick={handlerModalOpen}>
               Privacy Policy
-            </FooterLink>{" "}
-            |{" "}
+            </FooterLink>{' '}
+            |{' '}
             <FooterLink href="#dont-sell" data-type="privacy-dont-sell" onClick={handlerModalOpen}>
               Do Not Sell My Personal Information
-            </FooterLink>{" "}
-            |{" "}
+            </FooterLink>{' '}
+            |{' '}
             <FooterLink href="#terms" data-type="terms" onClick={handlerModalOpen}>
               Terms of Use
             </FooterLink>

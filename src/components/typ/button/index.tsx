@@ -5,11 +5,11 @@ import { IButton } from '@/def/IButton';
 import { ButtonWrapper, ButtonSpan } from './style';
 
 const Button: React.FC<IButton> = (props) => {
-	return (
-		<ButtonWrapper onClick={props.handlerClick}>
-			<ButtonSpan>{props.children}</ButtonSpan>
-		</ButtonWrapper>
-	);
+  return (
+    <ButtonWrapper onClick={props.handlerClick}>
+      <ButtonSpan>{props.children}</ButtonSpan>
+    </ButtonWrapper>
+  );
 };
 
 export default Button;

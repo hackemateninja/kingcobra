@@ -1,8 +1,8 @@
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
+import { IPlainObject } from '@/def/IPlainObject';
 
 // Components
-import SVGs from "../svgs"
+import SVGs from '../svgs';
 
 // Styles
 import {
@@ -17,7 +17,7 @@ import {
   TitleTablet,
   HeaderRight,
   FireworkRight,
-} from "./style";
+} from './style';
 
 const Header: React.FC<IPlainObject> = () => {
   return (

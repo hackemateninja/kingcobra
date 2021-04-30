@@ -1,4 +1,4 @@
-import { IQuote } from "@/def/IQuotes";
+import { IQuote } from '@/def/IQuotes';
 
 interface IUIStepOne {
   modal: boolean;

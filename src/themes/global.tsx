@@ -7,8 +7,8 @@ import { ThemeType } from '../definitions/TTheme';
 const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
 	:root {
 		min-width: 320px;
-		font-size: ${props => props.theme.font.size.default};
-		font-family: ${props => props.theme.font.family};
+		font-size: ${(props) => props.theme.font.size.default};
+		font-family: ${(props) => props.theme.font.family};
 	}
 	* {
 		position: relative;
@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
 		margin: 0;
 		padding: 0;
 		min-height: 100%;
-		background-color: ${props => props.theme.background.default};
+		background-color: ${(props) => props.theme.background.default};
 		-webkit-tap-highlight-color: transparent;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -36,11 +36,11 @@ const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
 	select::-ms-expand { display: none; }
 
 	input, select, button {
-		font-family: ${props => props.theme.font.family};
+		font-family: ${(props) => props.theme.font.family};
 	}
 
 	a {
-		color: ${props => props.theme.colors.primaryLight};
+		color: ${(props) => props.theme.colors.primaryLight};
 	}
 
 	#__next {

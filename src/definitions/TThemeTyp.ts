@@ -1,7 +1,5 @@
-import TypTheme from "../themes/primary/typ";
+import TypTheme from '../themes/primary/typ';
 
 type ThemeType = typeof TypTheme;
 
-export type {
-	ThemeType
-};
+export type { ThemeType };

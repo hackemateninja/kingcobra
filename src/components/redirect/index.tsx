@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Redirect: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/");
+    router.replace('/');
   }, []);
 
   return (

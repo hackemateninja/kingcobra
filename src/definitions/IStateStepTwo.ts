@@ -1,4 +1,4 @@
-import { IDealer } from "@/def/IDealers";
+import { IDealer } from '@/def/IDealers';
 
 interface IDataStepTwo {
   dealers: IDealer[];
@@ -11,15 +11,15 @@ interface IDataStepTwo {
   email: string;
   coverage: boolean;
   sourceId: string;
-  device: "Unknown" | "Mobile" | "Tablet" | "Desktop";
+  device: 'Unknown' | 'Mobile' | 'Tablet' | 'Desktop';
   transactionId: string;
   sendInfo: boolean;
 }
 
 interface IUIStepTwo {
   button: string;
-  boxActive: "dealers" | "form";
-  loading: "idle" | "pending" | "succeeded" | "failed";
+  boxActive: 'dealers' | 'form';
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   firstSuggested: boolean;
   showSuggested: boolean;
 }

@@ -1,11 +1,11 @@
 // Packages
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 // Definitions
-import { IInput } from "@/def/IInput";
+import { IInput } from '@/def/IInput';
 
 // Components
-import Cue from "../cue";
+import Cue from '../cue';
 
 // Styles
 import {
@@ -16,11 +16,11 @@ import {
   FormElementMessage,
   Element,
   City,
-} from "../style";
+} from '../style';
 
 const Input: React.FC<IInput> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [empty, setEmpty] = useState<boolean>(props.value === undefined || props.value === "");
+  const [empty, setEmpty] = useState<boolean>(props.value === undefined || props.value === '');
   const inputElement = useRef(null);
 
   const onlyNumbers = (e: React.KeyboardEvent<HTMLInputElement>) => !e.key.match(/^[0-9]+$/) && e.preventDefault();
@@ -38,7 +38,7 @@ const Input: React.FC<IInput> = (props) => {
 
   const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.handlerChange !== undefined && props.handlerChange(e);
-    e.target.value !== "" && setEmpty(false);
+    e.target.value !== '' && setEmpty(false);
   };
 
   const handlerKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -48,13 +48,13 @@ const Input: React.FC<IInput> = (props) => {
 
   useEffect(() => {
     if (inputElement.current) {
-      inputElement.current.value !== "" && setEmpty(false);
+      inputElement.current.value !== '' && setEmpty(false);
       props.handlerEffect !== undefined && props.handlerEffect(inputElement.current.value);
     }
   }, []);
 
   useEffect(() => {
-    if (props.dynamicValue !== undefined && props.dynamicValue !== "") {
+    if (props.dynamicValue !== undefined && props.dynamicValue !== '') {
       setEmpty(false);
     }
   }, [props.dynamicValue]);

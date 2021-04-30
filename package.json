@@ -12,7 +12,8 @@
     "start": "NODE_ENV=production node server.js",
     "export": "next export",
     "debug": "NODE_OPTIONS='--inspect' next dev",
-    "lint": "eslint .",
+    "lint": "eslint --ext js,jsx,ts,tsx ",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
     "prepare": "husky install"
   },
   "dependencies": {

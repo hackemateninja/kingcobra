@@ -1,14 +1,14 @@
 // Packages
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TThemeTyp";
+import { ThemeType } from '@/def/TThemeTyp';
 
 const ListingWrapper = styled.div`
   margin: 0 0 10px;
 `;
 
-const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
+const ListingContent = styled.div<{ theme: ThemeType; bg: number }>`
   border-top: 1px solid ${(props) => props.theme.background.listing.border};
   background-color: ${(props) => props.theme.background.listing.default};
   display: block;
@@ -16,7 +16,7 @@ const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
   @media screen and (min-width: 768px) {
     padding: 40px 30px;
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       bottom: 0;
@@ -37,7 +37,7 @@ const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
       background-color: #6e508c;
       @media screen and (min-width: 768px) {
         &:before {
-          background: url("/typ/background-desktop2.jpg") right 70% no-repeat;
+          background: url('/typ/background-desktop2.jpg') right 70% no-repeat;
         }
       }
     `}
@@ -47,7 +47,7 @@ const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
       background-color: #3a903f;
       @media screen and (min-width: 768px) {
         &:before {
-          background: url("/typ/background-desktop3.jpg") right 70% no-repeat;
+          background: url('/typ/background-desktop3.jpg') right 70% no-repeat;
         }
       }
     `}
@@ -57,7 +57,7 @@ const ListingContent = styled.div<{ theme: ThemeType; bg: Number }>`
       background-color: #2a826c;
       @media screen and (min-width: 768px) {
         &:before {
-          background: url("/typ/background-desktop4.jpg") right 70% no-repeat;
+          background: url('/typ/background-desktop4.jpg') right 70% no-repeat;
         }
       }
     `}
@@ -81,7 +81,7 @@ const ListingRow = styled.div`
     margin: auto;
   }
 `;
-const ListingColImg = styled.div<{ bg: Number }>`
+const ListingColImg = styled.div<{ bg: number }>`
   padding: 5px 20px;
   width: 100%;
   display: block;
@@ -92,17 +92,17 @@ const ListingColImg = styled.div<{ bg: Number }>`
   ${(props) =>
     props.bg === 2 &&
     css`
-      background: url("/typ/background-desktop2.jpg") center/cover no-repeat;
+      background: url('/typ/background-desktop2.jpg') center/cover no-repeat;
     `}
   ${(props) =>
     props.bg === 3 &&
     css`
-      background: url("/typ/background-desktop3.jpg") center/cover no-repeat;
+      background: url('/typ/background-desktop3.jpg') center/cover no-repeat;
     `}
 	${(props) =>
     props.bg === 4 &&
     css`
-      background: url("/typ/background-desktop4.jpg") center/cover no-repeat;
+      background: url('/typ/background-desktop4.jpg') center/cover no-repeat;
     `}
 	@media screen and ( min-width: 768px ) {
     background: none;
@@ -130,7 +130,7 @@ const ListingImg = styled.img`
     width: 430px;
   }
 `;
-const ListingColInfo = styled.div<{ bg: Number }>`
+const ListingColInfo = styled.div<{ bg: number }>`
   background-color: ${(props) => props.theme.background.listing.default};
   display: block;
   padding: 20px;
@@ -209,7 +209,7 @@ const ListingFooterLink = styled.a`
   text-decoration: none;
   font-size: 12px;
   span {
-    background: url("/aw-logo.png") no-repeat;
+    background: url('/aw-logo.png') no-repeat;
     display: inline-block;
     height: 10px;
     margin-left: 5px;

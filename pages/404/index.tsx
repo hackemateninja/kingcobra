@@ -1,7 +1,7 @@
-import Redirect from "@/comp/redirect";
+import Redirect from '@/comp/redirect';
 
 const ErrorPage: React.FC = () => {
-	return <Redirect />
+  return <Redirect />;
 };
 
 export default ErrorPage;
