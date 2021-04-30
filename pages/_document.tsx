@@ -66,6 +66,7 @@ export default class MyDocument extends Document {
           {config.activateVWO && (
             <script dangerouslySetInnerHTML={{ __html: vwoInjectScript }} />
           )}
+          <meta name="com.silverpop.brandeddomains" content="www.pages02.net,autobytel.com,autobytel.mkt5954.com,car.com,usedcars.com" />
           <script
             dangerouslySetInnerHTML={{
               __html: `
