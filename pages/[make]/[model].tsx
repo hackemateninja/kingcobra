@@ -1,44 +1,44 @@
 // Packages
-import { useEffect } from "react";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { ThemeProvider } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import * as QueryString from "query-string";
+import { useEffect } from 'react';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { ThemeProvider } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import * as QueryString from 'query-string';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
-import { IPreload } from "@/def/IMetaData";
-import { IModel } from "@/def/IModel";
-import { IMake } from "@/def/IMake";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+import { IPreload } from '@/def/IMetaData';
+import { IModel } from '@/def/IModel';
+import { IMake } from '@/def/IMake';
 
 // Layout
-import DefaultLayout from "@/layout/default";
+import DefaultLayout from '@/layout/default';
 
 // Slices
-import { setMakes, setSelectedMake, saveModels, setSelectedModel } from "@/redux/slices/step-one";
+import { setMakes, setSelectedMake, saveModels, setSelectedModel } from '@/redux/slices/step-one';
 
 // Components
-import StepOne from "@/comp/steps/step-one";
-import RedirectModel from "@/comp/redirect/model";
-import Redirect from "@/comp/redirect";
-import Title from "@/comp/title";
-import SubTitle from "@/comp/subtitle";
-import MetaData from "@/comp/meta-data";
+import StepOne from '@/comp/steps/step-one';
+import RedirectModel from '@/comp/redirect/model';
+import Redirect from '@/comp/redirect';
+import Title from '@/comp/title';
+import SubTitle from '@/comp/subtitle';
+import MetaData from '@/comp/meta-data';
 
 // Utilities
-import setSuffix from "@/util/suffix";
-import combineAnS from "@/util/combine-ans";
-import setPrefix from "@/util/prefix";
-import { config } from "@/util/config";
-import getYear from "@/util/get-year";
-import getMonth from "@/util/get-month";
-import randomizer from "@/util/random-quotes";
+import setSuffix from '@/util/suffix';
+import combineAnS from '@/util/combine-ans';
+import setPrefix from '@/util/prefix';
+import { config } from '@/util/config';
+import getYear from '@/util/get-year';
+import getMonth from '@/util/get-month';
+import randomizer from '@/util/random-quotes';
 
 // Styles
-import GlobalStyles from "@/theme/global";
-import CarcomTheme from "@/theme/carcom";
+import GlobalStyles from '@/theme/global';
+import CarcomTheme from '@/theme/carcom';
 
 const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -62,11 +62,11 @@ const Home: React.FC<IPlainObject> = (props) => {
 
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
-    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
 
     window.open(
       `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
-      "",
+      '',
       `width=${screen.width},height=${screen.height}`
     );
 
@@ -85,12 +85,12 @@ const Home: React.FC<IPlainObject> = (props) => {
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
-  const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
-  const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
+  const prekeys = setPrefix(keywordsPnS.prefix, name, ', ');
+  const sufkeys = setSuffix(keywordsPnS.suffix, name, ', ');
   const keys = `${prekeys}, ${sufkeys}`;
   const preload: IPreload[] = [
-    { elem: props.model.imageJpg, type: "image" },
-    { elem: props.model.smallJpg, type: "image" },
+    { elem: props.model.imageJpg, type: 'image' },
+    { elem: props.model.smallJpg, type: 'image' },
   ];
 
   return (

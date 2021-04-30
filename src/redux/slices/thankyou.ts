@@ -1,15 +1,15 @@
 // Packages
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 // Definitions
-import { IStateThankyou } from "@/def/IStateThankyou";
+import { IStateThankyou } from '@/def/IStateThankyou';
 
 // Initial state
 const initialThankyou: IStateThankyou = {
   data: {
     make: {},
     model: {},
-    zipcode: "",
+    zipcode: '',
     selectedMakes: [],
   },
   ui: {
@@ -18,7 +18,7 @@ const initialThankyou: IStateThankyou = {
 };
 
 const thankyouSlice = createSlice({
-  name: "thankyou",
+  name: 'thankyou',
   initialState: initialThankyou,
   reducers: {
     setSelectedMakeTYP: (state, action) => {
@@ -39,6 +39,12 @@ const thankyouSlice = createSlice({
   },
 });
 
-export const { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP, setSelectedMakes, setButtonClick } = thankyouSlice.actions;
+export const {
+  setSelectedMakeTYP,
+  setSelectedModelTYP,
+  setZipCodeTYP,
+  setSelectedMakes,
+  setButtonClick,
+} = thankyouSlice.actions;
 
 export default thankyouSlice.reducer;

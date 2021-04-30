@@ -1,10 +1,10 @@
 // Packages
-import React, { useEffect, useRef, useState } from "react";
-import { useScroll, useMeasure } from "react-use";
-import useSmoothScroll from "react-smooth-scroll-hook";
+import React, { useEffect, useRef, useState } from 'react';
+import { useScroll, useMeasure } from 'react-use';
+import useSmoothScroll from 'react-smooth-scroll-hook';
 
 // Definitions
-import { IQuote, IQuotes } from "@/def/IQuotes";
+import { IQuote, IQuotes } from '@/def/IQuotes';
 
 // Styles
 import {
@@ -17,7 +17,7 @@ import {
   QuoteText,
   QuoteName,
   QuoteDot,
-} from "./style";
+} from './style';
 
 const Quotes: React.FC<IQuotes> = (props) => {
   const eventListeners = useRef<(event: Event) => void>();
@@ -46,12 +46,12 @@ const Quotes: React.FC<IQuotes> = (props) => {
 
   const { scrollTo } = useSmoothScroll({
     ref: scroll,
-    direction: "x",
+    direction: 'x',
     speed: 30,
   });
 
   const touchDevice = () => {
-    return !!("ontouchstart" in window || navigator.maxTouchPoints);
+    return !!('ontouchstart' in window || navigator.maxTouchPoints);
   };
 
   const setActiveQuote = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -68,12 +68,12 @@ const Quotes: React.FC<IQuotes> = (props) => {
   };
 
   useEffect(() => {
-    window.removeEventListener("resize", eventListeners.current, false);
+    window.removeEventListener('resize', eventListeners.current, false);
     eventListeners.current = fixScrollResize;
-    window.addEventListener("resize", eventListeners.current, false);
+    window.addEventListener('resize', eventListeners.current, false);
 
     return () => {
-      window.removeEventListener("resize", eventListeners.current, false);
+      window.removeEventListener('resize', eventListeners.current, false);
     };
   }, [fixScrollResize]);
 

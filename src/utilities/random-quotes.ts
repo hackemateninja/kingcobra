@@ -1,5 +1,5 @@
 // Data
-import { testimonialsList as testimonials } from "@/data/testimonials";
+import { testimonialsList as testimonials } from '@/data/testimonials';
 
 const randomizer = () => {
   const shuffledList = testimonials.sort(() => 0.5 - Math.random());

@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 const SVGs: React.FC = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 0, height: 0, display: "block" }}>
+    <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 0, height: 0, display: 'block' }}>
       <symbol id="logo-carcom" viewBox="0 0 67 30">
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g transform="translate(-23.000000, -33.000000)">

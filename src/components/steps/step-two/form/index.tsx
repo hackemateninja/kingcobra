@@ -1,15 +1,15 @@
 // Packages
-import React, { useEffect, useState, useReducer } from "react";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { CSSTransition } from "react-transition-group";
-import { domains, names, wordDifference } from "./word-difference";
-import Cookies from "js-cookie";
+import React, { useEffect, useState, useReducer } from 'react';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
+import { domains, names, wordDifference } from './word-difference';
+import Cookies from 'js-cookie';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { IFields, fieldAction } from "@/def/IValidations";
-import { IPostLeadParams } from "@/def/IPostLeadParams";
+import { IPlainObject } from '@/def/IPlainObject';
+import { IFields, fieldAction } from '@/def/IValidations';
+import { IPostLeadParams } from '@/def/IPostLeadParams';
 
 // Slices
 import {
@@ -21,24 +21,24 @@ import {
   saveLastName,
   savePhoneNumber,
   saveShowSuggested,
-} from "@/redux/slices/step-two";
-import { setButtonLoading } from "@/redux/slices/site";
+} from '@/redux/slices/step-two';
+import { setButtonLoading } from '@/redux/slices/site';
 
 // Components
-import Box from "@/comp/box";
-import Button from "@/comp/button";
-import Input from "@/comp/form-elements/input";
-import EmailSuggested from "@/comp/email-suggested";
-import AddressAutocomplete from "@/comp/address-autocomplete";
-import { EmailSuggestedAnimation } from "@/comp/email-suggested/style";
-import SendInfo from "@/comp/send-info";
+import Box from '@/comp/box';
+import Button from '@/comp/button';
+import Input from '@/comp/form-elements/input';
+import EmailSuggested from '@/comp/email-suggested';
+import AddressAutocomplete from '@/comp/address-autocomplete';
+import { EmailSuggestedAnimation } from '@/comp/email-suggested/style';
+import SendInfo from '@/comp/send-info';
 
 // Styles
-import { InputRow } from "./style";
-import { RootState } from "@/def/TRootReducer";
+import { InputRow } from './style';
+import { RootState } from '@/def/TRootReducer';
 
 // Utilities
-import { config } from "@/util/config";
+import { config } from '@/util/config';
 
 declare const window: any;
 
@@ -46,14 +46,14 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [cue, setCue] = useState<string>("first-name");
-  const [error, setError] = useState<string>("");
-  const [newEmail, setNewEmail] = useState<string>("");
-  const [emailValue, setEmailValue] = useState<string>("");
-  const [phoneValue, setPhoneValue] = useState<string>("");
-  const [addressValue, setAddressValue] = useState<string>("");
+  const [cue, setCue] = useState<string>('first-name');
+  const [error, setError] = useState<string>('');
+  const [newEmail, setNewEmail] = useState<string>('');
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [phoneValue, setPhoneValue] = useState<string>('');
+  const [addressValue, setAddressValue] = useState<string>('');
   const [addressAutocomplete, setAddressAutocomplete] = useState<object[]>([]);
-  const [autocomplete, setAutocomplete] = useState({ show: false, lastValue: "" });
+  const [autocomplete, setAutocomplete] = useState({ show: false, lastValue: '' });
 
   const button = useSelector((state: RootState) => state.stepTwo.ui.button);
   const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
@@ -62,11 +62,11 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   // form validation initialization
 
-  const fieldsList = ["first-name", "last-name", "phone-number", "address", "email"];
+  const fieldsList = ['first-name', 'last-name', 'phone-number', 'address', 'email'];
 
-  let formValues: IFields[] = [];
+  const formValues: IFields[] = [];
   fieldsList.map((input) => {
-    formValues[input] = { field: input, value: "", status: "empty" };
+    formValues[input] = { field: input, value: '', status: 'empty' };
   });
 
   // form validation reducer
@@ -74,18 +74,18 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const [fields, formDispatch] = useReducer(formReducer, formValues);
 
   function formReducer(state, action: fieldAction) {
-    let field = state[action.payload.field];
+    const field = state[action.payload.field];
     switch (action.type) {
-      case "setEmpty": {
-        Object.assign(field, { status: "empty", value: "" });
+      case 'setEmpty': {
+        Object.assign(field, { status: 'empty', value: '' });
         return { ...state };
       }
-      case "setSuccess": {
-        Object.assign(field, { status: "success", value: action.payload.value });
+      case 'setSuccess': {
+        Object.assign(field, { status: 'success', value: action.payload.value });
         return { ...state };
       }
-      case "setError": {
-        Object.assign(field, { status: "error", value: action.payload.value });
+      case 'setError': {
+        Object.assign(field, { status: 'error', value: action.payload.value });
         return { ...state };
       }
       default:
@@ -98,37 +98,37 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const updateCue = () => {
     for (let i = 0; i < fieldsList.length; i++) {
       switch (true) {
-        case fields[fieldsList[i]].status === "error":
+        case fields[fieldsList[i]].status === 'error':
           setError(fieldsList[i]);
           setCue(fieldsList[i]);
           return;
-        case fields[fieldsList[i]].status === "empty":
+        case fields[fieldsList[i]].status === 'empty':
           setCue(fieldsList[i]);
           return;
         default:
-          setCue("");
+          setCue('');
       }
     }
   };
 
   useEffect(() => {
     updateCue();
-    window.dataLayer && window.dataLayer.push({ event: "form_impression" });
+    window.dataLayer && window.dataLayer.push({ event: 'form_impression' });
 
-    stepTwo.first !== "" &&
-      formDispatch({ type: "setSuccess", payload: { field: "first-name", value: stepTwo.first } });
-    stepTwo.last !== "" && formDispatch({ type: "setSuccess", payload: { field: "last-name", value: stepTwo.last } });
-    if (stepTwo.phone !== "") {
+    stepTwo.first !== '' &&
+      formDispatch({ type: 'setSuccess', payload: { field: 'first-name', value: stepTwo.first } });
+    stepTwo.last !== '' && formDispatch({ type: 'setSuccess', payload: { field: 'last-name', value: stepTwo.last } });
+    if (stepTwo.phone !== '') {
       setPhoneValue(stepTwo.phone);
-      formDispatch({ type: "setSuccess", payload: { field: "phone-number", value: stepTwo.phone } });
+      formDispatch({ type: 'setSuccess', payload: { field: 'phone-number', value: stepTwo.phone } });
     }
-    if (stepTwo.address !== "") {
+    if (stepTwo.address !== '') {
       setAddressValue(stepTwo.address);
-      formDispatch({ type: "setSuccess", payload: { field: "address", value: stepTwo.address } });
+      formDispatch({ type: 'setSuccess', payload: { field: 'address', value: stepTwo.address } });
     }
-    if (stepTwo.email !== "") {
+    if (stepTwo.email !== '') {
       setEmailValue(stepTwo.email);
-      formDispatch({ type: "setSuccess", payload: { field: "email", value: stepTwo.email } });
+      formDispatch({ type: 'setSuccess', payload: { field: 'email', value: stepTwo.email } });
     }
   }, []);
 
@@ -142,23 +142,23 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     const target = e.target as HTMLInputElement;
 
     // reset error before update
-    setError("");
+    setError('');
     // update store
     dispatch(dispatchFunction(target.value));
 
-    if (target.value.length > 0 && !target.value.startsWith(" ")) {
+    if (target.value.length > 0 && !target.value.startsWith(' ')) {
       switch (true) {
-        case inputName === "phone-number":
+        case inputName === 'phone-number':
           validatePhone(target.value, inputName);
           break;
-        case inputName === "email":
+        case inputName === 'email':
           validateEmail(target.value, inputName);
           break;
         default:
-          formDispatch({ type: "setSuccess", payload: { field: inputName, value: target.value } });
+          formDispatch({ type: 'setSuccess', payload: { field: inputName, value: target.value } });
       }
     } else {
-      formDispatch({ type: "setEmpty", payload: { field: inputName, value: "" } });
+      formDispatch({ type: 'setEmpty', payload: { field: inputName, value: '' } });
     }
 
     updateCue();
@@ -168,10 +168,10 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   const validatePhone = (value: string, inputName: string) => {
     if (value.length === 14) {
-      error === "phone-number" ? setError("") : null;
-      formDispatch({ type: "setSuccess", payload: { field: inputName, value: value } });
+      error === 'phone-number' ? setError('') : null;
+      formDispatch({ type: 'setSuccess', payload: { field: inputName, value: value } });
     } else {
-      formDispatch({ type: "setError", payload: { field: inputName, value: value } });
+      formDispatch({ type: 'setError', payload: { field: inputName, value: value } });
     }
   };
 
@@ -180,16 +180,16 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const handlerPhoneMask = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
     const value = input.value;
-    const numbers = value.replace(/\D/g, "");
+    const numbers = value.replace(/\D/g, '');
     const match = numbers.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     const matchOne = numbers.length > 3 ? `(${match[1]}) ` : match[1];
     const matchTwo = numbers.length > 6 ? `${match[2]}-` : match[2];
     setPhoneValue(matchOne + matchTwo + match[3]);
 
     if (numbers.length === 10) {
-      formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setSuccess', payload: { field: input.id, value: input.value } });
     } else {
-      formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setEmpty', payload: { field: input.id, value: input.value } });
     }
 
     dispatch(savePhoneNumber(input.value));
@@ -201,10 +201,10 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (emailRegex.test(value)) {
       emailSuggested(value);
-      error === "email" ? setError("") : null;
-      formDispatch({ type: "setSuccess", payload: { field: inputName, value: value } });
+      error === 'email' ? setError('') : null;
+      formDispatch({ type: 'setSuccess', payload: { field: inputName, value: value } });
     } else {
-      formDispatch({ type: "setError", payload: { field: inputName, value: value } });
+      formDispatch({ type: 'setError', payload: { field: inputName, value: value } });
     }
   };
 
@@ -217,22 +217,22 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     setEmailValue(input.value);
 
     if (emailRegex.test(input.value)) {
-      formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setSuccess', payload: { field: input.id, value: input.value } });
     } else {
-      formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setEmpty', payload: { field: input.id, value: input.value } });
     }
 
     dispatch(saveEmail(input.value));
   };
 
   const emailSuggested = (value: string) => {
-    if (value.length !== 0 && !value.startsWith(" ")) {
-      const lastAt = value.lastIndexOf("@");
-      const lastPoint = value.lastIndexOf(".");
+    if (value.length !== 0 && !value.startsWith(' ')) {
+      const lastAt = value.lastIndexOf('@');
+      const lastPoint = value.lastIndexOf('.');
       const name = value.substring(0, lastAt);
       const host = value.substring(lastAt + 1);
       const domain = value.substring(lastPoint + 1);
-      const domainName = host.split(".");
+      const domainName = host.split('.');
 
       let newName: string = wordDifference(domainName[0], 3, names);
       let newDomain: string = wordDifference(domain, 3, domains);
@@ -252,11 +252,11 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     const target = e.target as HTMLButtonElement;
     dispatch(saveShowSuggested(false));
     dispatch(saveFirstSuggested(false));
-    if (target.dataset.action === "yes") {
+    if (target.dataset.action === 'yes') {
       setEmailValue(newEmail);
       dispatch(saveEmail(newEmail));
       // update form state
-      formDispatch({ type: "setSuccess", payload: { field: "email", value: newEmail } });
+      formDispatch({ type: 'setSuccess', payload: { field: 'email', value: newEmail } });
     }
   };
 
@@ -268,7 +268,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     // set error if any field is empty
     for (let i = 0; i < fieldsList.length; i++) {
       const status = fields[fieldsList[i]].status;
-      if (status === "empty" || status === "error") {
+      if (status === 'empty' || status === 'error') {
         setError(fieldsList[i]);
         dispatch(setButtonLoading(false));
         return;
@@ -276,7 +276,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
     }
 
     if (sendInfo) {
-      const utsCookie = Cookies.get("uts-session");
+      const utsCookie = Cookies.get('uts-session');
       const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
       const sourceId = stepTwo.sourceId || config.sourceId;
       const utss = utsValues?.utss || router.query.utss;
@@ -329,10 +329,10 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   // Form Autocomplete
   const handlerChange = (e: React.ChangeEvent<HTMLInputElement>, dispatchFunction: Function) => {
     const input = e.target;
-    if (input.value.length !== 0 && !input.value.startsWith(" ")) {
-      formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
+    if (input.value.length !== 0 && !input.value.startsWith(' ')) {
+      formDispatch({ type: 'setSuccess', payload: { field: input.id, value: input.value } });
     } else {
-      formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setEmpty', payload: { field: input.id, value: input.value } });
     }
 
     dispatch(dispatchFunction(input.value));
@@ -342,23 +342,23 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
 
   const handlerAutocomplete = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
-    const ssURL = "https://us-autocomplete-pro.api.smartystreets.com/lookup";
+    const ssURL = 'https://us-autocomplete-pro.api.smartystreets.com/lookup';
     const ssKey = `?auth-id=${config.ssAuthToken}`;
     const ssZipCode = `&include_only_zip_codes=${props.zipcode}`;
     const ssSearch = `&search=${input.value}`;
     setAddressValue(input.value);
 
-    if (input.value.length !== 0 && !input.value.startsWith(" ")) {
+    if (input.value.length !== 0 && !input.value.startsWith(' ')) {
       const resAutocomplete = await fetch(ssURL + ssKey + ssZipCode + ssSearch);
       const jsonAutocomplete = await resAutocomplete.json();
 
       setAddressAutocomplete(jsonAutocomplete.suggestions !== null ? jsonAutocomplete.suggestions : []);
       setAutocomplete({ show: true, lastValue: autocomplete.lastValue });
-      formDispatch({ type: "setSuccess", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setSuccess', payload: { field: input.id, value: input.value } });
     } else {
       setAutocomplete({ show: false, lastValue: autocomplete.lastValue });
       setAddressAutocomplete([]);
-      formDispatch({ type: "setEmpty", payload: { field: input.id, value: input.value } });
+      formDispatch({ type: 'setEmpty', payload: { field: input.id, value: input.value } });
     }
 
     dispatch(saveAddress(input.value));
@@ -371,13 +371,13 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   };
 
   const validateOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      validateInput(e, "email", saveEmail);
+    if (e.key === 'Enter') {
+      validateInput(e, 'email', saveEmail);
     }
   };
 
   // Reset errors
-  const resetErrors = (elem: HTMLInputElement) => setError("");
+  const resetErrors = (elem: HTMLInputElement) => setError('');
 
   return (
     <Box step="3" totalSteps="3" title="Complete Your Information">
@@ -389,11 +389,11 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             type="text"
             name="first-name"
             label="First Name"
-            cue={cue === "first-name"}
-            error={error === "first-name"}
-            success={fields["first-name"].status === "success"}
+            cue={cue === 'first-name'}
+            error={error === 'first-name'}
+            success={fields['first-name'].status === 'success'}
             message="Enter"
-            handlerBlur={(e) => validateInput(e, "first-name", saveFirstName)}
+            handlerBlur={(e) => validateInput(e, 'first-name', saveFirstName)}
             handlerChange={(e) => handlerChange(e, saveFirstName)}
             handlerFocus={(e) => resetErrors(e.target)}
           />
@@ -403,11 +403,11 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
             type="text"
             name="last-name"
             label="Last Name"
-            cue={cue === "last-name"}
-            error={error === "last-name"}
-            success={fields["last-name"].status === "success"}
+            cue={cue === 'last-name'}
+            error={error === 'last-name'}
+            success={fields['last-name'].status === 'success'}
             message="Enter"
-            handlerBlur={(e) => validateInput(e, "last-name", saveLastName)}
+            handlerBlur={(e) => validateInput(e, 'last-name', saveLastName)}
             handlerFocus={(e) => resetErrors(e.target)}
             handlerChange={(e) => handlerChange(e, saveLastName)}
           />
@@ -417,13 +417,13 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           type="tel"
           name="phone-number"
           label="Phone Number"
-          cue={cue === "phone-number"}
-          error={error === "phone-number"}
-          success={fields["phone-number"].status === "success"}
+          cue={cue === 'phone-number'}
+          error={error === 'phone-number'}
+          success={fields['phone-number'].status === 'success'}
           dynamicValue={phoneValue}
           length={14}
           message="Enter a"
-          handlerBlur={(e) => validateInput(e, "phone-number", savePhoneNumber)}
+          handlerBlur={(e) => validateInput(e, 'phone-number', savePhoneNumber)}
           handlerChange={handlerPhoneMask}
           handlerFocus={(e) => resetErrors(e.target)}
           onlyNumbers
@@ -433,14 +433,14 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           type="text"
           name="address"
           label="Address"
-          cue={cue === "address"}
-          error={error === "address"}
-          success={fields["address"].status === "success"}
+          cue={cue === 'address'}
+          error={error === 'address'}
+          success={fields['address'].status === 'success'}
           dynamicValue={addressValue}
           message="Enter a"
           autocomplete="off"
           city={props.city}
-          handlerBlur={(e) => validateInput(e, "address", saveAddress)}
+          handlerBlur={(e) => validateInput(e, 'address', saveAddress)}
           handlerChange={handlerAutocomplete}
           handlerFocus={(e) => resetErrors(e.target)}
         />
@@ -463,13 +463,13 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           type="email"
           name="email"
           label="Email Address"
-          cue={cue === "email"}
-          error={error === "email"}
-          success={fields["email"].status === "success"}
+          cue={cue === 'email'}
+          error={error === 'email'}
+          success={fields['email'].status === 'success'}
           message="Enter an"
           handlerKeypress={(e) => validateOnEnter(e)}
           handlerChange={handlerEmailChange}
-          handlerBlur={(e) => validateInput(e, "email", saveEmail)}
+          handlerBlur={(e) => validateInput(e, 'email', saveEmail)}
           handlerFocus={(e) => resetErrors(e.target)}
         />
         <SendInfo />

@@ -1,28 +1,28 @@
 // Packages
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 // Definitions
-import { IStateSite } from "@/def/IStateSite";
+import { IStateSite } from '@/def/IStateSite';
 
 // Utilities
-import getMonth from "@/util/get-month";
-import getYear from "@/util/get-year";
-import randomizer from "@/util/random-quotes";
+import getMonth from '@/util/get-month';
+import getYear from '@/util/get-year';
+import randomizer from '@/util/random-quotes';
 
 // Initial state
 const initialSite: IStateSite = {
-  month: "",
+  month: '',
   year: 2021,
   quotes: [],
   ui: {
     modal: false,
-    modalType: "",
+    modalType: '',
     buttonLoading: false,
   },
 };
 
 const siteSlice = createSlice({
-  name: "site",
+  name: 'site',
   initialState: initialSite,
   reducers: {
     setMonth: (state: IStateSite) => {

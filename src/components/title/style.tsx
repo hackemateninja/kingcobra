@@ -1,8 +1,8 @@
 // Packages
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TTheme";
+import { ThemeType } from '@/def/TTheme';
 
 const MainTitle = styled.h1<{ theme: ThemeType }>`
   font-weight: bold;

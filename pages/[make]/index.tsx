@@ -1,43 +1,43 @@
 // Packages
-import { useEffect } from "react";
-import { ThemeProvider } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
-import * as QueryString from "query-string";
+import { useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import * as QueryString from 'query-string';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
-import { IPreload } from "@/def/IMetaData";
-import { IMake } from "@/def/IMake";
-import { IModel } from "@/def/IModel";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+import { IPreload } from '@/def/IMetaData';
+import { IMake } from '@/def/IMake';
+import { IModel } from '@/def/IModel';
 
 // Layout
-import DefaultLayout from "@/layout/default";
+import DefaultLayout from '@/layout/default';
 
 // Slices
-import { setMakes, setSelectedMake, saveModels } from "@/redux/slices/step-one";
+import { setMakes, setSelectedMake, saveModels } from '@/redux/slices/step-one';
 
 // Components
-import MetaData from "@/comp/meta-data";
-import StepOne from "@/comp/steps/step-one";
-import Redirect from "@/comp/redirect";
-import Title from "@/comp/title";
-import SubTitle from "@/comp/subtitle";
+import MetaData from '@/comp/meta-data';
+import StepOne from '@/comp/steps/step-one';
+import Redirect from '@/comp/redirect';
+import Title from '@/comp/title';
+import SubTitle from '@/comp/subtitle';
 
 // Utilities
-import setSuffix from "@/util/suffix";
-import combineAnS from "@/util/combine-ans";
-import setPrefix from "@/util/prefix";
-import { config } from "@/util/config";
-import getYear from "@/util/get-year";
-import getMonth from "@/util/get-month";
-import randomizer from "@/util/random-quotes";
+import setSuffix from '@/util/suffix';
+import combineAnS from '@/util/combine-ans';
+import setPrefix from '@/util/prefix';
+import { config } from '@/util/config';
+import getYear from '@/util/get-year';
+import getMonth from '@/util/get-month';
+import randomizer from '@/util/random-quotes';
 
 // Styles
-import GlobalStyles from "@/theme/global";
-import CarcomTheme from "@/theme/carcom";
+import GlobalStyles from '@/theme/global';
+import CarcomTheme from '@/theme/carcom';
 
 const Make: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -55,21 +55,21 @@ const Make: React.FC<IPlainObject> = (props) => {
 
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
-  const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
-  const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
+  const prekeys = setPrefix(keywordsPnS.prefix, name, ', ');
+  const sufkeys = setSuffix(keywordsPnS.suffix, name, ', ');
   const keys = `${prekeys}, ${sufkeys}`;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
     const { zip } = zipcode;
-    
+
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
-    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
 
     window.open(
       `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
-      "",
+      '',
       `width=${screen.width},height=${screen.height}`
     );
 
@@ -83,8 +83,8 @@ const Make: React.FC<IPlainObject> = (props) => {
   }, []);
 
   const preload: IPreload[] = [
-    { elem: props.make.imageJpg, type: "image" },
-    { elem: props.make.smallJpg, type: "image" },
+    { elem: props.make.imageJpg, type: 'image' },
+    { elem: props.make.smallJpg, type: 'image' },
   ];
 
   return (

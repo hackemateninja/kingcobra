@@ -36,6 +36,12 @@ Run locally the built version
 yarn start
 ```
 
+Run lint
+
+```sh
+yarn lint .
+```
+
 **NOTE:** the build process generates all the static routes for s1. It dependes on the api resposes from /api/makes and /api/models/`{make}`
 
 ## Azure Configurations

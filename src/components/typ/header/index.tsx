@@ -9,14 +9,16 @@ import Container from '../container';
 import { HeaderWrapper, HeaderImg } from './style';
 
 const Header: React.FC = () => {
-	const themeContext = useContext(ThemeContext);
-	return (
-		<HeaderWrapper>
-			<Container>
-				<HeaderImg><use xlinkHref={themeContext.logo.filename} /></HeaderImg>
-			</Container>
-		</HeaderWrapper>
-	);
+  const themeContext = useContext(ThemeContext);
+  return (
+    <HeaderWrapper>
+      <Container>
+        <HeaderImg>
+          <use xlinkHref={themeContext.logo.filename} />
+        </HeaderImg>
+      </Container>
+    </HeaderWrapper>
+  );
 };
 
 export default Header;

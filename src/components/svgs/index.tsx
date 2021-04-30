@@ -1,9 +1,9 @@
-import React from "react";
-import { IPlainObject } from "@/def/IPlainObject";
+import React from 'react';
+import { IPlainObject } from '@/def/IPlainObject';
 
 const SVGs: React.FC<IPlainObject> = (props) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 0, height: 0, display: "block" }}>
+    <svg xmlns="http://www.w3.org/2000/svg" style={{ width: 0, height: 0, display: 'block' }}>
       <symbol id="logo" viewBox="0 0 481.51 103.78">
         <defs>
           <linearGradient

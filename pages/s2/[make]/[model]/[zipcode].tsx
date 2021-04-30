@@ -1,49 +1,49 @@
 // Packages
-import { useEffect } from "react";
-import { ThemeProvider } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
-import { useUserAgent } from "next-useragent";
-import * as cookie from "cookie";
-import { SeverityLevel } from "@microsoft/applicationinsights-web";
-import * as QueryString from "query-string";
+import { useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { useUserAgent } from 'next-useragent';
+import * as cookie from 'cookie';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
+import * as QueryString from 'query-string';
 
 // Definitions
-import { IPlainObject } from "@/def/IPlainObject";
-import { RootState } from "@/def/TRootReducer";
-import { IModel } from "@/def/IModel";
-import { IMldDealersResponse } from "@/def/IMldResponse";
+import { IPlainObject } from '@/def/IPlainObject';
+import { RootState } from '@/def/TRootReducer';
+import { IModel } from '@/def/IModel';
+import { IMldDealersResponse } from '@/def/IMldResponse';
 
 // Layout
-import DefaultLayout from "@/layout/default";
+import DefaultLayout from '@/layout/default';
 
 // Slices
-import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from "@/redux/slices/step-one";
-import { saveDeviceType, saveDealers } from "@/redux/slices/step-two";
-import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from "@/redux/slices/thankyou";
+import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
+import { saveDeviceType, saveDealers } from '@/redux/slices/step-two';
+import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from '@/redux/slices/thankyou';
 
 // Components
-import StepTwo from "@/comp/steps/step-two";
-import Title from "@/comp/title";
-import SubTitle from "@/comp/subtitle";
-import Display from "@/comp/container/display";
-import MetaData from "@/comp/meta-data";
-import Redirect from "@/comp/redirect";
-import DynamicAdWidget from "@/comp/dynamic-ad-widget";
+import StepTwo from '@/comp/steps/step-two';
+import Title from '@/comp/title';
+import SubTitle from '@/comp/subtitle';
+import Display from '@/comp/container/display';
+import MetaData from '@/comp/meta-data';
+import Redirect from '@/comp/redirect';
+import DynamicAdWidget from '@/comp/dynamic-ad-widget';
 
 // Utilities
-import setSuffix from "@/util/suffix";
-import combineAnS from "@/util/combine-ans";
-import setPrefix from "@/util/prefix";
-import { config } from "@/util/config";
-import { appInsights } from "@/util/app-insights";
-import getYear from "@/util/get-year";
-import getMonth from "@/util/get-month";
+import setSuffix from '@/util/suffix';
+import combineAnS from '@/util/combine-ans';
+import setPrefix from '@/util/prefix';
+import { config } from '@/util/config';
+import { appInsights } from '@/util/app-insights';
+import getYear from '@/util/get-year';
+import getMonth from '@/util/get-month';
 
 // Styles
-import GlobalStyles from "@/theme/global";
-import CarcomTheme from "@/theme/carcom";
+import GlobalStyles from '@/theme/global';
+import CarcomTheme from '@/theme/carcom';
 
 const zipRegex = /^\d{5}$|^\d{5}$/;
 
@@ -65,8 +65,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const noCoverageTitle = `No Coverage ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
-  const prekeys = setPrefix(keywordsPnS.prefix, name, ", ");
-  const sufkeys = setSuffix(keywordsPnS.suffix, name, ", ");
+  const prekeys = setPrefix(keywordsPnS.prefix, name, ', ');
+  const sufkeys = setSuffix(keywordsPnS.suffix, name, ', ');
   const keys = `${prekeys}, ${sufkeys}`;
 
   if (dealers && !dealers.coverage) {
@@ -86,11 +86,11 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   useEffect(() => {
     let device: string;
     if (ua.isMobile) {
-      device = "Mobile";
+      device = 'Mobile';
     } else if (ua.isTablet) {
-      device = "Tablet";
+      device = 'Tablet';
     } else {
-      device = "Desktop";
+      device = 'Desktop';
     }
 
     dispatch(saveDeviceType(device));
@@ -103,7 +103,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
-    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || "";
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
 
     router.push(`/thankyou${query}`);
   };
@@ -139,12 +139,12 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const ua = useUserAgent(context.req.headers["user-agent"]);
+  const ua = useUserAgent(context.req.headers['user-agent']);
 
-  let utss = "";
+  let utss = '';
   if (context.req.headers.cookie) {
     const cookies = cookie.parse(context.req.headers.cookie);
-    const utsCookie = cookies["uts-session"];
+    const utsCookie = cookies['uts-session'];
     const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
 
     utss = utsValues?.utss;

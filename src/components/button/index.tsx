@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 // Definitions
-import { IButton } from "@/def/IButton";
-import { RootState } from "@/def/TRootReducer";
+import { IButton } from '@/def/IButton';
+import { RootState } from '@/def/TRootReducer';
 
 // Styles
-import { ButtonWrapper, ButtonSpan } from "./style";
-import Loader from "../loader";
+import { ButtonWrapper, ButtonSpan } from './style';
+import Loader from '../loader';
 
 const Button: React.FC<IButton> = (props) => {
   const loading = useSelector((state: RootState) => state.site.ui.buttonLoading);

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 
 const SkeletonShine = keyframes`
 	100% {
@@ -39,7 +39,7 @@ const DealersSkeletonItem = styled.div<{ size: number }>`
   box-shadow: inset ${(props) => `-${props.size}px`} 0px 0px 0px #fff;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     border-radius: 3px;
     top: 100%;
@@ -67,7 +67,7 @@ const DealersSkeletonItem = styled.div<{ size: number }>`
     animation: ${SkeletonShine} linear 1s infinite;
   }
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     border-radius: 3px;
     left: -30px;

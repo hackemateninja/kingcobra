@@ -1,8 +1,8 @@
 // Packages
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from "@/def/TTheme";
+import { ThemeType } from '@/def/TTheme';
 
 const BoxTitleDesktop = styled.h3<{ theme: ThemeType }>`
   font-size: ${(props) => props.theme.font.size.box.title.xs};

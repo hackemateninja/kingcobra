@@ -1,17 +1,17 @@
 // Packages
-import React from "react";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 // Slices
-import { setModal, setModalType } from "@/redux/slices/site";
+import { setModal, setModalType } from '@/redux/slices/site';
 
 const Terms: React.FC = () => {
   const dispatch = useDispatch();
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    document.getElementById("modalBody").scrollTo(0, 0);
+    document.getElementById('modalBody').scrollTo(0, 0);
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     dispatch(setModal(true));
     dispatch(setModalType(target.dataset.type));
@@ -39,10 +39,10 @@ const Terms: React.FC = () => {
       <p>
         By accessing, browsing and/or using the AutoWeb Websites, you acknowledge that you have read, understood, and
         agree, to be bound by the Terms of Use and the terms of the AutoWeb Privacy Policy, which is incorporated by
-        reference into these Terms of Use and can be reviewed by clicking on the following link{" "}
+        reference into these Terms of Use and can be reviewed by clicking on the following link{' '}
         <a href="#privacy" data-type="privacy" onClick={handlerModalOpen}>
           Privacy Policy
-        </a>{" "}
+        </a>{' '}
         and to comply with all applicable laws, rules and regulations associated with your use of the AutoWeb Websites.
         If you do not agree to the Terms of Use, you are not authorized to use the AutoWeb Websites. The material
         provided on the AutoWeb Websites is protected by law, including, but not limited to, United States Copyright Law
@@ -55,7 +55,7 @@ const Terms: React.FC = () => {
       <p id="tcpa_v3">
         By submitting your telephone number to us, you are consenting to be contacted via the phone number you provided
         (whether wireless or land line) by AutoWeb, the manufacturer of the vehicle you selected, by the Dealer(s) you
-        selected, entities with whom AutoWeb may share your information pursuant to our{" "}
+        selected, entities with whom AutoWeb may share your information pursuant to our{' '}
         <a href="#privacy" data-type="privacy" onClick={handlerModalOpen}>
           Privacy Policy
         </a>
@@ -77,10 +77,10 @@ const Terms: React.FC = () => {
         contact the third party directly. Please note that if you opt out of automated calls, AutoWeb and any third
         parties reserve the right to make non-automated calls to you relating to any transaction or your relationship
         with AutoWeb or the third parties. To obtain assistance from our ConsumerCare Department, Reply AUTO HELP from a
-        text message or contact our{" "}
-        <a href="https://www.autoweb.com/contact-us.html" target="_blank">
+        text message or contact our{' '}
+        <a href="https://www.autoweb.com/contact-us.html" target="_blank" rel="noreferrer">
           ConsumerCare
-        </a>{" "}
+        </a>{' '}
         Department as provided in our Privacy Policy.
       </p>
       <h2>
@@ -106,7 +106,7 @@ const Terms: React.FC = () => {
             for automotive financing, insurance or other automotive-related products or services offered by third
             parties
           </u>
-        </strong>{" "}
+        </strong>{' '}
         ("<strong>Third Party Product and Service Providers</strong>"). Content and information displayed on the AutoWeb
         Websites is being provided for educational and research purposes only. The AutoWeb Websites are designed to
         enable users to obtain online and offline price, payment and financing quotes from participating Vehicle Sellers
@@ -118,7 +118,7 @@ const Terms: React.FC = () => {
         errors by the Vehicle Sellers or Third Party Product and Service Providers may occur in the entry of condition,
         warranty, pricing and/or payment data that forms the basis of such quotes furnished through AutoWeb Websites.
         AutoWeb is not responsible for these errors, but works with Vehicle Sellers and Third Party Product and Service
-        Providers to correct these errors when they come to AutoWeb’s attention.{" "}
+        Providers to correct these errors when they come to AutoWeb’s attention.{' '}
         <strong>
           <u>
             AutoWeb plays no part in actual sales or lease transaction or in brokering sales or lease transactions and
@@ -129,12 +129,12 @@ const Terms: React.FC = () => {
             between buyers and sellers, including escrow services or title transfer services. Avoid any such service
             that claims to be operated by AutoWeb.
           </u>
-        </strong>{" "}
+        </strong>{' '}
         You are encouraged to thoroughly review any documents you are asked to sign at the time of purchase or lease of
         a vehicle or the purchase of other products or services, as neither a Vehicle Seller nor a Third Party Product
         and Service Provider is prohibited from independently negotiating all of the terms and conditions of the final
         sale or lease. Any terms, conditions, warranties or representations in a written contract with the Vehicle
-        Seller or Third Party Product and Service Provider are legally binding upon you.{" "}
+        Seller or Third Party Product and Service Provider are legally binding upon you.{' '}
         <strong>
           <u>
             AutoWeb is not a party to any transaction between you and a Vehicle Seller or a Third Party Product and
@@ -178,7 +178,7 @@ const Terms: React.FC = () => {
       <p>
         AutoWeb is committed to respecting your privacy and protecting your personally identifiable information. Any
         information AutoWeb may collect through your use of an AutoWeb Website is subject to AutoWeb’s Privacy Policy,
-        which can be viewed at{" "}
+        which can be viewed at{' '}
         <a href="#privacy" data-type="privacy" onClick={handlerModalOpen}>
           Privacy Policy
         </a>
@@ -204,19 +204,19 @@ const Terms: React.FC = () => {
       </p>
       <p>
         All transactions are conducted by and fulfilled through Vehicle Sellers that are not owned by or affiliated with
-        AutoWeb.{" "}
+        AutoWeb.{' '}
         <strong>
           <u>AutoWeb does not guarantee vehicle prices or availability.</u>
-        </strong>{" "}
+        </strong>{' '}
         All vehicle descriptions and prices provided to you either on an AutoWeb Website or via separate contact by a
         Vehicle Seller following your submission of a purchase request are made by the participating Vehicle Sellers and
         not by AutoWeb. All vehicles prices and descriptions listed as available on an AutoWeb Website under the AutoWeb
         Used Car pages are established and electronically placed there by the participating Vehicle Seller that is
-        offering the vehicle for sale or lease and not AutoWeb.{" "}
+        offering the vehicle for sale or lease and not AutoWeb.{' '}
         <strong>
           ALL VEHICLES ARE SUBJECT TO PRIOR SALE AND MAY NOT BE AVAILABLE WHEN YOUR REQUEST IS PROCESSED. ALL PRICES AND
           TERMS ARE VALID ON DATE OF PUBLICATION ONLY.
-        </strong>{" "}
+        </strong>{' '}
         All data and information used in our research tools for configuring vehicles, selecting options, determining
         pricing, invoice or incentives on this Website are supplied by third party vendors for educational purposes only
         and are not intended to be binding on AutoWeb or the subscribing dealer. All tools appearing on an AutoWeb
@@ -261,7 +261,7 @@ const Terms: React.FC = () => {
         considered a “soft credit inquiry,” which means it does not affect your credit score. Soft credit inquiries are
         shown only on copies of credit disclosures that are provided to you. Creditors and other third-party users of
         credit reports cannot see soft inquiries. All credit inquiries are made by truPayments and all consumer credit
-        reports sent to lenders or third parties are transmitted by truPayments.{" "}
+        reports sent to lenders or third parties are transmitted by truPayments.{' '}
         <strong>
           <u>AutoWeb does not obtain or retain any consumer credit information from truPayments</u>
         </strong>
@@ -419,15 +419,15 @@ const Terms: React.FC = () => {
       </p>
       <ul>
         <li>
-          {" "}
+          {' '}
           A description of the copyrighted work, trademark or other intellectual property that you claim has been
-          infringed upon;{" "}
+          infringed upon;{' '}
         </li>
         <li> The reasons why you believe an infringement of your intellectual property has occurred; </li>
         <li>
-          {" "}
+          {' '}
           A description of where the material that you claim is infringing is located on an AutoWeb Website, including
-          the URL of the page on which it appears; and{" "}
+          the URL of the page on which it appears; and{' '}
         </li>
         <li>Your address, telephone number and e-mail address.</li>
       </ul>
@@ -435,7 +435,7 @@ const Terms: React.FC = () => {
         Your written notice containing the foregoing information should be sent to AutoWeb at the following address:
       </p>
       <p className="center-text">
-        {" "}
+        {' '}
         AutoWeb, Inc.
         <br /> 6410 Oak Canyon, Suite 250
         <br /> Irvine, CA 92618-5214
@@ -535,7 +535,7 @@ const Terms: React.FC = () => {
         ("<strong>Dispute Notice Address</strong>''):
       </p>
       <p className="center-text">
-        {" "}
+        {' '}
         AutoWeb, Inc.
         <br /> 400 North Ashley Drive, Suite 300
         <br /> Tampa, Florida 33602-4314
@@ -552,7 +552,7 @@ const Terms: React.FC = () => {
         promptly reimburse you for your payment of the filing fee. The filing fee currently is $200, but is subject to
         change by the arbitration provider. The arbitration will be governed by the Consumer Arbitration Rules ("
         <strong>AAA Rules</strong>") of the American Arbitration Association ("<strong>AAA</strong>"), as modified by
-        these Terms Of Use, and will be administered by the AAA. The AAA Rules are available online at{" "}
+        these Terms Of Use, and will be administered by the AAA. The AAA Rules are available online at{' '}
         <u>www.adr.org</u>, by calling the AAA at 1-800-778-7879, or by writing to the Notice Address. The AAA Rules may
         change from time to time, and you should review them periodically.
       </p>
@@ -660,7 +660,7 @@ const Terms: React.FC = () => {
         <strong>Contacting Us</strong>
       </h2>
       <p>
-        If you have any questions regarding these Terms of Use please contact our Consumer Care Department by email at{" "}
+        If you have any questions regarding these Terms of Use please contact our Consumer Care Department by email at{' '}
         <a href="mailto:consumercare@autoweb.com">consumercare@autoweb.com</a>, by calling via our toll-free number at
         (800) 267-2015.
       </p>

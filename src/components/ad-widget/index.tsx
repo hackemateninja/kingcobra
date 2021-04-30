@@ -1,20 +1,20 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // Definitions
-import { IAdWidget } from "@/def/IAdWidget";
+import { IAdWidget } from '@/def/IAdWidget';
 
 // Hooks
-import useScript from "@/src/hooks/useScript";
+import useScript from '@/src/hooks/useScript';
 
 // Components
-import MetaData from "../meta-data";
+import MetaData from '../meta-data';
 
 declare const window: any;
 
 const AdWidget: React.FC<IAdWidget> = (props) => {
   const { title, implement, make, model, zip, utss, category, onClick } = props;
 
-  useScript("//cdn.awadserver.com/widget/js/awloader.min.js", category);
+  useScript('//cdn.awadserver.com/widget/js/awloader.min.js', category);
 
   useEffect(() => {
     if (make && model && zip) {

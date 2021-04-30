@@ -1,6 +1,6 @@
-import { ApplicationInsights } from "@microsoft/applicationinsights-web";
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
-import { config } from "./config";
+import { config } from './config';
 
 const appInsights = new ApplicationInsights({
   config: {

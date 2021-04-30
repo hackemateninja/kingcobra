@@ -1,8 +1,8 @@
 // Packages
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 // Definitions
-import { IListing } from "@/def/IListings";
+import { IListing } from '@/def/IListings';
 
 // Styles
 import {
@@ -17,10 +17,10 @@ import {
   ListingFooterLink,
   ListingSide,
   ListingMark,
-} from "./style";
+} from './style';
 
 // Components
-import DynamicAdWidget from "@/comp/dynamic-ad-widget";
+import DynamicAdWidget from '@/comp/dynamic-ad-widget';
 
 const Listing: React.FC<IListing> = (props) => {
   const [bg, setBg] = useState<number>(1);
@@ -48,7 +48,7 @@ const Listing: React.FC<IListing> = (props) => {
       default:
         return (
           <ListingTitle>
-            Don't stop{" "}
+            Don't stop{' '}
             <ListingSide>
               researching<ListingMark>!</ListingMark>
             </ListingSide>

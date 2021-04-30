@@ -1,12 +1,12 @@
 // Packages
-import { configureStore } from "@reduxjs/toolkit";
-import { createStateSyncMiddleware } from "redux-state-sync";
+import { configureStore } from '@reduxjs/toolkit';
+import { createStateSyncMiddleware } from 'redux-state-sync';
 
 // Reducers
-import rootReducer from "@/redux/reducers";
+import rootReducer from '@/redux/reducers';
 
 // Utils
-import { appInsights } from "@/util/app-insights";
+import { appInsights } from '@/util/app-insights';
 
 // Middleware
 const middlewares = [];
@@ -19,5 +19,5 @@ try {
 export default configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== 'production',
 });

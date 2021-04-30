@@ -1,16 +1,16 @@
 // Packages
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SeverityLevel } from "@microsoft/applicationinsights-web";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 // Definitions
-import { IStateStepTwo } from "@/def/IStateStepTwo";
-import { IDealer, IDealersParams } from "@/def/IDealers";
-import { IMldDealersResponse, IMldLeadResponse } from "@/def/IMldResponse";
-import { IPostLeadParams } from "@/def/IPostLeadParams";
+import { IStateStepTwo } from '@/def/IStateStepTwo';
+import { IDealer, IDealersParams } from '@/def/IDealers';
+import { IMldDealersResponse, IMldLeadResponse } from '@/def/IMldResponse';
+import { IPostLeadParams } from '@/def/IPostLeadParams';
 
 // Utilities
-import { config } from "@/util/config";
-import { appInsights } from "@/util/app-insights";
+import { config } from '@/util/config';
+import { appInsights } from '@/util/app-insights';
 
 // Initial state
 const initialStepTwo: IStateStepTwo = {
@@ -18,28 +18,28 @@ const initialStepTwo: IStateStepTwo = {
     dealers: [],
     selectedDealers: [],
     leadDealers: [],
-    first: "",
-    last: "",
-    phone: "",
-    address: "",
-    email: "",
+    first: '',
+    last: '',
+    phone: '',
+    address: '',
+    email: '',
     coverage: false,
-    sourceId: "",
-    device: "Unknown",
-    transactionId: "",
+    sourceId: '',
+    device: 'Unknown',
+    transactionId: '',
     sendInfo: true,
   },
   ui: {
-    button: "Get Pricing",
-    boxActive: "dealers",
-    loading: "idle",
+    button: 'Get Pricing',
+    boxActive: 'dealers',
+    loading: 'idle',
     firstSuggested: true,
     showSuggested: false,
   },
 };
 
 export const setDealers = createAsyncThunk(
-  "get/dealers",
+  'get/dealers',
   async ({ sourceId, make, model, year, zip, trim, trackingId, sessionId }: IDealersParams) => {
     return new Promise<IMldDealersResponse>((resolve, reject) => {
       const url = `${config.apiBaseUrl}/api/dealers`;
@@ -77,15 +77,15 @@ export const setDealers = createAsyncThunk(
   }
 );
 
-export const postLeads = createAsyncThunk("post/leads", async (lead: IPostLeadParams) => {
+export const postLeads = createAsyncThunk('post/leads', async (lead: IPostLeadParams) => {
   return new Promise<IMldLeadResponse>((resolve, reject) => {
     const url = `${config.apiBaseUrl}/api/lead`;
     const { make, model } = lead.vehicle;
     const { zip } = lead.customer;
 
     fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(lead),
     })
       .then((response) => {
@@ -116,7 +116,7 @@ export const postLeads = createAsyncThunk("post/leads", async (lead: IPostLeadPa
 });
 
 const stepTwoSlice = createSlice({
-  name: "step-two",
+  name: 'step-two',
   initialState: initialStepTwo,
   reducers: {
     setBoxActive: (state, action) => {
@@ -178,7 +178,7 @@ const stepTwoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
       state.data.dealers = [];
-      state.ui.loading = "pending";
+      state.ui.loading = 'pending';
     });
 
     builder.addCase(setDealers.fulfilled, (state, { payload }) => {
@@ -199,13 +199,13 @@ const stepTwoSlice = createSlice({
         state.data.dealers = [];
       }
 
-      state.ui.loading = "succeeded";
+      state.ui.loading = 'succeeded';
     });
 
     builder.addCase(setDealers.rejected, (state) => {
       state.data.dealers = [];
       state.data.coverage = false;
-      state.ui.loading = "failed";
+      state.ui.loading = 'failed';
     });
 
     builder.addCase(postLeads.pending, (state) => {

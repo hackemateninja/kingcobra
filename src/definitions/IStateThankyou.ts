@@ -1,5 +1,5 @@
-import { IModel } from "@/def/IModel";
-import { IMake } from "@/def/IMake";
+import { IModel } from '@/def/IModel';
+import { IMake } from '@/def/IMake';
 
 interface IZipCode {
   city?: string;
@@ -12,7 +12,7 @@ interface IDataThankyou {
   make: IMake;
   model: IModel;
   zipcode: string;
-  selectedMakes: IMake[]
+  selectedMakes: IMake[];
 }
 
 interface IUIThankyou {

@@ -1,17 +1,17 @@
 // Packages
-import React from "react";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 // Slices
-import { setModal, setModalType } from "@/redux/slices/site";
+import { setModal, setModalType } from '@/redux/slices/site';
 
 const Terms: React.FC = () => {
   const dispatch = useDispatch();
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    document.getElementById("modalBody").scrollTo(0, 0);
+    document.getElementById('modalBody').scrollTo(0, 0);
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     dispatch(setModal(true));
     dispatch(setModalType(target.dataset.type));
@@ -78,7 +78,7 @@ const Terms: React.FC = () => {
         parties reserve the right to make non-automated calls to you relating to any transaction or your relationship
         with AutoWeb or the third parties. To obtain assistance from our ConsumerCare Department, Reply AUTO HELP from a
         text message or contact our
-        <a href="https://www.autoweb.com/contact-us.html" target="_blank">
+        <a href="https://www.autoweb.com/contact-us.html" target="_blank" rel="noreferrer">
           ConsumerCare
         </a>
         Department as provided in our Privacy Policy.

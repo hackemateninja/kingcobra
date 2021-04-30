@@ -1,12 +1,6 @@
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-} from "next/document";
-import { ServerStyleSheet } from "styled-components";
-import { config } from "@/util/config";
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
+import { config } from '@/util/config';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -16,8 +10,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -52,17 +45,20 @@ export default class MyDocument extends Document {
     const gtmInjectScript = `
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.defer=true;j.async=true;j.src=
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer', '${config.gtmId}');
+      })(window,document,'script','dataLayer','${config.gtmId}');
     `;
 
     return (
       <Html lang="en">
         <Head>
-          {config.activateVWO && (
-            <script dangerouslySetInnerHTML={{ __html: vwoInjectScript }} />
-          )}
+          {config.activateGTM && <script dangerouslySetInnerHTML={{ __html: gtmInjectScript }} />}
+          {config.activateVWO && <script dangerouslySetInnerHTML={{ __html: vwoInjectScript }} />}
+          <meta
+            name="com.silverpop.brandeddomains"
+            content="www.pages02.net,autobytel.com,autobytel.mkt5954.com,car.com,usedcars.com"
+          />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -70,16 +66,8 @@ export default class MyDocument extends Document {
             `,
             }}
           ></script>
-          <link
-            rel="preload"
-            href="https://static.car.com/cars/assets/js/cookies-disabled.js"
-            as="script"
-          />
-          <link
-            rel="preload"
-            href="https://static.car.com/cars/assets/js/uts-service-uri-storage.js"
-            as="script"
-          />
+          <link rel="preload" href="https://static.car.com/cars/assets/js/cookies-disabled.js" as="script" />
+          <link rel="preload" href="https://static.car.com/cars/assets/js/uts-service-uri-storage.js" as="script" />
           {config.activateGTM && (
             <>
               <link rel="preconnect" href="https://tags.srv.stackadapt.com" />
@@ -88,14 +76,8 @@ export default class MyDocument extends Document {
           )}
           {config.activateVWO && (
             <>
-              <link
-                rel="preconnect"
-                href="https://dev.visualwebsiteoptimizer.com"
-              />
-              <link
-                rel="dns-prefetch"
-                href="https://dev.visualwebsiteoptimizer.com"
-              />
+              <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
+              <link rel="dns-prefetch" href="https://dev.visualwebsiteoptimizer.com" />
             </>
           )}
         </Head>
@@ -117,19 +99,8 @@ export default class MyDocument extends Document {
               `,
             }}
           ></script>
-          <script
-            src="https://static.car.com/cars/assets/js/cookies-disabled.js"
-            defer
-            async
-          ></script>
-          <script
-            src="https://static.car.com/cars/assets/js/uts-service-uri-storage.js"
-            defer
-            async
-          ></script>
-          {config.activateGTM && (
-            <script dangerouslySetInnerHTML={{ __html: gtmInjectScript }} />
-          )}
+          <script src="https://static.car.com/cars/assets/js/cookies-disabled.js" defer async></script>
+          <script src="https://static.car.com/cars/assets/js/uts-service-uri-storage.js" defer async></script>
         </body>
       </Html>
     );

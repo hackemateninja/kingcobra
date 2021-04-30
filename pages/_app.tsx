@@ -1,12 +1,13 @@
 // Packages
-import React from "react";
-import { Provider } from "react-redux";
+import 'preact/debug';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 // Definitions
-import { AppProps } from "next/app";
+import { AppProps } from 'next/app';
 
 // Store
-import store from "@/src/redux/";
+import store from '@/src/redux/';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
