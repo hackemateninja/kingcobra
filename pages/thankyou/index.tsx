@@ -1,7 +1,6 @@
 // Packages
 import { useEffect } from 'react';
 import { GetStaticProps } from 'next';
-import { ThemeProvider } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { config } from '@/util/config';
@@ -19,7 +18,6 @@ import { setSelectedMakes } from '@/redux/slices/thankyou';
 
 // Styles
 import GlobalStyles from '@/theme/global';
-import CarcomTheme from '@/theme/carcom/typ';
 
 // Utilities
 import setPrefix from '@/util/prefix';
@@ -54,8 +52,6 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const { prefix, separator } = metadata.thankyou;
 
   const title = setPrefix(prefix, '', separator);
-
-  const selectedInfo = useSelector((state: RootState) => state.stepOne.data);
   const make = useSelector((state: RootState) => state.thankyou.data.make);
   const model = useSelector((state: RootState) => state.thankyou.data.model);
   const zipcode = useSelector((state: RootState) => state.thankyou.data.zipcode);
@@ -95,7 +91,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const makesList = props.makes.filter((m) => !values.includes(m.seoName));
 
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <MetaData title={title} />
       <GlobalStyles />
       <Typ>
@@ -116,7 +112,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
         </div>
       </Typ>
       <SVGs />
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -194,6 +194,10 @@ const CarComTheme = {
       default: '#E31818',
       secondary: '#FF551F',
     },
+    listing: {
+      border: '', // TODO: Assign some values
+      default: '',
+    },
   },
   container: {
     sm: '100%',
@@ -208,6 +212,10 @@ const CarComTheme = {
     height: {
       xs: '20px',
       md: '50px',
+    },
+    margin: {
+      xs: '0px',
+      md: '0px',
     },
     filename: '#logo-carcom',
   },

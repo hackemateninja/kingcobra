@@ -1,6 +1,5 @@
 // Packages
 import { useEffect } from 'react';
-import { ThemeProvider } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -43,7 +42,6 @@ import getMonth from '@/util/get-month';
 
 // Styles
 import GlobalStyles from '@/theme/global';
-import CarcomTheme from '@/theme/carcom';
 
 const zipRegex = /^\d{5}$|^\d{5}$/;
 
@@ -122,7 +120,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const city = zipcode.zip && `${zipcode.city}, ${zipcode.state} ${zipcode.zip}`;
 
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <MetaData title={title} description={desc} keywords={keys} />
       <GlobalStyles />
       <DefaultLayout year={props.year} month={props.month}>
@@ -134,7 +132,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
         <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
         <StepTwo model={model} city={city} zipcode={props.zip} onSubmit={handlerSubmit} />
       </DefaultLayout>
-    </ThemeProvider>
+    </>
   );
 };
 

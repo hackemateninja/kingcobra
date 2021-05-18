@@ -28,6 +28,9 @@ import SubTitle from '@/comp/subtitle';
 import StepOne from '@/comp/steps/step-one';
 import MetaData from '@/comp/meta-data';
 
+// services
+import { getMakes } from '@/src/services';
+
 // Utilities
 import { config } from '@/util/config';
 import getMonth from '@/util/get-month';
@@ -68,7 +71,7 @@ const Home: React.FC<IPlainObject> = (props) => {
   const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
 
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <MetaData title={title} description={description.join('')} keywords={keywords} preload={preload} />
       <GlobalStyles />
       <DefaultLayout year={props.year} month={month}>
@@ -78,12 +81,12 @@ const Home: React.FC<IPlainObject> = (props) => {
         </SubTitle>
         <StepOne onSubmit={handlerSubmit} makes={props.makes} image="/hero-image.jpg" quotes={props.quotes} />
       </DefaultLayout>
-    </ThemeProvider>
+    </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes: IMake[] = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const makes: IMake[] = await getMakes();
 
   const month = getMonth();
   const year = getYear();
