@@ -34,7 +34,7 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
       updateFunc();
     }
   };
-  const image = model.imageJpg ?? make.imageJpg ?? props.image ?? '/hero-image.jpg';
+  const image = model.mediumJpg ?? make.mediumJpg ?? props.image ?? '/hero-image.jpg';
   const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? '/hero-image.jpg';
 
   return (
@@ -46,7 +46,7 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
             srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
             src={smallImage}
-            alt="Hero image"
+            alt="Hero"
           />
         </HeroImageCover>
       </HeroImageContainer>

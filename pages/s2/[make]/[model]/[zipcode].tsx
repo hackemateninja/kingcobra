@@ -13,6 +13,7 @@ import { IPlainObject } from '@/def/IPlainObject';
 import { RootState } from '@/def/TRootReducer';
 import { IModel } from '@/def/IModel';
 import { IMldDealersResponse } from '@/def/IMldResponse';
+import { IMake } from '@/def/IMake';
 
 // Layout
 import DefaultLayout from '@/layout/default';
@@ -42,6 +43,9 @@ import getMonth from '@/util/get-month';
 
 // Styles
 import GlobalStyles from '@/theme/global';
+
+// Services
+import { getMakes, getModelsByMake } from '@/src/services';
 
 const zipRegex = /^\d{5}$|^\d{5}$/;
 
@@ -155,10 +159,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtZip = context.query.zipcode;
   const secondary = context.query.sl;
 
-  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const makes: IMake[] = await getMakes();
   const make = makes.find((item) => item.seoName === cxtMake);
-
-  const models = await fetch(`${config.apiBaseUrl}/api/models/${cxtMake}`).then<IModel[]>((r) => r.json());
+  const models: IModel[] = await getModelsByMake(cxtMake);
   const model = models.find((item) => item.seoName === cxtModel);
 
   const sourceId = secondary ? config.altSourceId : config.sourceId;

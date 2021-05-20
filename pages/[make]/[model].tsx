@@ -25,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const getModelsByMakeRequests = makes.map((make) => getModelsByMake(make.seoName));
   const receivedModels = await Promise.all(getModelsByMakeRequests);
   const paths = receivedModels.reduce<{ params: { make: string; model: string } }[]>(
-    (paths, models, index) => [
+    (paths, models: IModel[], index) => [
       ...paths,
       ...models.map((model) => ({
         params: {

@@ -32,6 +32,9 @@ import TypFooter from '@/comp/typ/footer';
 import SVGs from '@/comp/typ/svgs';
 import MetaData from '@/comp/meta-data';
 
+// Services
+import { getMakes } from '@/src/services';
+
 const listingInfo = [
   {
     url: '#',
@@ -59,7 +62,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
   const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
-  const image = model.imagePng ?? model.imageJpg ?? '/defaultImage.png';
+  const image = model.mediumPng ?? model.mediumJpg ?? '/defaultImage.png';
 
   const utsCookie = Cookies.get('uts-session');
   const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
@@ -117,7 +120,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  const makes: IMake[] = await getMakes();
   return { props: { makes }, revalidate: 86400 };
 };
 

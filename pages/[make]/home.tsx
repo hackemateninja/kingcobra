@@ -74,7 +74,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const sufkeys = setSuffix(keywordsPnS.suffix, name, ', ');
   const keys = `${prekeys}, ${sufkeys}`;
   const preload: IPreload[] = [
-    { elem: model?.imageJpg || make.imageJpg, type: 'image' },
+    { elem: model?.mediumJpg || make.mediumJpg, type: 'image' },
     { elem: model?.smallJpg || make.smallJpg, type: 'image' },
   ];
 
@@ -92,7 +92,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
           models={models}
           make={make.seoName}
           model={model?.seoName}
-          image={model?.imageJpg}
+          image={model?.mediumJpg}
           smallImage={model?.smallJpg}
           onSubmit={handlerSubmit}
           quotes={quotes}
