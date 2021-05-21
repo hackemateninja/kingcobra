@@ -1,5 +1,5 @@
 // Packages
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import * as QueryString from 'query-string';
@@ -13,7 +13,7 @@ import { IPreload } from '@/def/IMetaData';
 import DefaultLayout from '@/layout/default';
 
 // Slices
-import { setMakes, setSelectedMake, saveModels, setSelectedModel } from '@/redux/slices/step-one';
+import { setMakes, setSelectedMake, saveModels, setSelectedModel, setButtonText } from '@/redux/slices/step-one';
 
 // Components
 import StepOne from '@/comp/steps/step-one';
@@ -29,6 +29,7 @@ import setPrefix from '@/util/prefix';
 
 // Styles
 import GlobalStyles from '@/theme/global';
+import { getCampaignData } from '@/src/services';
 
 const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quotes }) => {
   if (!make) {
@@ -41,6 +42,10 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const { prefix, separator, description, keywordsPnS } = metadata.model;
+  const [enteredHeadline1, setEnteredHeadline1] = useState(null);
+  const [enteredHeadline2, setEnteredHeadline2] = useState(null);
+  const [enteredCampaignImage, setCampaignImage] = useState(null);
+  const [enteredBanner, setBanner] = useState(null);
 
   const handlerSubmit = () => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -67,6 +72,17 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  getCampaignData(router.query as any, make.name, model.name).then((result) => {
+    if (result && result[0]) {
+      const data = result[0];
+      setEnteredHeadline1(data.h1Headline);
+      setEnteredHeadline2(data.h2Headline);
+      setCampaignImage(data.heroImage);
+      setBanner(data.banner.banner);
+      dispatch(setButtonText(data.buttonCta));
+    }
+  });
+
   const name = model ? `${make.name} ${model.name}` : make.name;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const desc = combineAnS(description, name);
@@ -82,10 +98,18 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     <>
       <MetaData title={title} description={desc} keywords={keys} preload={preload} />
       <GlobalStyles />
-      <DefaultLayout year={year} month={month}>
-        <Title>Huge Markdowns on {name} This Month!</Title>
+      <DefaultLayout year={year} month={month} banner={enteredBanner}>
+        <Title>
+          {enteredHeadline1 && <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>}
+          {!enteredHeadline1 && <> Huge Markdowns on {name} This Month! </>}
+        </Title>
         <SubTitle>
-          Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
+          {enteredHeadline2 && <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>}
+          {!enteredHeadline2 && (
+            <>
+              Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
+            </>
+          )}
         </SubTitle>
         <StepOne
           makes={makes}
@@ -94,6 +118,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
           model={model?.seoName}
           image={model?.mediumJpg}
           smallImage={model?.smallJpg}
+          campaignImage={enteredCampaignImage}
           onSubmit={handlerSubmit}
           quotes={quotes}
         />

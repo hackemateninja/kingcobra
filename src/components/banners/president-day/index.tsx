@@ -19,7 +19,7 @@ import {
   FireworkRight,
 } from './style';
 
-const Header: React.FC<IPlainObject> = () => {
+const HeaderPresidentDay: React.FC<IPlainObject> = () => {
   return (
     <>
       <HeaderWrapper>
@@ -58,4 +58,4 @@ const Header: React.FC<IPlainObject> = () => {
   );
 };
 
-export default Header;
+export default HeaderPresidentDay;

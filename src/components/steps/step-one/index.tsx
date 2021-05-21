@@ -20,7 +20,7 @@ const StepOne: React.FC<IPlainObject> = (props) => {
   return (
     <Row>
       <Column sm={1} md={2}>
-        <HeroImage image={props.image} smallImage={props.smallImage} />
+        <HeroImage image={props.image} smallImage={props.smallImage} campaignImage={props.campaignImage} />
         <Display hide="mobile">
           <Quotes items={quotes} />
           <Text center={true} text="authorized">

@@ -34,8 +34,12 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
       updateFunc();
     }
   };
-  const image = model.mediumJpg ?? make.mediumJpg ?? props.image ?? '/hero-image.jpg';
-  const smallImage = model.smallJpg ?? make.smallJpg ?? props.smallImage ?? '/hero-image.jpg';
+  const image = props.campaignImage
+    ? props.campaignImage
+    : model.mediumJpg ?? make.mediumJpg ?? props.image ?? '/hero-image.jpg';
+  const smallImage = props.campaignImage
+    ? props.campaignImage
+    : model.smallJpg ?? make.smallJpg ?? props.smallImage ?? '/hero-image.jpg';
 
   return (
     <HeroImageWrapper>

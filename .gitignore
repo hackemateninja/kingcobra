@@ -2,6 +2,7 @@
 
 # next.js build output
 .next
+.idea
 
 # Logs
 npm-debug.log*

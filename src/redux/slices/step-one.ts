@@ -108,6 +108,9 @@ const stepOneSlice = createSlice({
     isLoading: (state, action) => {
       state.ui.imageLoading = action.payload;
     },
+    setButtonText: (state, action) => {
+      state.ui.button = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Models
@@ -145,6 +148,14 @@ const stepOneSlice = createSlice({
   },
 });
 
-export const { setMakes, setSelectedMake, saveModels, setSelectedModel, saveZipCode, isLoading } = stepOneSlice.actions;
+export const {
+  setMakes,
+  setSelectedMake,
+  saveModels,
+  setSelectedModel,
+  saveZipCode,
+  isLoading,
+  setButtonText,
+} = stepOneSlice.actions;
 
 export default stepOneSlice.reducer;

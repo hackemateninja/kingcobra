@@ -15,4 +15,6 @@ export interface IConfig {
   appInsightsKey: string;
   activateVWO: boolean;
   activateGTM: boolean;
+  graphCMSAuth: string;
+  graphCMSUrl: string;
 }

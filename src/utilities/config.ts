@@ -15,4 +15,6 @@ export const config: IConfig = {
   appInsightsKey: process.env.NEXT_PUBLIC_APP_INSIGHTS_KEY,
   activateVWO: process.env.NEXT_PUBLIC_USE_VWO === 'true',
   activateGTM: process.env.NEXT_PUBLIC_USE_GTM === 'true',
+  graphCMSAuth: process.env.NEXT_AUTH_GRAPHCMS,
+  graphCMSUrl: process.env.NEXT_PUBLIC_GRAPHCMS_URL,
 };
