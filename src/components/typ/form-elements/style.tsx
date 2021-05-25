@@ -23,7 +23,7 @@ const FormElement = styled.div<{ active: boolean; cue: boolean; error: boolean; 
     ${(props) =>
       props.cue &&
       css`
-        border: 1px solid ${(props) => props.theme.input.focusColor};
+        border: 1px solid ${(props) => props.theme.typage.input.focusColor};
       `}
 		${(props) =>
       props.error &&
@@ -150,7 +150,7 @@ const City = styled.span<{ theme: ThemeType; active: boolean; error?: boolean }>
     `}
 	/* bottom: ${(props) => (props.error && props.active ? '0px' : '-14px')}; */
 	right: 0;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.typage.colors.text};
   font-size: 12px;
   transition: transform cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s;
   ${(props) =>

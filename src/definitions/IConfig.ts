@@ -6,6 +6,7 @@ interface IUTSConfig {
 
 export interface IConfig {
   apiBaseUrl: string;
+  apiFunctionUrl: string;
   UTSConfig: IUTSConfig;
   gtmId: string;
   ssAuthToken: string;

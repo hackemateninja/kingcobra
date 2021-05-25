@@ -2,15 +2,15 @@
 import styled, { css } from 'styled-components';
 
 // Definitions
-import { ThemeType } from '@/def/TThemeTyp';
+import { ThemeType } from '@/def/TTheme';
 
 const ListingWrapper = styled.div`
   margin: 0 0 10px;
 `;
 
 const ListingContent = styled.div<{ theme: ThemeType; bg: number }>`
-  border-top: 1px solid ${(props) => props.theme.background.listing.border};
-  background-color: ${(props) => props.theme.background.listing.default};
+  border-top: 1px solid ${(props) => props.theme.typage.background.listing.border};
+  background-color: ${(props) => props.theme.typage.background.listing.default};
   display: block;
   text-decoration: none;
   @media screen and (min-width: 768px) {
@@ -23,12 +23,12 @@ const ListingContent = styled.div<{ theme: ThemeType; bg: number }>`
       left: 0;
       right: 0;
       width: 80%;
-      background: url(${(props) => props.theme.background.listing.imageWebp}) right 70% no-repeat;
+      background: url(${(props) => props.theme.typage.background.listing.imageWebp}) right 70% no-repeat;
     }
   }
   @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
     &:before {
-      background: url(${(props) => props.theme.background.listing.imageJpg}) right 70% no-repeat;
+      background: url(${(props) => props.theme.typage.background.listing.imageJpg}) right 70% no-repeat;
     }
   }
   ${(props) =>
@@ -85,9 +85,9 @@ const ListingColImg = styled.div<{ bg: number }>`
   padding: 5px 20px;
   width: 100%;
   display: block;
-  background: url(${(props) => props.theme.background.listing.imageWebp}) center/cover no-repeat;
+  background: url(${(props) => props.theme.typage.background.listing.imageWebp}) center/cover no-repeat;
   @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-    background: url(${(props) => props.theme.background.listing.imageJpg}) center/cover no-repeat;
+    background: url(${(props) => props.theme.typage.background.listing.imageJpg}) center/cover no-repeat;
   }
   ${(props) =>
     props.bg === 2 &&
@@ -131,7 +131,7 @@ const ListingImg = styled.img`
   }
 `;
 const ListingColInfo = styled.div<{ bg: number }>`
-  background-color: ${(props) => props.theme.background.listing.default};
+  background-color: ${(props) => props.theme.typage.background.listing.default};
   display: block;
   padding: 20px;
   ${(props) =>
@@ -188,7 +188,7 @@ const ListingSide = styled.span`
   }
 `;
 const ListingMark = styled.span`
-  color: ${(props) => props.theme.background.listing.border};
+  color: ${(props) => props.theme.typage.background.listing.border};
   margin-left: 2px;
   @media screen and (min-width: 768px) {
     display: inline-block;

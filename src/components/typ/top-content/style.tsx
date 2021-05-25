@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '@/def/TThemeTyp';
+import { ThemeType } from '@/def/TTheme';
 
 const TopContentWrapper = styled.div`
   padding: 20px 0;
@@ -11,34 +11,34 @@ const TopContentWrapper = styled.div`
   }
 `;
 const TopTitle = styled.h1<{ theme: ThemeType }>`
-  font-size: ${(props) => props.theme.font.size.title.xs};
-  line-height: ${(props) => props.theme.font.lineHeight.title.xs};
-  font-weight: ${(props) => props.theme.font.weight.title};
+  font-size: ${(props) => props.theme.typage.font.size.title.xs};
+  line-height: ${(props) => props.theme.typage.font.lineHeight.title.xs};
+  font-weight: ${(props) => props.theme.typage.font.weight.title};
   text-align: center;
-  color: ${(props) => props.theme.colors.title};
+  color: ${(props) => props.theme.typage.colors.title};
   margin: 0 0 10px;
   @media screen and (min-width: 768px) {
-    font-size: ${(props) => props.theme.font.size.title.md};
-    line-height: ${(props) => props.theme.font.lineHeight.title.md};
+    font-size: ${(props) => props.theme.typage.font.size.title.md};
+    line-height: ${(props) => props.theme.typage.font.lineHeight.title.md};
   }
 `;
 const TopUser = styled.span<{ theme: ThemeType }>`
-  color: ${(props) => props.theme.colors.user};
+  color: ${(props) => props.theme.typage.colors.user};
 `;
 const TopSubTitle = styled.h2<{ theme: ThemeType }>`
-  color: ${(props) => props.theme.colors.subtitle};
-  font-size: ${(props) => props.theme.font.size.subtitle.xs};
-  line-height: ${(props) => props.theme.font.lineHeight.subtitle.xs};
-  font-weight: ${(props) => props.theme.font.weight.subtitle};
+  color: ${(props) => props.theme.typage.colors.subtitle};
+  font-size: ${(props) => props.theme.typage.font.size.subtitle.xs};
+  line-height: ${(props) => props.theme.typage.font.lineHeight.subtitle.xs};
+  font-weight: ${(props) => props.theme.typage.font.weight.subtitle};
   text-align: center;
   margin: 0;
   @media screen and (min-width: 768px) {
-    font-size: ${(props) => props.theme.font.size.subtitle.md};
-    line-height: ${(props) => props.theme.font.lineHeight.subtitle.md};
+    font-size: ${(props) => props.theme.typage.font.size.subtitle.md};
+    line-height: ${(props) => props.theme.typage.font.lineHeight.subtitle.md};
   }
 `;
 const TopText = styled.p<{ theme: ThemeType }>`
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.typage.colors.text};
   font-size: 16px;
   line-height: 18px;
   text-align: center;
@@ -57,7 +57,7 @@ const TopDealers = styled.ul`
     padding: 8px;
     width: 100%;
     margin-bottom: 10px;
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.typage.colors.text};
     font-size: 16px;
     line-height: 18px;
     text-align: center;

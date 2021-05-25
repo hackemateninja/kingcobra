@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { config } from '@/util/config';
 import * as QueryString from 'query-string';
 import Cookies from 'js-cookie';
 

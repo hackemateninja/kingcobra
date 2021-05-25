@@ -41,9 +41,9 @@ const initialStepTwo: IStateStepTwo = {
 export const setDealers = createAsyncThunk(
   'get/dealers',
   async ({ sourceId, make, model, year, zip, trim, trackingId, sessionId }: IDealersParams) => {
+    console.log(`${config.apiFunctionUrl}/api/dealers`);
     return new Promise<IMldDealersResponse>((resolve, reject) => {
-      const url = `${config.apiBaseUrl}/api/dealers`;
-
+      const url = `${config.apiFunctionUrl}/api/dealers`;
       fetch(
         `${url}?sourceId=${sourceId}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(
           model
@@ -79,7 +79,7 @@ export const setDealers = createAsyncThunk(
 
 export const postLeads = createAsyncThunk('post/leads', async (lead: IPostLeadParams) => {
   return new Promise<IMldLeadResponse>((resolve, reject) => {
-    const url = `${config.apiBaseUrl}/api/lead`;
+    const url = `${config.apiFunctionUrl}/api/lead`;
     const { make, model } = lead.vehicle;
     const { zip } = lead.customer;
 

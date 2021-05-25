@@ -2,6 +2,7 @@ import { IConfig } from '@/def/IConfig';
 
 export const config: IConfig = {
   apiBaseUrl: process.env.NEXT_PUBLIC_FUNCTIONS_BASE,
+  apiFunctionUrl: process.env.NEXT_PUBLIC_FUNCTION_BASE,
   UTSConfig: {
     applicationId: process.env.NEXT_PUBLIC_UTS_APPLICATION_ID,
     trackingApi: process.env.NEXT_PUBLIC_UTS_TRACKING_API,
