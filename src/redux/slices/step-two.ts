@@ -41,7 +41,6 @@ const initialStepTwo: IStateStepTwo = {
 export const setDealers = createAsyncThunk(
   'get/dealers',
   async ({ sourceId, make, model, year, zip, trim, trackingId, sessionId }: IDealersParams) => {
-    console.log(`${config.apiFunctionUrl}/api/dealers`);
     return new Promise<IMldDealersResponse>((resolve, reject) => {
       const url = `${config.apiFunctionUrl}/api/dealers`;
       fetch(

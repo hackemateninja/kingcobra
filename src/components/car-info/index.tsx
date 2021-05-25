@@ -21,7 +21,7 @@ const CarInfo: React.FC<IPlainObject> = (props) => {
     <CarInfoWrapper>
       <CarInfoImage src={model.mediumJpg} alt={model.name} />
       <CarInfoContent>
-        <CarInfoText green>Base MSRP. ${model.msrp}</CarInfoText>
+        <CarInfoText green>Base MSRP. ${model.msrpMin}</CarInfoText>
         <CarInfoText>
           Fill out the form to find <strong>offers</strong> from your <strong>preferred</strong> dealers!
         </CarInfoText>

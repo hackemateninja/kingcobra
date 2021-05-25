@@ -168,7 +168,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const url = `${config.apiFunctionUrl}/api/dealers?sourceId=${sourceId}
     &make=${encodeURIComponent(make?.name)}&model=${encodeURIComponent(model?.name)}
     &year=${model?.year}&zip=${cxtZip}&sessionId=${utss}`;
-  console.log(url);
   const dealers = await fetch(url)
     .then<IMldDealersResponse>((r) => r.json())
     .catch((err) => {
