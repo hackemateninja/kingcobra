@@ -72,7 +72,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  getCampaignData(router.query as any, make.name, model.name).then((result) => {
+  getCampaignData(router.query as any, make?.name, model?.name).then((result) => {
     if (result && result[0]) {
       const data = result[0];
       setEnteredHeadline1(data.h1Headline);
