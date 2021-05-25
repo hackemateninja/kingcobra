@@ -8,6 +8,7 @@ import { IPlainObject } from '../../definitions/IPlainObject';
 import Header from '../../components/header';
 // eslint-disable-next-line import/no-unresolved
 import HeaderPresidentDay from '@/comp/banners/president-day';
+import HeaderMemorialDay from '@/comp/banners/memorial-day';
 import SVGs from '../../components/svgs';
 import Footer from '../../components/footer';
 import Container from '../../components/container';
@@ -27,8 +28,10 @@ const choseHeader = ({ banner, month }) => {
   switch (banner) {
     case 'President Day':
       return <HeaderPresidentDay month={month} />;
-    default:
+    case 'default-1':
       return <Header month={month} />;
+    default:
+      return <HeaderMemorialDay />;
   }
 };
 

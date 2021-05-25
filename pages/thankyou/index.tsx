@@ -25,6 +25,7 @@ import setPrefix from '@/util/prefix';
 // Components
 import Typ from '@/comp/typ/typ';
 import TypHeader from '@/comp/typ/header';
+import TypBannerMemorialDay from '@/comp/banners/memorial-day';
 import TypTopContent from '@/comp/typ/top-content';
 import TypListing from '@/comp/typ/listing';
 import TypBottomContent from '@/comp/typ/bottom-content';
@@ -98,7 +99,8 @@ const Thanks: React.FC<IPlainObject> = (props) => {
       <MetaData title={title} />
       <GlobalStyles />
       <Typ>
-        <TypHeader />
+        <TypBannerMemorialDay />
+        {/* <TypHeader /> */}
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
           <TypListing
