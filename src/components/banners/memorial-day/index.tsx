@@ -2,7 +2,7 @@
 import { IPlainObject } from '@/def/IPlainObject';
 
 // Components
-import SVGs from '../svgs';
+import SVGs from './svgs';
 
 // Styles
 import {
@@ -10,16 +10,18 @@ import {
   HeaderLogo,
   HeaderBar,
   HeaderLeft,
-  FireworkLeft,
+  ImageLeft,
   HeaderDiagonal,
   HeaderCenter,
-  TitleDesk,
-  TitleTablet,
+  TitleTop,
+  TitleWrapper,
+  Title,
+  Subtitle,
   HeaderRight,
-  FireworkRight,
+  ImageRight,
 } from './style';
 
-const HeaderPresidentDay: React.FC<IPlainObject> = () => {
+const Header: React.FC<IPlainObject> = () => {
   return (
     <>
       <HeaderWrapper>
@@ -29,9 +31,9 @@ const HeaderPresidentDay: React.FC<IPlainObject> = () => {
           </HeaderLogo>
         </HeaderBar>
         <HeaderLeft>
-          <FireworkLeft>
+          <ImageLeft>
             <use xlinkHref="#fireworks-left" />
-          </FireworkLeft>
+          </ImageLeft>
           <HeaderDiagonal>
             <HeaderLogo>
               <use xlinkHref="#logo-carcom" />
@@ -39,17 +41,20 @@ const HeaderPresidentDay: React.FC<IPlainObject> = () => {
           </HeaderDiagonal>
         </HeaderLeft>
         <HeaderCenter>
-          <TitleDesk>
-            <use xlinkHref="#title-desk" />
-          </TitleDesk>
-          <TitleTablet>
-            <use xlinkHref="#title-tablet" />
-          </TitleTablet>
+          <TitleTop></TitleTop>
+          <TitleWrapper>
+            <Subtitle>
+              <use xlinkHref="#subtitle" />
+            </Subtitle>
+            <Title>
+              <use xlinkHref="#title" />
+            </Title>
+          </TitleWrapper>
         </HeaderCenter>
         <HeaderRight>
-          <FireworkRight>
+          <ImageRight>
             <use xlinkHref="#fireworks-right" />
-          </FireworkRight>
+          </ImageRight>
         </HeaderRight>
       </HeaderWrapper>
 
@@ -58,4 +63,4 @@ const HeaderPresidentDay: React.FC<IPlainObject> = () => {
   );
 };
 
-export default HeaderPresidentDay;
+export default Header;

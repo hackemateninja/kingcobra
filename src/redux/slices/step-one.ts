@@ -8,6 +8,10 @@ import { IStateStepOne } from '@/def/IStateStepOne';
 // Utilities
 import { config } from '@/util/config';
 import { appInsights } from '@/util/app-insights';
+import { IModel } from '@/def/IModel';
+
+// Services
+import { getModelsByMake } from '@/src/services';
 
 // Initial state
 const initialStepOne: IStateStepOne = {
@@ -28,31 +32,8 @@ const initialStepOne: IStateStepOne = {
 // Set Models
 export const setModels = createAsyncThunk('get/models', async (make: string) => {
   if (make !== '') {
-    return new Promise((resolve, reject) => {
-      fetch(`${config.apiBaseUrl}/api/models/${make}`)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            appInsights.trackTrace({
-              message: `${response.statusText} - Something went wrong getting make: ${make}`,
-              properties: {
-                make: make,
-              },
-              severityLevel: SeverityLevel.Error,
-            });
-
-            throw new Error(`Something went wrong getting make: ${make}`);
-          }
-        })
-        .then((response) => {
-          resolve(response);
-        })
-        .catch((error) => {
-          appInsights.trackException({ exception: error, properties: { make: make } });
-          reject(error);
-        });
-    });
+    const models: IModel[] = await getModelsByMake(make);
+    return models;
   } else {
     return [];
   }
@@ -116,7 +97,7 @@ const stepOneSlice = createSlice({
       const model = state.data.models.filter((model) => model.seoName === action.payload);
 
       state.data.selectedModel = model.length !== 0 ? model[0] : {};
-      state.ui.imageLoading = state.data.selectedMake.imageJpg !== state.data.selectedModel.imageJpg ? true : false;
+      state.ui.imageLoading = state.data.selectedMake.mediumJpg !== state.data.selectedModel.mediumJpg ? true : false;
     },
     saveModels: (state, action) => {
       state.data.models = action.payload;
@@ -126,6 +107,9 @@ const stepOneSlice = createSlice({
     },
     isLoading: (state, action) => {
       state.ui.imageLoading = action.payload;
+    },
+    setButtonText: (state, action) => {
+      state.ui.button = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -164,6 +148,14 @@ const stepOneSlice = createSlice({
   },
 });
 
-export const { setMakes, setSelectedMake, saveModels, setSelectedModel, saveZipCode, isLoading } = stepOneSlice.actions;
+export const {
+  setMakes,
+  setSelectedMake,
+  saveModels,
+  setSelectedModel,
+  saveZipCode,
+  isLoading,
+  setButtonText,
+} = stepOneSlice.actions;
 
 export default stepOneSlice.reducer;

@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 // Definitions
-import { ThemeType } from '@/def/TThemeTyp';
+import { ThemeType } from '@/def/TTheme';
 
 const ButtonWrapper = styled.button<{ theme: ThemeType }>`
   cursor: pointer;
@@ -12,16 +12,16 @@ const ButtonWrapper = styled.button<{ theme: ThemeType }>`
   color: #fff;
   height: 50px;
   width: 100%;
-  background-color: ${(props) => props.theme.background.button.default};
+  background-color: ${(props) => props.theme.typage.background.button.default};
   border: 0;
   border-radius: 5px;
   transition: all ease 0.3s;
   outline: none;
   &:hover {
-    background-color: ${(props) => props.theme.background.button.hover};
+    background-color: ${(props) => props.theme.typage.background.button.hover};
   }
   &:active {
-    background-color: ${(props) => props.theme.background.button.hover};
+    background-color: ${(props) => props.theme.typage.background.button.hover};
   }
 `;
 

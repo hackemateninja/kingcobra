@@ -1,5 +1,5 @@
 // Packages
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,13 +20,16 @@ import GlobalStyles from '@/theme/global';
 import CarcomTheme from '@/theme/carcom';
 
 // Slices
-import { setMakes } from '@/redux/slices/step-one';
+import { setButtonText, setMakes } from '@/redux/slices/step-one';
 
 // Components
 import Title from '@/comp/title';
 import SubTitle from '@/comp/subtitle';
 import StepOne from '@/comp/steps/step-one';
 import MetaData from '@/comp/meta-data';
+
+// services
+import { getCampaignData, getMakes } from '@/src/services';
 
 // Utilities
 import { config } from '@/util/config';
@@ -37,6 +40,10 @@ import randomizer from '@/util/random-quotes';
 const Home: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [enteredHeadline1, setEnteredHeadline1] = useState(null);
+  const [enteredHeadline2, setEnteredHeadline2] = useState(null);
+  const [enteredCampaignImage, setCampaignImage] = useState(null);
+  const [enteredBanner, setBanner] = useState(null);
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
@@ -44,6 +51,7 @@ const Home: React.FC<IPlainObject> = (props) => {
   const { month } = props;
   const { prefix, separator, description, keywords } = metadata.home;
   const title = `${prefix.join(` ${separator} `)} ${separator} ${metadata.name}`;
+  const { campaign } = router.query;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -52,38 +60,79 @@ const Home: React.FC<IPlainObject> = (props) => {
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    let campaignQuery = '';
+    if (campaign) {
+      if (query === '') {
+        campaignQuery = '?campaign=' + campaign;
+      } else {
+        campaignQuery = '&campaign=' + campaign;
+      }
+    }
 
     window.open(
-      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
+      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}${campaignQuery}`,
       '',
       `width=${screen.width},height=${screen.height}`
     );
-    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`);
+    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}${campaignQuery}`);
+  };
+
+  const setGraphData = async () => {
+    const result = await getCampaignData(campaign, 'unbranded_page');
+    if (!result || !result[0]) return;
+    const [data] = result;
+    setEnteredHeadline1(data.h1Headline);
+    setEnteredHeadline2(data.h2Headline);
+    setCampaignImage(data.heroImage);
+    setBanner(data.banner.banner);
+    dispatch(setButtonText(data.buttonCta));
   };
 
   useEffect(() => {
     dispatch(setMakes(props.makes));
   }, []);
 
-  const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
+  useEffect(() => {
+    if (router.asPath === router.route || !campaign) return;
+    setGraphData();
+  }, [router]);
 
+  const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <MetaData title={title} description={description.join('')} keywords={keywords} preload={preload} />
       <GlobalStyles />
-      <DefaultLayout year={props.year} month={month}>
-        <Title>Huge {month} Closeout on All New Vehicles</Title>
+      <DefaultLayout year={props.year} month={month} banner={enteredBanner}>
+        <Title>
+          {enteredHeadline1 ? (
+            <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+          ) : (
+            <> Huge {month} Closeout on All New Vehicles </>
+          )}
+        </Title>
         <SubTitle>
-          Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
+          {enteredHeadline2 ? (
+            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+          ) : (
+            <>
+              Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
+            </>
+          )}
         </SubTitle>
-        <StepOne onSubmit={handlerSubmit} makes={props.makes} image="/hero-image.jpg" quotes={props.quotes} />
+        <StepOne
+          campaignImage={enteredCampaignImage}
+          onSubmit={handlerSubmit}
+          makes={props.makes}
+          image="/hero-image.jpg"
+          quotes={props.quotes}
+        />
       </DefaultLayout>
-    </ThemeProvider>
+    </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes: IMake[] = await fetch(`${config.apiBaseUrl}/api/makes`).then((r) => r.json());
+  const makes: IMake[] = await getMakes();
 
   const month = getMonth();
   const year = getYear();

@@ -5,8 +5,8 @@ export interface IModel {
   seoName?: string;
   year?: number;
   msrp?: number;
-  imageJpg?: string;
+  mediumJpg?: string;
   smallJpg?: string;
-  imagePng?: string;
+  mediumPng?: string;
   smallPng?: string;
 }

@@ -30,7 +30,8 @@ const initialStepTwo: IStateStepTwo = {
     sendInfo: true,
   },
   ui: {
-    button: 'Get Pricing',
+    buttonS2: 'Continue',
+    buttonS3: 'Get Pricing',
     boxActive: 'dealers',
     loading: 'idle',
     firstSuggested: true,
@@ -42,8 +43,7 @@ export const setDealers = createAsyncThunk(
   'get/dealers',
   async ({ sourceId, make, model, year, zip, trim, trackingId, sessionId }: IDealersParams) => {
     return new Promise<IMldDealersResponse>((resolve, reject) => {
-      const url = `${config.apiBaseUrl}/api/dealers`;
-
+      const url = `${config.apiFunctionUrl}/api/dealers`;
       fetch(
         `${url}?sourceId=${sourceId}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(
           model
@@ -79,7 +79,7 @@ export const setDealers = createAsyncThunk(
 
 export const postLeads = createAsyncThunk('post/leads', async (lead: IPostLeadParams) => {
   return new Promise<IMldLeadResponse>((resolve, reject) => {
-    const url = `${config.apiBaseUrl}/api/lead`;
+    const url = `${config.apiFunctionUrl}/api/lead`;
     const { make, model } = lead.vehicle;
     const { zip } = lead.customer;
 
@@ -174,6 +174,12 @@ const stepTwoSlice = createSlice({
     saveSendInfo: (state, action) => {
       state.data.sendInfo = action.payload;
     },
+    setButton2Text: (state, action) => {
+      state.ui.buttonS2 = action.payload;
+    },
+    setButton3Text: (state, action) => {
+      state.ui.buttonS3 = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -246,6 +252,8 @@ export const {
   saveShowSuggested,
   saveTransactionId,
   saveSendInfo,
+  setButton2Text,
+  setButton3Text,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

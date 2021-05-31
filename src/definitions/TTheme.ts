@@ -1,5 +1,5 @@
-import PrimaryTheme from '../themes/primary';
+import CarcomTheme from '../themes/carcom';
 
-type ThemeType = typeof PrimaryTheme;
+type ThemeType = typeof CarcomTheme;
 
 export type { ThemeType };

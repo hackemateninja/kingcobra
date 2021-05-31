@@ -17,7 +17,8 @@ interface IDataStepTwo {
 }
 
 interface IUIStepTwo {
-  button: string;
+  buttonS2: string;
+  buttonS3: string;
   boxActive: 'dealers' | 'form';
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   firstSuggested: boolean;

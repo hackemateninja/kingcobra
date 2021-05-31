@@ -1,6 +1,5 @@
 // Packages
 import Head from 'next/head';
-import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -16,7 +15,6 @@ import DynamicAdWidget from '@/comp/dynamic-ad-widget';
 
 // Styles
 import GlobalStyles from '@/theme/global';
-import CarcomTheme from '@/theme/carcom';
 
 declare const window: any;
 
@@ -34,14 +32,15 @@ const FAS: React.FC<IPlainObject> = (props) => {
   const utss = utsValues?.utss || router.query.utss;
 
   useEffect(() => {
-    router.query.rd && window.AutoWeb.reload(make.name, model.name, zipcode);
+    // window.Autoweb comes from GTM injected script, reload will fail if GTM is inactive
+    router.query.rd && window?.AutoWeb?.reload && window.AutoWeb.reload(make.name, model.name, zipcode);
   }, [router]);
 
   const makeName = make?.name || (ctxMake as string);
   const modelName = model?.name || (ctxModel as string);
 
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <Head>
         <title>Get Comparable Pricing from Local Dealers</title>
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
@@ -61,7 +60,7 @@ const FAS: React.FC<IPlainObject> = (props) => {
         category="1"
       />
       {buttonClick && <RedirectFas make={make.name} model={model.name} zip={zipcode} />}
-    </ThemeProvider>
+    </>
   );
 };
 

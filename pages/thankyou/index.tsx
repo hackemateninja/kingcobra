@@ -1,10 +1,8 @@
 // Packages
 import { useEffect } from 'react';
 import { GetStaticProps } from 'next';
-import { ThemeProvider } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { config } from '@/util/config';
 import * as QueryString from 'query-string';
 import Cookies from 'js-cookie';
 
@@ -19,7 +17,6 @@ import { setSelectedMakes } from '@/redux/slices/thankyou';
 
 // Styles
 import GlobalStyles from '@/theme/global';
-import CarcomTheme from '@/theme/carcom/typ';
 
 // Utilities
 import setPrefix from '@/util/prefix';
@@ -27,12 +24,16 @@ import setPrefix from '@/util/prefix';
 // Components
 import Typ from '@/comp/typ/typ';
 import TypHeader from '@/comp/typ/header';
+import TypBannerMemorialDay from '@/comp/banners/memorial-day';
 import TypTopContent from '@/comp/typ/top-content';
 import TypListing from '@/comp/typ/listing';
 import TypBottomContent from '@/comp/typ/bottom-content';
 import TypFooter from '@/comp/typ/footer';
 import SVGs from '@/comp/typ/svgs';
 import MetaData from '@/comp/meta-data';
+
+// Services
+import { getMakes } from '@/src/services';
 
 const listingInfo = [
   {
@@ -54,8 +55,6 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const { prefix, separator } = metadata.thankyou;
 
   const title = setPrefix(prefix, '', separator);
-
-  const selectedInfo = useSelector((state: RootState) => state.stepOne.data);
   const make = useSelector((state: RootState) => state.thankyou.data.make);
   const model = useSelector((state: RootState) => state.thankyou.data.model);
   const zipcode = useSelector((state: RootState) => state.thankyou.data.zipcode);
@@ -63,7 +62,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
   const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
-  const image = model.imagePng ?? model.imageJpg ?? '/defaultImage.png';
+  const image = model.mediumPng ?? model.mediumJpg ?? '/defaultImage.png';
 
   const utsCookie = Cookies.get('uts-session');
   const utsValues = utsCookie && JSON.parse(decodeURI(utsCookie));
@@ -75,13 +74,22 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    const { campaign } = router.query;
 
-    if (zipcode === undefined) {
+    if (!zipcode) {
       url = `/${make}/${model}${query}`;
     } else {
       const slQuery = query ? `${query}&sl=true` : `?sl=true`;
       url = `/s2/${make}/${model}/${zipcode}${slQuery}`;
     }
+    if (campaign) {
+      if (query === '' && !zipcode) {
+        url = url + '?campaign=' + campaign;
+      } else {
+        url = url + '&campaign=' + campaign;
+      }
+    }
+
     router.push(url);
   };
 
@@ -95,11 +103,12 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const makesList = props.makes.filter((m) => !values.includes(m.seoName));
 
   return (
-    <ThemeProvider theme={CarcomTheme}>
+    <>
       <MetaData title={title} />
       <GlobalStyles />
       <Typ>
-        <TypHeader />
+        <TypBannerMemorialDay />
+        {/* <TypHeader /> */}
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
           <TypListing
@@ -116,12 +125,12 @@ const Thanks: React.FC<IPlainObject> = (props) => {
         </div>
       </Typ>
       <SVGs />
-    </ThemeProvider>
+    </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes = await fetch(`${config.apiBaseUrl}/api/makes`).then<IMake[]>((r) => r.json());
+  const makes: IMake[] = await getMakes();
   return { props: { makes }, revalidate: 86400 };
 };
 

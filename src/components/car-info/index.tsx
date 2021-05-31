@@ -14,14 +14,14 @@ import { CarInfoWrapper, CarInfoImage, CarInfoContent, CarInfoText } from './sty
 
 const CarInfo: React.FC<IPlainObject> = (props) => {
   const model = props.model;
-
+  const image = props.campaignImage || model.mediumJpg;
   const numberWithCommas = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
     <CarInfoWrapper>
-      <CarInfoImage src={model.imageJpg} alt={model.name} />
+      <CarInfoImage src={image} alt={model.name} />
       <CarInfoContent>
-        <CarInfoText green>Base MSRP. ${model.msrp}</CarInfoText>
+        <CarInfoText green>Base MSRP. ${model.msrpMin}</CarInfoText>
         <CarInfoText>
           Fill out the form to find <strong>offers</strong> from your <strong>preferred</strong> dealers!
         </CarInfoText>

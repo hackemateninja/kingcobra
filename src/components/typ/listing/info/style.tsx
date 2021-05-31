@@ -2,7 +2,7 @@
 import styled, { keyframes } from 'styled-components';
 
 // Definitions
-import { ThemeType } from '@/def/TThemeTyp';
+import { ThemeType } from '@/def/TTheme';
 
 const arrowBig = keyframes`
 	0% {opacity: 0;transform: translateX(-20px)}
@@ -25,7 +25,7 @@ const ListingInfoWrapper = styled.a`
   }
 `;
 const InfoTitle = styled.span<{ theme: ThemeType }>`
-  color: ${(props) => props.theme.colors.listing.title};
+  color: ${(props) => props.theme.typage.colors.listing.title};
   font-size: 21px;
   font-weight: 700;
   line-height: 24px;
@@ -38,7 +38,7 @@ const InfoTitle = styled.span<{ theme: ThemeType }>`
   }
 `;
 const InfoText = styled.span`
-  color: ${(props) => props.theme.colors.listing.text};
+  color: ${(props) => props.theme.typage.colors.listing.text};
   font-size: 12px;
   line-height: 14px;
   display: block;
@@ -48,7 +48,7 @@ const InfoText = styled.span`
   }
 `;
 const InfoLink = styled.span`
-  color: ${(props) => props.theme.colors.listing.link};
+  color: ${(props) => props.theme.typage.colors.listing.link};
   font-size: 12px;
   line-height: 14px;
   margin-top: 5px;
@@ -61,7 +61,7 @@ const InfoLink = styled.span`
 `;
 const InfoBtn = styled.span`
   border-radius: 5px;
-  background-color: ${(props) => props.theme.background.listing.button.default};
+  background-color: ${(props) => props.theme.typage.background.listing.button.default};
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   margin-top: 10px;
   height: 50px;
@@ -73,7 +73,7 @@ const InfoBtn = styled.span`
   justify-content: center;
   transition: all ease 0.3s;
   &:hover {
-    background-color: ${(props) => props.theme.background.listing.button.hover};
+    background-color: ${(props) => props.theme.typage.background.listing.button.hover};
   }
   @media screen and (min-width: 768px) {
     max-width: 330px;
@@ -81,7 +81,7 @@ const InfoBtn = styled.span`
   }
 `;
 const InfoBtnText = styled.span`
-  color: ${(props) => props.theme.colors.listing.button};
+  color: ${(props) => props.theme.typage.colors.listing.button};
   font-size: 28px;
   font-weight: 700;
   line-height: 32px;

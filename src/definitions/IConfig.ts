@@ -6,6 +6,7 @@ interface IUTSConfig {
 
 export interface IConfig {
   apiBaseUrl: string;
+  apiFunctionUrl: string;
   UTSConfig: IUTSConfig;
   gtmId: string;
   ssAuthToken: string;
@@ -15,4 +16,7 @@ export interface IConfig {
   appInsightsKey: string;
   activateVWO: boolean;
   activateGTM: boolean;
+  graphCMSAuth: string;
+  graphCMSUrl: string;
+  activateGraphCMS: boolean;
 }

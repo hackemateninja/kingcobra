@@ -29,7 +29,7 @@ const StepTwo: React.FC<IPlainObject> = (props) => {
   return (
     <Row>
       <Column sm={1} md={2}>
-        <CarInfo model={props.model} />
+        <CarInfo campaignImage={props.campaignImage} model={props.model} />
         <Display hide="mobile">
           <Quotes items={quotes} />
         </Display>
