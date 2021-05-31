@@ -55,7 +55,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const [addressAutocomplete, setAddressAutocomplete] = useState<object[]>([]);
   const [autocomplete, setAutocomplete] = useState({ show: false, lastValue: '' });
 
-  const button = useSelector((state: RootState) => state.stepTwo.ui.button);
+  const button = useSelector((state: RootState) => state.stepTwo.ui.buttonS3);
   const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);

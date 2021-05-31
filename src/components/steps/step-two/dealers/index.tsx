@@ -22,6 +22,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const dealersList = useSelector((state: RootState) => state.stepTwo.data.dealers);
   const dealersSelected = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
+  const button = useSelector((state: RootState) => state.stepTwo.ui.buttonS2);
   const [error, setError] = useState<boolean>(false);
   const [cue, setCue] = useState<boolean>(true);
   const [dealers, setDealers] = useState({
@@ -92,7 +93,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
         error={error}
         handlerChange={handlerChange}
       />
-      <Button handlerClick={handlerClick}>Continue</Button>
+      <Button handlerClick={handlerClick}>{button}</Button>
       <Text center={true} text="authorized">
         Let our <strong>trusted</strong> network get you the <strong>best</strong> deal.
       </Text>

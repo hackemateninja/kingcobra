@@ -74,13 +74,22 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    const { campaign } = router.query;
 
-    if (zipcode === undefined) {
+    if (!zipcode) {
       url = `/${make}/${model}${query}`;
     } else {
       const slQuery = query ? `${query}&sl=true` : `?sl=true`;
       url = `/s2/${make}/${model}/${zipcode}${slQuery}`;
     }
+    if (campaign) {
+      if (query === '' && !zipcode) {
+        url = url + '?campaign=' + campaign;
+      } else {
+        url = url + '&campaign=' + campaign;
+      }
+    }
+
     router.push(url);
   };
 

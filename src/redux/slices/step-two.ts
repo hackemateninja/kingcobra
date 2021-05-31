@@ -30,7 +30,8 @@ const initialStepTwo: IStateStepTwo = {
     sendInfo: true,
   },
   ui: {
-    button: 'Get Pricing',
+    buttonS2: 'Continue',
+    buttonS3: 'Get Pricing',
     boxActive: 'dealers',
     loading: 'idle',
     firstSuggested: true,
@@ -173,6 +174,12 @@ const stepTwoSlice = createSlice({
     saveSendInfo: (state, action) => {
       state.data.sendInfo = action.payload;
     },
+    setButton2Text: (state, action) => {
+      state.ui.buttonS2 = action.payload;
+    },
+    setButton3Text: (state, action) => {
+      state.ui.buttonS3 = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setDealers.pending, (state) => {
@@ -245,6 +252,8 @@ export const {
   saveShowSuggested,
   saveTransactionId,
   saveSendInfo,
+  setButton2Text,
+  setButton3Text,
 } = stepTwoSlice.actions;
 
 export default stepTwoSlice.reducer;

@@ -17,7 +17,7 @@ import { BoxFooterWrapper, BoxFooterProtect, BoxFooterIcon, BoxFooterTCPA, FormO
 
 const BoxFooter: React.FC<IBoxFooter> = (props) => {
   const dispatch = useDispatch();
-  const button = useSelector((state: RootState) => state.stepTwo.ui.button);
+  const button = useSelector((state: RootState) => state.stepTwo.ui.buttonS3);
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLAnchorElement;

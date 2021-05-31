@@ -1,5 +1,5 @@
 // Packages
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -20,7 +20,7 @@ import DefaultLayout from '@/layout/default';
 
 // Slices
 import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
-import { saveDeviceType, saveDealers } from '@/redux/slices/step-two';
+import { saveDeviceType, saveDealers, setButton2Text, setButton3Text } from '@/redux/slices/step-two';
 import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from '@/redux/slices/thankyou';
 
 // Components
@@ -45,7 +45,7 @@ import getMonth from '@/util/get-month';
 import GlobalStyles from '@/theme/global';
 
 // Services
-import { getMakes, getModelsByMake } from '@/src/services';
+import { getCampaignData, getMakes, getModelsByMake } from '@/src/services';
 
 const zipRegex = /^\d{5}$|^\d{5}$/;
 
@@ -53,15 +53,22 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [enteredHeadline1, setEnteredHeadline1] = useState(null);
+  const [enteredHeadline2, setEnteredHeadline2] = useState(null);
+  const [enteredCampaignImage, setCampaignImage] = useState(null);
+  const [enteredBanner, setBanner] = useState(null);
+
   if (!props.make || !props.model || !props.zip || !zipRegex.test(props.zip)) {
     return <Redirect />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
+  const boxActive = useSelector((state: RootState) => state.stepTwo.ui.boxActive);
 
   const { makes, models, make, model, ua, dealers } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
+  const { campaign } = router.query;
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -94,23 +101,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     } else {
       device = 'Desktop';
     }
-
     dispatch(saveDeviceType(device));
-  }, []);
-
-  const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(setSelectedMakeTYP(props.make));
-    dispatch(setSelectedModelTYP(props.model));
-    dispatch(setZipCodeTYP(props.zip));
-
-    const queryparams = QueryString.parse(location.search);
-    const { utsu, utss } = queryparams;
-    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
-
-    router.push(`/thankyou${query}`);
-  };
-
-  useEffect(() => {
     dispatch(setMakes(makes));
     dispatch(saveModels(models));
     dispatch(setSelectedMake(make.seoName));
@@ -121,20 +112,85 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (router.asPath === router.route || !campaign || !dealers) return;
+    const step = dealers.dealers.length > 1 ? 'step_2' : 'step_3';
+    setGraphData(step);
+  }, [router]);
+
+  useEffect(() => {
+    if (boxActive !== 'form' || !campaign || !dealers) return;
+    setGraphData('step_3');
+  }, [boxActive]);
+
+  const setGraphData = async (step: string) => {
+    const result = await getCampaignData(campaign, step, make?.name, model?.name);
+    if (!result || !result[0]) return;
+    const [data] = result;
+    setEnteredHeadline1(data.h1Headline);
+    setEnteredHeadline2(data.h2Headline);
+    setCampaignImage(data.heroImage);
+    setBanner(data.banner.banner);
+    if (step === 'step_2') {
+      dispatch(setButton2Text(data.buttonCta));
+    }
+    if (step === 'step_3') {
+      dispatch(setButton3Text(data.buttonCta));
+    }
+  };
+
+  const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(setSelectedMakeTYP(props.make));
+    dispatch(setSelectedModelTYP(props.model));
+    dispatch(setZipCodeTYP(props.zip));
+
+    const queryparams = QueryString.parse(location.search);
+    const { utsu, utss } = queryparams;
+    const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    let campaignQuery = '';
+    if (campaign) {
+      if (query === '') {
+        campaignQuery = '?campaign=' + campaign;
+      } else {
+        campaignQuery = '&campaign=' + campaign;
+      }
+    }
+
+    router.push(`/thankyou${query}${campaignQuery}`);
+  };
+
   const city = zipcode.zip && `${zipcode.city}, ${zipcode.state} ${zipcode.zip}`;
 
   return (
     <>
       <MetaData title={title} description={desc} keywords={keys} />
       <GlobalStyles />
-      <DefaultLayout year={props.year} month={props.month}>
+      <DefaultLayout year={props.year} month={props.month} banner={enteredBanner}>
         <Display hide="mobile">
           <Title>
-            Yes! We Located {make.name} {model.name} Internet Deals
+            {enteredHeadline1 ? (
+              <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+            ) : (
+              <>
+                Yes! We Located {make.name} {model.name} Internet Deals
+              </>
+            )}
           </Title>
         </Display>
-        <SubTitle>Choose your preferred dealers and fill out the form to find offers!</SubTitle>
-        <StepTwo model={model} city={city} zipcode={props.zip} onSubmit={handlerSubmit} />
+        <SubTitle>
+          {enteredHeadline2 ? (
+            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+          ) : (
+            <>Choose your preferred dealers and fill out the form to find offers!</>
+          )}
+        </SubTitle>
+        <StepTwo
+          campaignImage={enteredCampaignImage}
+          model={model}
+          city={city}
+          zipcode={props.zip}
+          onSubmit={handlerSubmit}
+        />
       </DefaultLayout>
     </>
   );
@@ -168,6 +224,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const url = `${config.apiFunctionUrl}/api/dealers?sourceId=${sourceId}
     &make=${encodeURIComponent(make?.name)}&model=${encodeURIComponent(model?.name)}
     &year=${model?.year}&zip=${cxtZip}&sessionId=${utss}`;
+
   const dealers = await fetch(url)
     .then<IMldDealersResponse>((r) => r.json())
     .catch((err) => {

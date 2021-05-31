@@ -18,4 +18,5 @@ export interface IConfig {
   activateGTM: boolean;
   graphCMSAuth: string;
   graphCMSUrl: string;
+  activateGraphCMS: boolean;
 }

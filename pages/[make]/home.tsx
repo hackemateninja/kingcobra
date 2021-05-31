@@ -46,6 +46,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const [enteredHeadline2, setEnteredHeadline2] = useState(null);
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
+  const { campaign } = router.query;
 
   const handlerSubmit = () => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -54,14 +55,22 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    let campaignQuery = '';
+    if (campaign) {
+      if (query === '') {
+        campaignQuery = '?campaign=' + campaign;
+      } else {
+        campaignQuery = '&campaign=' + campaign;
+      }
+    }
 
     window.open(
-      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`,
+      `/s2/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}${campaignQuery}`,
       '',
       `width=${screen.width},height=${screen.height}`
     );
 
-    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}`);
+    router.push(`/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zip}${query}${campaignQuery}`);
   };
 
   useEffect(() => {
@@ -69,19 +78,24 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     dispatch(setSelectedMake(make.seoName));
     dispatch(saveModels(models));
     dispatch(setSelectedModel(model?.seoName));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  getCampaignData(router.query as any, make?.name, model?.name).then((result) => {
-    if (result && result[0]) {
-      const data = result[0];
-      setEnteredHeadline1(data.h1Headline);
-      setEnteredHeadline2(data.h2Headline);
-      setCampaignImage(data.heroImage);
-      setBanner(data.banner.banner);
-      dispatch(setButtonText(data.buttonCta));
-    }
-  });
+  useEffect(() => {
+    if (router.asPath === router.route || !campaign) return;
+    const step = router.pathname === '/[make]/[model]' ? 'model_page' : 'make_page';
+    setGraphData(step);
+  }, [router]);
+
+  const setGraphData = async (step: string) => {
+    const result = await getCampaignData(campaign, step, make?.name, model?.name);
+    if (!result || !result[0]) return;
+    const [data] = result;
+    setEnteredHeadline1(data.h1Headline);
+    setEnteredHeadline2(data.h2Headline);
+    setCampaignImage(data.heroImage);
+    setBanner(data.banner.banner);
+    dispatch(setButtonText(data.buttonCta));
+  };
 
   const name = model ? `${make.name} ${model.name}` : make.name;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -93,19 +107,22 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     { elem: model?.mediumJpg || make.mediumJpg, type: 'image' },
     { elem: model?.smallJpg || make.smallJpg, type: 'image' },
   ];
-
   return (
     <>
       <MetaData title={title} description={desc} keywords={keys} preload={preload} />
       <GlobalStyles />
       <DefaultLayout year={year} month={month} banner={enteredBanner}>
         <Title>
-          {enteredHeadline1 && <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>}
-          {!enteredHeadline1 && <> Huge Markdowns on {name} This Month! </>}
+          {enteredHeadline1 ? (
+            <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+          ) : (
+            <> Huge Markdowns on {name} This Month! </>
+          )}
         </Title>
         <SubTitle>
-          {enteredHeadline2 && <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>}
-          {!enteredHeadline2 && (
+          {enteredHeadline2 ? (
+            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+          ) : (
             <>
               Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
             </>

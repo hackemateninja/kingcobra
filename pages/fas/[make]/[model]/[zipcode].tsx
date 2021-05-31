@@ -32,7 +32,8 @@ const FAS: React.FC<IPlainObject> = (props) => {
   const utss = utsValues?.utss || router.query.utss;
 
   useEffect(() => {
-    router.query.rd && window.AutoWeb.reload(make.name, model.name, zipcode);
+    // window.Autoweb comes from GTM injected script, reload will fail if GTM is inactive
+    router.query.rd && window?.AutoWeb?.reload && window.AutoWeb.reload(make.name, model.name, zipcode);
   }, [router]);
 
   const makeName = make?.name || (ctxMake as string);
