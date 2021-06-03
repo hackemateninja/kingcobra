@@ -57,3 +57,11 @@ export const getCampaignData = async (campaign, funnelStep, make = '', model = '
     })
     .catch((error) => console.error(error));
 };
+
+export const getDealers = async (sourceId, make, model, year, zipcode, utss): Promise<any> => {
+  const response = await fetch(
+    `${config.apiFunctionUrl}/api/dealers?sourceId=${sourceId}&make=${make}&model=${model}&year=${year}&zip=${zipcode}&sessionId=${utss}`
+  );
+
+  return response.json();
+};

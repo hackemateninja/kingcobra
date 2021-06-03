@@ -9,6 +9,7 @@ const DigicertDiv = styled.div`
   align-content: flex-end;
   justify-content: center;
   font-size: 10px;
+  margin: auto;
   padding-bottom: 15px;
   height: 53px;
   width: 108px;

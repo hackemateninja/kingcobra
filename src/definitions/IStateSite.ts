@@ -4,6 +4,7 @@ interface IUIStepOne {
   modal: boolean;
   modalType: string;
   buttonLoading: boolean;
+  dataLoading: boolean;
 }
 
 export interface IStateSite {

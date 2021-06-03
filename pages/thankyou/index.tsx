@@ -107,8 +107,8 @@ const Thanks: React.FC<IPlainObject> = (props) => {
       <MetaData title={title} />
       <GlobalStyles />
       <Typ>
-        <TypBannerMemorialDay />
-        {/* <TypHeader /> */}
+        {/* <TypBannerMemorialDay /> */}
+        <TypHeader />
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
           <TypListing

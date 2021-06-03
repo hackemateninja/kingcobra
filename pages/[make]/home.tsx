@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import * as QueryString from 'query-string';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -14,6 +15,7 @@ import DefaultLayout from '@/layout/default';
 
 // Slices
 import { setMakes, setSelectedMake, saveModels, setSelectedModel, setButtonText } from '@/redux/slices/step-one';
+import { setDataLoading } from '@/redux/slices/site';
 
 // Components
 import StepOne from '@/comp/steps/step-one';
@@ -41,11 +43,13 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
   const { prefix, separator, description, keywordsPnS } = metadata.model;
   const [enteredHeadline1, setEnteredHeadline1] = useState(null);
   const [enteredHeadline2, setEnteredHeadline2] = useState(null);
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
+  const [campaignData, setCampaignData] = useState(null);
   const { campaign } = router.query;
 
   const handlerSubmit = () => {
@@ -81,20 +85,28 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   }, []);
 
   useEffect(() => {
-    if (router.asPath === router.route || !campaign) return;
+    if (!router.isReady) return;
+    if (!campaign) {
+      dispatch(setDataLoading(false));
+      return;
+    }
     const step = router.pathname === '/[make]/[model]' ? 'model_page' : 'make_page';
     setGraphData(step);
-  }, [router]);
+  }, [router.isReady]);
 
   const setGraphData = async (step: string) => {
     const result = await getCampaignData(campaign, step, make?.name, model?.name);
-    if (!result || !result[0]) return;
+    if (!result || !result[0]) {
+      dispatch(setDataLoading(false));
+      return;
+    }
     const [data] = result;
     setEnteredHeadline1(data.h1Headline);
     setEnteredHeadline2(data.h2Headline);
     setCampaignImage(data.heroImage);
     setBanner(data.banner.banner);
     dispatch(setButtonText(data.buttonCta));
+    dispatch(setDataLoading(false));
   };
 
   const name = model ? `${make.name} ${model.name}` : make.name;
@@ -113,14 +125,18 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
       <GlobalStyles />
       <DefaultLayout year={year} month={month} banner={enteredBanner}>
         <Title>
-          {enteredHeadline1 ? (
+          {dataLoading ? (
+            <Skeleton />
+          ) : enteredHeadline1 ? (
             <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
           ) : (
             <> Huge Markdowns on {name} This Month! </>
           )}
         </Title>
         <SubTitle>
-          {enteredHeadline2 ? (
+          {dataLoading ? (
+            <Skeleton />
+          ) : enteredHeadline2 ? (
             <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
           ) : (
             <>
