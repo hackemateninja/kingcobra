@@ -35,7 +35,7 @@ const baseNextConfig = {
         headers: [
           {
             key: 'cache-control',
-            value: 'public, s-maxage=31536000, max-age=31536000',
+            value: 'no-cache',
           },
         ],
       },

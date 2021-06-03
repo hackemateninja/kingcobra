@@ -18,6 +18,7 @@ const initialSite: IStateSite = {
     modal: false,
     modalType: '',
     buttonLoading: false,
+    dataLoading: true,
   },
 };
 
@@ -43,9 +44,20 @@ const siteSlice = createSlice({
     setButtonLoading: (state, action) => {
       state.ui.buttonLoading = action.payload;
     },
+    setDataLoading: (state, action) => {
+      state.ui.dataLoading = action.payload;
+    },
   },
 });
 
-export const { setMonth, setYear, setQuotes, setModal, setModalType, setButtonLoading } = siteSlice.actions;
+export const {
+  setMonth,
+  setYear,
+  setQuotes,
+  setModal,
+  setModalType,
+  setButtonLoading,
+  setDataLoading,
+} = siteSlice.actions;
 
 export default siteSlice.reducer;

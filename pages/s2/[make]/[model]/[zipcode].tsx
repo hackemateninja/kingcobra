@@ -7,6 +7,7 @@ import { useUserAgent } from 'next-useragent';
 import * as cookie from 'cookie';
 import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import * as QueryString from 'query-string';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -22,6 +23,7 @@ import DefaultLayout from '@/layout/default';
 import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
 import { saveDeviceType, saveDealers, setButton2Text, setButton3Text } from '@/redux/slices/step-two';
 import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from '@/redux/slices/thankyou';
+import { setDataLoading } from '@/redux/slices/site';
 
 // Components
 import StepTwo from '@/comp/steps/step-two';
@@ -45,7 +47,7 @@ import getMonth from '@/util/get-month';
 import GlobalStyles from '@/theme/global';
 
 // Services
-import { getCampaignData, getMakes, getModelsByMake } from '@/src/services';
+import { getCampaignData, getMakes, getModelsByMake, getDealers } from '@/src/services';
 
 const zipRegex = /^\d{5}$|^\d{5}$/;
 
@@ -65,10 +67,14 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const metadata = useSelector((state: RootState) => state.metadata);
   const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
   const boxActive = useSelector((state: RootState) => state.stepTwo.ui.boxActive);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
 
-  const { makes, models, make, model, ua, dealers } = props;
+  const { makes, models, make, model, ua, dealers, campaign } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
-  const { campaign } = router.query;
+
+  if (!campaign) {
+    dispatch(setDataLoading(false));
+  }
 
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
@@ -113,30 +119,34 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (router.asPath === router.route || !campaign || !dealers) return;
+    if (!dealers || !campaign) return;
     const step = dealers.dealers.length > 1 ? 'step_2' : 'step_3';
     setGraphData(step);
-  }, [router]);
+  }, []);
 
   useEffect(() => {
-    if (boxActive !== 'form' || !campaign || !dealers) return;
+    if (boxActive !== 'form' || !campaign || !dealers || !router.isReady) return;
     setGraphData('step_3');
   }, [boxActive]);
 
   const setGraphData = async (step: string) => {
     const result = await getCampaignData(campaign, step, make?.name, model?.name);
-    if (!result || !result[0]) return;
+    if (!result || !result[0]) {
+      dispatch(setDataLoading(false));
+      return;
+    }
     const [data] = result;
+    setBanner(data.banner.banner);
     setEnteredHeadline1(data.h1Headline);
     setEnteredHeadline2(data.h2Headline);
     setCampaignImage(data.heroImage);
-    setBanner(data.banner.banner);
     if (step === 'step_2') {
       dispatch(setButton2Text(data.buttonCta));
     }
     if (step === 'step_3') {
       dispatch(setButton3Text(data.buttonCta));
     }
+    dispatch(setDataLoading(false));
   };
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -168,7 +178,9 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
       <DefaultLayout year={props.year} month={props.month} banner={enteredBanner}>
         <Display hide="mobile">
           <Title>
-            {enteredHeadline1 ? (
+            {dataLoading ? (
+              <Skeleton />
+            ) : enteredHeadline1 ? (
               <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
             ) : (
               <>
@@ -178,7 +190,9 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
           </Title>
         </Display>
         <SubTitle>
-          {enteredHeadline2 ? (
+          {dataLoading ? (
+            <Skeleton />
+          ) : enteredHeadline1 ? (
             <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
           ) : (
             <>Choose your preferred dealers and fill out the form to find offers!</>
@@ -214,6 +228,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtModel = context.query.model;
   const cxtZip = context.query.zipcode;
   const secondary = context.query.sl;
+  const campaign = context.query.campaign;
 
   const makes: IMake[] = await getMakes();
   const make = makes.find((item) => item.seoName === cxtMake);
@@ -221,25 +236,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const model = models.find((item) => item.seoName === cxtModel);
 
   const sourceId = secondary ? config.altSourceId : config.sourceId;
+  let dealers = [];
+
+  try {
+    dealers = await getDealers(
+      sourceId,
+      encodeURIComponent(make?.name),
+      encodeURIComponent(model?.name),
+      model?.year,
+      cxtZip,
+      utss
+    );
+  } catch (err) {
+    appInsights.trackTrace({
+      message: `${err} - Something went wrong getting dealers: ${cxtMake}-${cxtModel}-${cxtZip}`,
+      properties: {
+        make: cxtMake,
+        model: cxtModel,
+        zip: cxtZip,
+      },
+      severityLevel: SeverityLevel.Error,
+    });
+
+    // return { coverage: false, dealers: [] };
+  }
+
   const url = `${config.apiFunctionUrl}/api/dealers?sourceId=${sourceId}
     &make=${encodeURIComponent(make?.name)}&model=${encodeURIComponent(model?.name)}
     &year=${model?.year}&zip=${cxtZip}&sessionId=${utss}`;
-
-  const dealers = await fetch(url)
-    .then<IMldDealersResponse>((r) => r.json())
-    .catch((err) => {
-      appInsights.trackTrace({
-        message: `${err} - Something went wrong getting dealers: ${cxtMake}-${cxtModel}-${cxtZip}`,
-        properties: {
-          make: cxtMake,
-          model: cxtModel,
-          zip: cxtZip,
-        },
-        severityLevel: SeverityLevel.Error,
-      });
-
-      return { coverage: false, dealers: [] };
-    });
 
   const year = getYear();
   const month = getMonth();
@@ -256,7 +280,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       dealers,
       year,
       month,
-      utss,
+      utss: utss || '',
+      campaign: campaign || null,
     },
   };
 };
