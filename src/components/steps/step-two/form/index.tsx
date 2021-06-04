@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { domains, names, wordDifference } from './word-difference';
 import Cookies from 'js-cookie';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -59,6 +60,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
   const uiSuggested = useSelector((state: RootState) => state.stepTwo.ui);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
   const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
 
   // form validation initialization
 
@@ -473,7 +475,7 @@ const FormTwo: React.FC<IPlainObject> = (props) => {
           handlerFocus={(e) => resetErrors(e.target)}
         />
         <SendInfo />
-        <Button type="submit">{button}</Button>
+        {dataLoading ? <Skeleton height="50px" /> : <Button type="submit">{button}</Button>}
       </form>
     </Box>
   );

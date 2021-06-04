@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { ThemeType } from '../../../definitions/TTheme';
 
 const HeaderWrapper = styled.header<{ theme: ThemeType }>`
-  height: 95px;
+  height: ${(props) => props.theme.header.height.md};
+  margin: ${(props) => props.theme.header.margin.md};
   position: relative;
   width: 100%;
   color: #fff;
@@ -23,7 +24,7 @@ const HeaderWrapper = styled.header<{ theme: ThemeType }>`
   @media screen and (max-width: 767px) {
     height: 96px;
     box-shadow: none;
-    margin-bottom: 0;
+    margin: ${(props) => props.theme.header.margin.xs};
     padding: 33px 0 0;
   }
 `;
@@ -76,12 +77,12 @@ const HeaderDiagonal = styled.div`
   left: 0;
   background-image: url('//static.car.com/cars/assets/img/bnr_images/cc-icons.png');
   background-repeat: no-repeat;
-  background-position: -104px -177px;
-  height: 96px;
+  background-position: -130px bottom;
+  background-size: 280px;
+  height: ${(props) => props.theme.header.height.md};
   width: 126px;
   @media screen and (max-width: 1024px) {
     width: 126px;
-    background-position: -106px -177px;
   }
   @media screen and (max-width: 767px) {
     display: none;

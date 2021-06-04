@@ -14,7 +14,7 @@ const Header: React.FC = () => {
     <HeaderWrapper>
       <Container>
         <HeaderImg>
-          <use xlinkHref={themeContext.logo.filename} />
+          <use xlinkHref={themeContext.typage.logo.filename} />
         </HeaderImg>
       </Container>
     </HeaderWrapper>

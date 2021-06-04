@@ -1,6 +1,7 @@
 // Packages
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -16,6 +17,7 @@ import Button from '@/comp/button';
 import Input from '@/comp/form-elements/input';
 import Select from '@/comp/form-elements/select';
 import { setButtonLoading } from '@/redux/slices/site';
+import { ButtonWrapper } from '@/comp/button/style';
 
 const FormOne: React.FC<IPlainObject> = (props) => {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ const FormOne: React.FC<IPlainObject> = (props) => {
   // Step 1 Data
   const stepOne = useSelector((state: RootState) => state.stepOne);
   const ui = useSelector((state: RootState) => state.stepOne.ui);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
   const { button } = stepOne.ui;
 
   // Fill Models Select
@@ -225,9 +228,13 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         autocomplete="off"
         onlyNumbers
       />
-      <Button disabled={loading} loading={loading} handlerClick={handlerSubmit}>
-        {button}
-      </Button>
+      {dataLoading ? (
+        <Skeleton height="50px" />
+      ) : (
+        <Button disabled={loading} loading={loading} handlerClick={handlerSubmit}>
+          {button}
+        </Button>
+      )}
     </Box>
   );
 };

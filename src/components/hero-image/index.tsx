@@ -1,6 +1,7 @@
 // Packages
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -20,7 +21,9 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
 
   const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
   const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
-  const loading = useSelector((state: RootState) => state.stepOne.ui.imageLoading);
+  const stepOneUi = useSelector((state: RootState) => state.stepOne.ui);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
+  const { imageLoading: loading } = stepOneUi;
   const handleImageLoading = (input) => {
     // onLoad replacement for SSR
     if (!input) return;
@@ -37,7 +40,15 @@ const HeroImage: React.FC<IPlainObject> = (props) => {
   const image = model.mediumJpg ?? make.mediumJpg ?? props.campaignImage ?? props.image ?? '/hero-image.jpg';
   const smallImage = model.smallJpg ?? make.smallJpg ?? props.campaignImage ?? props.smallImage ?? '/hero-image.jpg';
 
-  return (
+  return dataLoading ? (
+    <HeroImageWrapper>
+      <HeroImageContainer>
+        <HeroImageCover>
+          <Skeleton height="100%" />
+        </HeroImageCover>
+      </HeroImageContainer>
+    </HeroImageWrapper>
+  ) : (
     <HeroImageWrapper>
       <HeroImageContainer>
         <HeroImageCover>

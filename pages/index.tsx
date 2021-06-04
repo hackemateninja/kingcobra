@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
 import * as QueryString from 'query-string';
+import Skeleton from 'react-loading-skeleton';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -17,10 +17,10 @@ import DefaultLayout from '@/layout/default';
 
 // Styles
 import GlobalStyles from '@/theme/global';
-import CarcomTheme from '@/theme/carcom';
 
 // Slices
 import { setButtonText, setMakes } from '@/redux/slices/step-one';
+import { setDataLoading } from '@/redux/slices/site';
 
 // Components
 import Title from '@/comp/title';
@@ -44,9 +44,11 @@ const Home: React.FC<IPlainObject> = (props) => {
   const [enteredHeadline2, setEnteredHeadline2] = useState(null);
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
+  // const [dataLoading, setDataLoading] = useState(true);
 
   const metadata = useSelector((state: RootState) => state.metadata);
   const stepOne = useSelector((state: RootState) => state.stepOne.data);
+  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
 
   const { month } = props;
   const { prefix, separator, description, keywords } = metadata.home;
@@ -79,13 +81,17 @@ const Home: React.FC<IPlainObject> = (props) => {
 
   const setGraphData = async () => {
     const result = await getCampaignData(campaign, 'unbranded_page');
-    if (!result || !result[0]) return;
+    if (!result || !result[0]) {
+      dispatch(setDataLoading(false));
+      return;
+    }
     const [data] = result;
     setEnteredHeadline1(data.h1Headline);
     setEnteredHeadline2(data.h2Headline);
     setCampaignImage(data.heroImage);
     setBanner(data.banner.banner);
     dispatch(setButtonText(data.buttonCta));
+    dispatch(setDataLoading(false));
   };
 
   useEffect(() => {
@@ -93,9 +99,13 @@ const Home: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (router.asPath === router.route || !campaign) return;
+    if (!router.isReady) return;
+    if (!campaign) {
+      dispatch(setDataLoading(false));
+      return;
+    }
     setGraphData();
-  }, [router]);
+  }, [router.isReady]);
 
   const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
   return (
@@ -104,14 +114,18 @@ const Home: React.FC<IPlainObject> = (props) => {
       <GlobalStyles />
       <DefaultLayout year={props.year} month={month} banner={enteredBanner}>
         <Title>
-          {enteredHeadline1 ? (
+          {dataLoading ? (
+            <Skeleton />
+          ) : enteredHeadline1 ? (
             <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
           ) : (
             <> Huge {month} Closeout on All New Vehicles </>
           )}
         </Title>
         <SubTitle>
-          {enteredHeadline2 ? (
+          {dataLoading ? (
+            <Skeleton />
+          ) : enteredHeadline2 ? (
             <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
           ) : (
             <>
