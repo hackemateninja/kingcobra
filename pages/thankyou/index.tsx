@@ -24,7 +24,6 @@ import setPrefix from '@/util/prefix';
 // Components
 import Typ from '@/comp/typ/typ';
 import TypHeader from '@/comp/typ/header';
-import TypBannerMemorialDay from '@/comp/banners/memorial-day';
 import TypTopContent from '@/comp/typ/top-content';
 import TypListing from '@/comp/typ/listing';
 import TypBottomContent from '@/comp/typ/bottom-content';

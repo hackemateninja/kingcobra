@@ -19,4 +19,5 @@ export const config: IConfig = {
   graphCMSAuth: process.env.NEXT_PUBLIC_AUTH_GRAPHCMS,
   graphCMSUrl: process.env.NEXT_PUBLIC_GRAPHCMS_URL,
   activateGraphCMS: process.env.NEXT_PUBLIC_USE_GRAPHCMS === 'true',
+  siteUrl: process.env.NEXT_PUBLIC_SM_URL,
 };

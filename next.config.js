@@ -7,7 +7,7 @@ const enablePWAConfig = process.env.USE_PWA_CONFIG === 'true';
 
 const baseNextConfig = {
   sitemap: {
-    baseUrl: process.env.SM_URL || 'https://shop.car.com',
+    baseUrl: `https://${process.env.NEXT_PUBLIC_SM_URL}` || 'https://shop.car.com',
     excludedPaths: [
       '/404/',
       '/[make]/',
@@ -29,13 +29,13 @@ const baseNextConfig = {
   },
   async headers() {
     return [
-      { source: '/(.*)', headers: createSecureHeaders() },
+       { source: '/(.*)', headers: createSecureHeaders() },
       {
         source: '/:path*',
         headers: [
           {
             key: 'cache-control',
-            value: 'no-cache',
+            value: 'no-store',
           },
         ],
       },

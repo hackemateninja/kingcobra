@@ -23,7 +23,9 @@ export const getCampaignData = async (campaign, funnelStep, make = '', model = '
   const query = {
     query: `query MyQuery {personalizations(where: {${campaign ? 'campaign: ' + campaign : ''}, ${
       funnelStep ? 'funnelStep: ' + funnelStep : ''
-    }, website: {websiteName: "shop.lab.car.com"}}) {    h1Headline    h2Headline    buttonCta  heroImage  banner { banner }}}`,
+    }, website: {websiteName: "${
+      config.siteUrl
+    }"}}) {    h1Headline    h2Headline    buttonCta  heroImage  banner { banner }}}`,
     variables: null,
     operationName: 'MyQuery',
   };

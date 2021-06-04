@@ -72,10 +72,6 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const { makes, models, make, model, ua, dealers, campaign } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
 
-  if (!campaign) {
-    dispatch(setDataLoading(false));
-  }
-
   const name = `${make.name} ${model.name}`;
   const title = `${setSuffix(prefix, name, ` ${separator} `)} ${separator} ${metadata.name}`;
   const noCoverageTitle = `No Coverage ${separator} ${metadata.name}`;
@@ -99,6 +95,9 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }
 
   useEffect(() => {
+    if (!campaign) {
+      dispatch(setDataLoading(false));
+    }
     let device: string;
     if (ua.isMobile) {
       device = 'Mobile';

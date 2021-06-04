@@ -19,4 +19,5 @@ export interface IConfig {
   graphCMSAuth: string;
   graphCMSUrl: string;
   activateGraphCMS: boolean;
+  siteUrl: string;
 }
