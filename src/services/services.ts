@@ -15,7 +15,12 @@ export const getModelsByMake = async (make: string | string[]): Promise<IModel[]
   return response.json();
 };
 
-export const getCampaignData = async (campaign, funnelStep, make = '', model = ''): Promise<any> => {
+export const getCampaignData = async (
+  campaign: string | string[],
+  funnelStep: string,
+  make = '',
+  model = ''
+): Promise<any> => {
   if (!campaign || !funnelStep || !config.activateGraphCMS) {
     return;
   }
@@ -23,9 +28,9 @@ export const getCampaignData = async (campaign, funnelStep, make = '', model = '
   const query = {
     query: `query MyQuery {personalizations(where: {${campaign ? 'campaign: ' + campaign : ''}, ${
       funnelStep ? 'funnelStep: ' + funnelStep : ''
-    }, website: {websiteName: "${
+    }}) {    h1Headline    h2Headline    buttonCta  heroImage  banner { banner }websites(where: {websiteName: "${
       config.siteUrl
-    }"}}) {    h1Headline    h2Headline    buttonCta  heroImage  banner { banner }}}`,
+    }"}) {      websiteName    }   }}`,
     variables: null,
     operationName: 'MyQuery',
   };

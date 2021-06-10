@@ -10,6 +10,7 @@ import { IDealer } from '@/def/IDealers';
 
 // Slices
 import { setSelectedDealers } from '@/redux/slices/step-two';
+import { setDataLoading } from '@/redux/slices/site';
 
 // Components
 import Box from '@/comp/box';
@@ -62,6 +63,7 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
   };
 
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(setDataLoading(true));
     dealersSelected.length !== 0 ? props.handlerButton(e) : setError(true);
   };
 

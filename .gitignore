@@ -23,7 +23,6 @@ yarn-error.log*
 # misc
 .DS_Store
 .env*.local
-.env
 .env.*
 
 npm-debug.log*

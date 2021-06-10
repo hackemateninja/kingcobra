@@ -124,7 +124,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (boxActive !== 'form' || !campaign || !dealers || !router.isReady) return;
+    if (boxActive !== 'form' || !dealers || !router.isReady) return;
+    if (!campaign) dispatch(setDataLoading(false));
     setGraphData('step_3');
   }, [boxActive]);
 

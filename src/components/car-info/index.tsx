@@ -13,7 +13,7 @@ import CarInfoList from './list';
 import { CarInfoWrapper, CarInfoImage, CarInfoContent, CarInfoText } from './style';
 
 const CarInfo: React.FC<IPlainObject> = (props) => {
-  const model = props.model;
+  const { model } = props;
   const image = props.campaignImage || model.mediumJpg;
   const numberWithCommas = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
