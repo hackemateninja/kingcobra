@@ -63,8 +63,12 @@ const DealersBox: React.FC<IPlainObject> = (props) => {
   };
 
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(setDataLoading(true));
-    dealersSelected.length !== 0 ? props.handlerButton(e) : setError(true);
+    if (dealersSelected.length !== 0) {
+      props.handlerButton(e);
+      dispatch(setDataLoading(true));
+    } else {
+      setError(true);
+    }
   };
 
   useEffect(() => {
