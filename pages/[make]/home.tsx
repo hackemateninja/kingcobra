@@ -50,7 +50,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
   const [campaignData, setCampaignData] = useState(null);
-  const { campaign } = router.query;
+  const { utm_campaign } = router.query;
 
   const handlerSubmit = () => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -60,11 +60,11 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
     let campaignQuery = '';
-    if (campaign) {
+    if (utm_campaign) {
       if (query === '') {
-        campaignQuery = '?campaign=' + campaign;
+        campaignQuery = '?utm_campaign=' + utm_campaign;
       } else {
-        campaignQuery = '&campaign=' + campaign;
+        campaignQuery = '&utm_campaign=' + utm_campaign;
       }
     }
 
@@ -86,7 +86,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (!campaign) {
+    if (!utm_campaign) {
       dispatch(setDataLoading(false));
       return;
     }
@@ -95,7 +95,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   }, [router.isReady]);
 
   const setGraphData = async (step: string) => {
-    const result = await getCampaignData(campaign, step, make?.name, model?.name);
+    const result = await getCampaignData(utm_campaign, step, make?.name, model?.name);
     if (!result || !result[0]) {
       dispatch(setDataLoading(false));
       return;

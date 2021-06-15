@@ -73,7 +73,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
-    const { campaign } = router.query;
+    const { utm_campaign } = router.query;
 
     if (!zipcode) {
       url = `/${make}/${model}${query}`;
@@ -81,11 +81,11 @@ const Thanks: React.FC<IPlainObject> = (props) => {
       const slQuery = query ? `${query}&sl=true` : `?sl=true`;
       url = `/s2/${make}/${model}/${zipcode}${slQuery}`;
     }
-    if (campaign) {
+    if (utm_campaign) {
       if (query === '' && !zipcode) {
-        url = url + '?campaign=' + campaign;
+        url = url + '?utm_campaign=' + utm_campaign;
       } else {
-        url = url + '&campaign=' + campaign;
+        url = url + '&utm_campaign=' + utm_campaign;
       }
     }
 

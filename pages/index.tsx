@@ -53,7 +53,7 @@ const Home: React.FC<IPlainObject> = (props) => {
   const { month } = props;
   const { prefix, separator, description, keywords } = metadata.home;
   const title = `${prefix.join(` ${separator} `)} ${separator} ${metadata.name}`;
-  const { campaign } = router.query;
+  const { utm_campaign } = router.query;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -63,11 +63,11 @@ const Home: React.FC<IPlainObject> = (props) => {
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
     let campaignQuery = '';
-    if (campaign) {
+    if (utm_campaign) {
       if (query === '') {
-        campaignQuery = '?campaign=' + campaign;
+        campaignQuery = '?utm_campaign=' + utm_campaign;
       } else {
-        campaignQuery = '&campaign=' + campaign;
+        campaignQuery = '&utm_campaign=' + utm_campaign;
       }
     }
 
@@ -80,7 +80,7 @@ const Home: React.FC<IPlainObject> = (props) => {
   };
 
   const setGraphData = async () => {
-    const result = await getCampaignData(campaign, 'unbranded_page');
+    const result = await getCampaignData(utm_campaign, 'unbranded_page');
     if (!result || !result[0]) {
       dispatch(setDataLoading(false));
       return;
@@ -100,7 +100,7 @@ const Home: React.FC<IPlainObject> = (props) => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (!campaign) {
+    if (!utm_campaign) {
       dispatch(setDataLoading(false));
       return;
     }

@@ -160,9 +160,9 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
     let campaignQuery = '';
     if (campaign) {
       if (query === '') {
-        campaignQuery = '?campaign=' + campaign;
+        campaignQuery = '?utm_campaign=' + campaign;
       } else {
-        campaignQuery = '&campaign=' + campaign;
+        campaignQuery = '&utm_campaign=' + campaign;
       }
     }
 
@@ -228,7 +228,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtModel = context.query.model;
   const cxtZip = context.query.zipcode;
   const secondary = context.query.sl;
-  const campaign = context.query.campaign;
+  const campaign = context.query.utm_campaign;
 
   const makes: IMake[] = await getMakes();
   const make = makes.find((item) => item.seoName === cxtMake);
