@@ -26,7 +26,7 @@ export const getCampaignData = async (
   }
   const currentMonth = getMonth();
   const query = {
-    query: `query MyQuery {personalizations(where: {${campaign ? 'campaign: ' + campaign : ''}, ${
+    query: `query MyQuery {personalizations(where: {${campaign ? 'campaign_contains_all: ' + campaign : ''}, ${
       funnelStep ? 'funnelStep: ' + funnelStep : ''
     }}) {    h1Headline    h2Headline    buttonCta  heroImage  banner { banner }websites(where: {websiteName: "${
       config.siteUrl
