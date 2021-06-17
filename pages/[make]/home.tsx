@@ -50,7 +50,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
   const [campaignData, setCampaignData] = useState(null);
-  const { utm_campaign } = router.query;
+  const { utm_campaign, primary_sid, thankyou_sid } = router.query;
 
   const handlerSubmit = () => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -85,14 +85,13 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   }, []);
 
   useEffect(() => {
-    if (!router.isReady) return;
-    if (!utm_campaign) {
-      dispatch(setDataLoading(false));
+    if (utm_campaign || primary_sid || thankyou_sid) {
+      const step = router.pathname === '/[make]/[model]' ? 'model_page' : 'make_page';
+      setGraphData(step);
       return;
     }
-    const step = router.pathname === '/[make]/[model]' ? 'model_page' : 'make_page';
-    setGraphData(step);
-  }, [router.isReady]);
+    if (router.isReady) dispatch(setDataLoading(false));
+  }, [utm_campaign, primary_sid, thankyou_sid, router.isReady]);
 
   const setGraphData = async (step: string) => {
     const result = await getCampaignData(utm_campaign, step, make?.name, model?.name);

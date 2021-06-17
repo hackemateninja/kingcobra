@@ -53,7 +53,7 @@ const Home: React.FC<IPlainObject> = (props) => {
   const { month } = props;
   const { prefix, separator, description, keywords } = metadata.home;
   const title = `${prefix.join(` ${separator} `)} ${separator} ${metadata.name}`;
-  const { utm_campaign } = router.query;
+  const { utm_campaign, primary_sid, thankyou_sid } = router.query;
 
   const handlerSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { selectedMake, selectedModel, zipcode } = stepOne;
@@ -99,13 +99,12 @@ const Home: React.FC<IPlainObject> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!router.isReady) return;
-    if (!utm_campaign) {
-      dispatch(setDataLoading(false));
+    if (utm_campaign || primary_sid || thankyou_sid) {
+      setGraphData();
       return;
     }
-    setGraphData();
-  }, [router.isReady]);
+    if (router.isReady) dispatch(setDataLoading(false));
+  }, [utm_campaign, primary_sid, thankyou_sid, router.isReady]);
 
   const preload: IPreload[] = [{ type: 'image', elem: '/hero-image.jpg' }];
   return (

@@ -61,7 +61,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const [enteredBanner, setBanner] = useState(null);
 
   if (!props.make || !props.model || !props.zip || !zipRegex.test(props.zip)) {
-    return <Redirect />;
+    return <Redirect parameters={router.query.utm_campaign ? `?utm_campaign=${router.query.utm_campaign}` : ''} />;
   }
 
   const metadata = useSelector((state: RootState) => state.metadata);

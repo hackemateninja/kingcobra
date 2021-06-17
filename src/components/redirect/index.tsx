@@ -2,11 +2,15 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-const Redirect: React.FC = () => {
+// Definitions
+import { IPlainObject } from '@/def/IPlainObject';
+
+const Redirect: React.FC<IPlainObject> = ({ parameters }) => {
   const router = useRouter();
+  const params = parameters !== undefined ? parameters : '';
 
   useEffect(() => {
-    router.replace('/');
+    router.replace('/' + params);
   }, []);
 
   return (
