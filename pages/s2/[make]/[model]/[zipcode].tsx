@@ -33,6 +33,7 @@ import Display from '@/comp/container/display';
 import MetaData from '@/comp/meta-data';
 import Redirect from '@/comp/redirect';
 import DynamicAdWidget from '@/comp/dynamic-ad-widget';
+import ReplaceMakeModel from '@/comp/replace-make-model';
 
 // Utilities
 import setSuffix from '@/util/suffix';
@@ -181,7 +182,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
             {dataLoading ? (
               <Skeleton />
             ) : enteredHeadline1 ? (
-              <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+              <ReplaceMakeModel text={enteredHeadline1} />
             ) : (
               <>
                 Yes! We Located {make.name} {model.name} Internet Deals
@@ -193,7 +194,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
           {dataLoading ? (
             <Skeleton />
           ) : enteredHeadline1 ? (
-            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+            <ReplaceMakeModel text={enteredHeadline2} />
           ) : (
             <>Choose your preferred dealers and fill out the form to find offers!</>
           )}

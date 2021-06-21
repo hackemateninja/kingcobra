@@ -23,6 +23,7 @@ import Title from '@/comp/title';
 import SubTitle from '@/comp/subtitle';
 import MetaData from '@/comp/meta-data';
 import Redirect from '@/comp/redirect';
+import ReplaceMakeModel from '@/comp/replace-make-model';
 
 // Utilities
 import setSuffix from '@/util/suffix';
@@ -50,6 +51,8 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   const [enteredCampaignImage, setCampaignImage] = useState(null);
   const [enteredBanner, setBanner] = useState(null);
   const [campaignData, setCampaignData] = useState(null);
+  const stateMake = stepOne.selectedMake.name ? stepOne.selectedMake.name : '';
+  const stateModel = stepOne.selectedModel.name ? stepOne.selectedModel.name : '';
   const { utm_campaign, primary_sid, thankyou_sid } = router.query;
 
   const handlerSubmit = () => {
@@ -94,7 +97,7 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
   }, [utm_campaign, primary_sid, thankyou_sid, router.isReady]);
 
   const setGraphData = async (step: string) => {
-    const result = await getCampaignData(utm_campaign, step, make?.name, model?.name);
+    const result = await getCampaignData(utm_campaign, step, stepOne.selectedMake?.name, stepOne.selectedModel?.name);
     if (!result || !result[0]) {
       dispatch(setDataLoading(false));
       return;
@@ -127,19 +130,21 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
           {dataLoading ? (
             <Skeleton />
           ) : enteredHeadline1 ? (
-            <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+            <ReplaceMakeModel text={enteredHeadline1} />
           ) : (
-            <> Huge Markdowns on {name} This Month! </>
+            <>
+              Huge Markdowns {stateMake && 'on'} {model ? `${stateMake} ${stateModel}` : stateMake} This Month!
+            </>
           )}
         </Title>
         <SubTitle>
           {dataLoading ? (
             <Skeleton />
           ) : enteredHeadline2 ? (
-            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+            <ReplaceMakeModel text={enteredHeadline2} />
           ) : (
             <>
-              Compare Prices from Multiple {make.name} Dealers and <strong>Get the Lowest Price</strong>
+              Compare Prices from Multiple {stateMake} Dealers and <strong>Get the Lowest Price</strong>
             </>
           )}
         </SubTitle>

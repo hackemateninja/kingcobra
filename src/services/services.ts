@@ -51,12 +51,7 @@ export const getCampaignData = async (
     .then((response) => {
       let result = response.data.personalizations;
       if (result) {
-        result = JSON.stringify(result)
-          .replaceAll('[make]', make)
-          .replaceAll('[MAKE]', make)
-          .replaceAll('[model]', model)
-          .replaceAll('[MODEL]', model)
-          .replaceAll('[MONTH]', currentMonth);
+        result = JSON.stringify(result).replaceAll('[MONTH]', currentMonth);
         return JSON.parse(result);
       } else {
         throw new Error('Problem getting personalization data');

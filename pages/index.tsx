@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import * as QueryString from 'query-string';
 import Skeleton from 'react-loading-skeleton';
+import Parse from 'html-react-parser';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -116,7 +117,7 @@ const Home: React.FC<IPlainObject> = (props) => {
           {dataLoading ? (
             <Skeleton />
           ) : enteredHeadline1 ? (
-            <div dangerouslySetInnerHTML={{ __html: enteredHeadline1 }}></div>
+            <>{Parse(enteredHeadline1)}</>
           ) : (
             <> Huge {month} Closeout on All New Vehicles </>
           )}
@@ -125,7 +126,7 @@ const Home: React.FC<IPlainObject> = (props) => {
           {dataLoading ? (
             <Skeleton />
           ) : enteredHeadline2 ? (
-            <div dangerouslySetInnerHTML={{ __html: enteredHeadline2 }}></div>
+            <>{Parse(enteredHeadline2)}</>
           ) : (
             <>
               Compare Prices from Multiple Dealers and <strong>Get the Lowest Price</strong>
