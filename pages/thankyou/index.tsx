@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import * as QueryString from 'query-string';
 import Cookies from 'js-cookie';
+import { config } from '@/util/config';
 
 // Definitions
 import { RootState } from '@/def/TRootReducer';
@@ -61,6 +62,7 @@ const Thanks: React.FC<IPlainObject> = (props) => {
   const lastname = useSelector((state: RootState) => state.stepTwo.data.last);
   const dealers = useSelector((state: RootState) => state.stepTwo.data.selectedDealers);
   const selectedMakes = useSelector((state: RootState) => state.thankyou.data.selectedMakes);
+  const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
   const image = model.mediumPng ?? model.mediumJpg ?? '/defaultImage.png';
 
   const utsCookie = Cookies.get('uts-session');
@@ -74,6 +76,8 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
     const { utm_campaign } = router.query;
+    const primaryId = stepTwo.sourceId !== config.sourceId ? `&primary_sid=${stepTwo.sourceId}` : '';
+    const secondaryId = stepTwo.altSourceId !== config.altSourceId ? `&thankyou_sid=${stepTwo.altSourceId}` : '';
 
     if (!zipcode) {
       url = `/${make}/${model}${query}`;
@@ -83,9 +87,9 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     }
     if (utm_campaign) {
       if (query === '' && !zipcode) {
-        url = url + '?utm_campaign=' + utm_campaign;
+        url = url + '?utm_campaign=' + utm_campaign + primaryId + secondaryId;
       } else {
-        url = url + '&utm_campaign=' + utm_campaign;
+        url = url + '&utm_campaign=' + utm_campaign + primaryId + secondaryId;
       }
     }
 

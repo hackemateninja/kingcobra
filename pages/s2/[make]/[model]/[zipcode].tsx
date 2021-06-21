@@ -21,7 +21,14 @@ import DefaultLayout from '@/layout/default';
 
 // Slices
 import { saveModels, setMakes, setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
-import { saveDeviceType, saveDealers, setButton2Text, setButton3Text } from '@/redux/slices/step-two';
+import {
+  saveDeviceType,
+  saveDealers,
+  setButton2Text,
+  setButton3Text,
+  saveSourceId,
+  saveAltSourceId,
+} from '@/redux/slices/step-two';
 import { setSelectedMakeTYP, setSelectedModelTYP, setZipCodeTYP } from '@/redux/slices/thankyou';
 import { setDataLoading } from '@/redux/slices/site';
 
@@ -69,6 +76,7 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode);
   const boxActive = useSelector((state: RootState) => state.stepTwo.ui.boxActive);
   const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
+  const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
 
   const { makes, models, make, model, ua, dealers, campaign } = props;
   const { prefix, separator, description, keywordsPnS } = metadata.model;
@@ -96,6 +104,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }
 
   useEffect(() => {
+    if (!stepTwo.sourceId) dispatch(saveSourceId(props.sourceId));
+    if (!stepTwo.altSourceId) dispatch(saveAltSourceId(props.altSourceId));
     if (!campaign) {
       dispatch(setDataLoading(false));
     }
@@ -230,13 +240,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cxtZip = context.query.zipcode;
   const secondary = context.query.sl;
   const campaign = context.query.utm_campaign;
+  const { primary_sid, thankyou_sid } = context.query;
 
   const makes: IMake[] = await getMakes();
   const make = makes.find((item) => item.seoName === cxtMake);
   const models: IModel[] = await getModelsByMake(cxtMake);
   const model = models.find((item) => item.seoName === cxtModel);
 
-  const sourceId = secondary ? config.altSourceId : config.sourceId;
+  const primaryId = primary_sid ? primary_sid : config.sourceId;
+  const secondaryId = thankyou_sid ? thankyou_sid : config.altSourceId;
+
+  const sourceId = secondary ? secondaryId : primaryId;
+
   let dealers = [];
 
   try {
@@ -281,6 +296,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       dealers,
       year,
       month,
+      sourceId: sourceId || '',
+      altSourceId: secondaryId || '',
       utss: utss || '',
       campaign: campaign || null,
     },

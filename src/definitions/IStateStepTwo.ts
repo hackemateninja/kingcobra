@@ -11,6 +11,7 @@ interface IDataStepTwo {
   email: string;
   coverage: boolean;
   sourceId: string;
+  altSourceId: string;
   device: 'Unknown' | 'Mobile' | 'Tablet' | 'Desktop';
   transactionId: string;
   sendInfo: boolean;

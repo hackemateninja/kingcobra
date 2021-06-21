@@ -41,6 +41,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
 
   // Fill Models Select
   const models = useSelector((state: RootState) => state.stepOne.data.models);
+  const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
 
   // form fields
   const make = props.make !== undefined ? props.make : '';
@@ -143,7 +144,6 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
     e.preventDefault();
     updateInputs(true);
 
-    dispatch(saveSourceId(config.altSourceId));
     dispatch(setButtonClick(true));
     const errorInputs = formFields.filter((item) => item['empty'] || item['error']);
 

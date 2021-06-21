@@ -62,12 +62,19 @@ const Home: FC<IPlainObject> = ({ makes, models, make, model, year, month, quote
     const queryparams = QueryString.parse(location.search);
     const { utsu, utss } = queryparams;
     const query = (utsu && utss && `?utsu=${utsu}&utss=${utss}`) || '';
+    const primaryId = primary_sid ? `primary_sid=${primary_sid}` : '';
+    const secondaryId = thankyou_sid ? `thankyou_sid=${thankyou_sid}` : '';
+    const utmParameter = utm_campaign ? `utm_campaign=${utm_campaign}` : '';
+    const urlBuild =
+      utmParameter +
+      (primaryId && utmParameter ? `&${primaryId}` : primaryId) +
+      (secondaryId && (utmParameter || primaryId) ? `&${secondaryId}` : secondaryId);
     let campaignQuery = '';
-    if (utm_campaign) {
+    if (utm_campaign || primaryId || secondaryId) {
       if (query === '') {
-        campaignQuery = '?utm_campaign=' + utm_campaign;
+        campaignQuery = '?' + urlBuild;
       } else {
-        campaignQuery = '&utm_campaign=' + utm_campaign;
+        campaignQuery = '&' + urlBuild;
       }
     }
 

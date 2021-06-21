@@ -25,6 +25,7 @@ const initialStepTwo: IStateStepTwo = {
     email: '',
     coverage: false,
     sourceId: '',
+    altSourceId: '',
     device: 'Unknown',
     transactionId: '',
     sendInfo: true,
@@ -143,6 +144,9 @@ const stepTwoSlice = createSlice({
     saveSourceId: (state, action) => {
       state.data.sourceId = action.payload;
     },
+    saveAltSourceId: (state, action) => {
+      state.data.altSourceId = action.payload;
+    },
     saveDealers: (state, action) => {
       const { dealers, coverage, transactionID } = action.payload;
       state.data.dealers = dealers.map((dealer) => ({
@@ -247,6 +251,7 @@ export const {
   saveEmail,
   saveDealers,
   saveSourceId,
+  saveAltSourceId,
   saveDeviceType,
   saveFirstSuggested,
   saveShowSuggested,
