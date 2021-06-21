@@ -1,14 +1,12 @@
 // Packages
 import React from 'react';
+import dynamic from 'next/dynamic';
 
 // Definitions
 import { IPlainObject } from '../../definitions/IPlainObject';
 
 // Components
 import Header from '../../components/header';
-// eslint-disable-next-line import/no-unresolved
-import HeaderPresidentDay from '@/comp/banners/president-day';
-import HeaderMemorialDay from '@/comp/banners/memorial-day';
 import SVGs from '../../components/svgs';
 import Footer from '../../components/footer';
 import Container from '../../components/container';
@@ -16,6 +14,11 @@ import { RootState } from '@/def/TRootReducer';
 import { useSelector } from 'react-redux';
 import { HeaderWrapper } from '@/comp/header/style';
 import Skeleton from 'react-loading-skeleton';
+
+// Dynamic Headers
+const HeaderPresidentDay = dynamic(() => import('@/comp/banners/president-day'));
+const HeaderMemorialDay = dynamic(() => import('@/comp/banners/memorial-day'));
+const HeaderFourthJuly = dynamic(() => import('@/comp/banners/4th-july'));
 
 const DefaultLayout: React.FC<IPlainObject> = (props) => {
   const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
@@ -32,6 +35,8 @@ const DefaultLayout: React.FC<IPlainObject> = (props) => {
           return <HeaderPresidentDay month={month} />;
         case 'Memorial Day':
           return <HeaderMemorialDay />;
+        case '4th July':
+          return <HeaderFourthJuly />;
         default:
           return <Header month={month} />;
       }
@@ -40,7 +45,8 @@ const DefaultLayout: React.FC<IPlainObject> = (props) => {
 
   return (
     <>
-      {choseHeader(props as never)}
+      {choseHeader({ banner: '4th July', month: '' })}
+      {/* {choseHeader(props as never)} */}
       <Container>{props.children}</Container>
       <Footer year={props.year} />
       <SVGs />

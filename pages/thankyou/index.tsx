@@ -1,5 +1,5 @@
 // Packages
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +24,8 @@ import setPrefix from '@/util/prefix';
 
 // Components
 import Typ from '@/comp/typ/typ';
-import TypHeader from '@/comp/typ/header';
+// import TypHeader from '@/comp/typ/header';
+import FourthJuly from '@/comp/banners/4th-july';
 import TypTopContent from '@/comp/typ/top-content';
 import TypListing from '@/comp/typ/listing';
 import TypBottomContent from '@/comp/typ/bottom-content';
@@ -110,8 +111,8 @@ const Thanks: React.FC<IPlainObject> = (props) => {
       <MetaData title={title} />
       <GlobalStyles />
       <Typ>
-        {/* <TypBannerMemorialDay /> */}
-        <TypHeader />
+        <FourthJuly />
+        {/* <TypHeader /> */}
         <div>
           <TypTopContent name={name} last={lastname} make={make.name} model={model.name} dealers={dealers} />
           <TypListing
