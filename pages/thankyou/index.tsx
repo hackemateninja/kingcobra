@@ -83,14 +83,14 @@ const Thanks: React.FC<IPlainObject> = (props) => {
     if (!zipcode) {
       url = `/${make}/${model}${query}`;
     } else {
-      const slQuery = query ? `${query}&sl=true` : `?sl=true`;
+      const slQuery = query ? `${query}&sl=true${primaryId}${secondaryId}` : `?sl=true${primaryId}${secondaryId}`;
       url = `/s2/${make}/${model}/${zipcode}${slQuery}`;
     }
     if (utm_campaign) {
       if (query === '' && !zipcode) {
-        url = url + '?utm_campaign=' + utm_campaign + primaryId + secondaryId;
+        url = url + '?utm_campaign=' + utm_campaign;
       } else {
-        url = url + '&utm_campaign=' + utm_campaign + primaryId + secondaryId;
+        url = url + '&utm_campaign=' + utm_campaign;
       }
     }
 

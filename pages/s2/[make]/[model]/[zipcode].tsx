@@ -104,8 +104,8 @@ const PageStepTwo: React.FC<IPlainObject> = (props) => {
   }
 
   useEffect(() => {
-    if (!stepTwo.sourceId) dispatch(saveSourceId(props.sourceId));
-    if (!stepTwo.altSourceId) dispatch(saveAltSourceId(props.altSourceId));
+    dispatch(saveSourceId(props.sourceId));
+    dispatch(saveAltSourceId(props.altSourceId));
     if (!campaign) {
       dispatch(setDataLoading(false));
     }
