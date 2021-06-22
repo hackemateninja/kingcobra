@@ -15,10 +15,10 @@ import { useSelector } from 'react-redux';
 import { HeaderWrapper } from '@/comp/header/style';
 import Skeleton from 'react-loading-skeleton';
 
-// Dynamic Headers
-const HeaderPresidentDay = dynamic(() => import('@/comp/banners/president-day'));
-const HeaderMemorialDay = dynamic(() => import('@/comp/banners/memorial-day'));
-const HeaderFourthJuly = dynamic(() => import('@/comp/banners/4th-july'));
+//Headers
+import HeaderPresidentDay from '@/comp/banners/president-day';
+import HeaderMemorialDay from '@/comp/banners/memorial-day';
+import HeaderFourthJuly from '@/comp/banners/4th-july';
 
 const DefaultLayout: React.FC<IPlainObject> = (props) => {
   const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
