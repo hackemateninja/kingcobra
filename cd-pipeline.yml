@@ -77,6 +77,6 @@ stages:
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
                     scriptType: batch
                     scriptLocation: inlineScript
-                    inlineScript: az network front-door purge-endpoint --content-paths path/* --name dev-shared --resource-group uc-dev-shared
+                    inlineScript: az network front-door purge-endpoint --content-paths /* --name dev-shared --resource-group uc-dev-shared
                     addSpnToEnvironment: true
                     failOnStandardError: false
