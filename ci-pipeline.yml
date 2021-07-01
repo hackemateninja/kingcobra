@@ -1,3 +1,27 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - master
+      - lab
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - feature/*
+      - develop
+      - lab
+      - tag/*
+
+schedules:
+  - cron: "40 14 * * *"
+    displayName: Daily QA build
+    branches:
+      include:
+        - develop
+    always: false
+
 # Set a Variable for the Purpose of the CICD run...
 variables:
   - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
@@ -37,27 +61,6 @@ variables:
   - name: BuildReason
     value: $[variables['Build.Reason']]
 
-trigger:
-  branches:
-    include:
-      - develop
-      - master
-      - feature/*
-
-pr:
-  branches:
-    include:
-      - feature/*
-      - develop
-      - tag/*
-
-schedules:
-  - cron: "40 14 * * *"
-    displayName: Daily QA build
-    branches:
-      include:
-        - develop
-    always: false
 # Use Multi-Stage Pipeline File to Combine CI & CD into one file
 # This will allow the pipeline to differentiate the triggering Build.Reason.
 
