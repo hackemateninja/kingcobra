@@ -18,6 +18,12 @@ variables:
         value: "qa"
       - name: slot
         value: "qa"
+  - ${{ if eq(variables['build.SourceBranchName'], 'lab') }}:
+      - group: KingCobra-Lab-Vars
+      - name: env
+        value: "lab"
+      - name: slot
+        value: "lab"
   - name: yarn_cache_folder
     value: $(Pipeline.Workspace)/.yarn
   - name: next_cache
