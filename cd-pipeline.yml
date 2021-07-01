@@ -1,0 +1,82 @@
+parameters:
+
+  - name: SERVICE_CONNECTION
+    type: string
+
+  - name: STORAGE_ACCOUNT_RG
+    type: string
+
+  - name: STORAGE_ACCOUNT
+    type: string
+
+  - name: ENV
+    type: string
+    default: ''
+
+  - name: SLOT
+    type: string
+    default: ''
+
+  - name: URL
+    type: string
+
+  - name: DEPENDS_ON
+    type: string
+
+stages:
+
+  - stage: ${{ upper(parameters.ENV) }}
+    dependsOn: ${{ upper(parameters.DEPENDS_ON) }}
+    condition: succeeded()
+
+    jobs:
+      - deployment: deploy
+        environment: KingCobra ${{ upper(parameters.ENV) }}
+        pool:
+          vmImage: 'windows-latest'
+        workspace:
+          clean: all
+
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
+                    scriptType: batch
+                    scriptLocation: inlineScript
+                    inlineScript: az config set extension.use_dynamic_install=yes_without_prompt
+                    addSpnToEnvironment: true
+                    failOnStandardError: false
+
+                - task: AzureRmWebAppDeployment@4
+                  displayName: Deploy Web App
+                  inputs:
+                    ConnectionType: AzureRM
+                    azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
+                    appType: webAppLinux
+                    WebAppName: uc-dev-kingcobra-web
+                    deployToSlotOrASE: true
+                    ResourceGroupName: uc-dev-kingcobra
+                    SlotName: ${{ parameters.SLOT }}
+                    packageForLinux: $(Pipeline.Workspace)/kingcobra/${{ parameters.ENV }}.zip
+
+                - task: AzureAppServiceManage@0
+                  displayName: Restart Web App
+                  inputs:
+                    azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
+                    Action: Restart Azure App Service
+                    WebAppName: uc-dev-kingcobra-web
+                    ResourceGroupName: uc-dev-kingcobra
+                    SlotName: ${{ parameters.SLOT }}
+
+                - task: AzureCLI@2
+                  displayName: Purge FD
+                  inputs:
+                    azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
+                    scriptType: batch
+                    scriptLocation: inlineScript
+                    inlineScript: az network front-door purge-endpoint --content-paths /* --name dev-shared --resource-group uc-dev-shared
+                    addSpnToEnvironment: true
+                    failOnStandardError: false
