@@ -1,32 +1,106 @@
-pool:
-  vmImage: "windows-latest"
-
+# Set a Variable for the Purpose of the CICD run...
 variables:
-- group: KingCobra-Dev-Vars
-- name: yarn_cache_folder
-  value: $(Pipeline.Workspace)/.yarn
-- name: next_cache
-  value: $(System.DefaultWorkingDirectory)/.next/cache
+  - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
+      - group: KingCobra-Prod-Vars
+      - name: env
+        value: "prod"
+      - name: slot
+        value: "production"
+  - ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
+      - group: KingCobra-Dev-Vars
+      - name: env
+        value: "dev"
+      - name: slot
+        value: "production"
+  - ${{ if startsWith(variables['build.SourceBranch'], 'refs/heads/feature/') }}:
+      - group: KingCobra-QA-Vars
+      - name: env
+        value: "qa"
+      - name: slot
+        value: "qa"
+  - name: yarn_cache_folder
+    value: $(Pipeline.Workspace)/.yarn
+  - name: next_cache
+    value: $(System.DefaultWorkingDirectory)/.next/cache
+  - name: WasScheduledQA
+    value: $[and(eq(variables['Build.Reason'], 'Schedule'),eq(variables['Build.SourceBranch'],'refs/heads/dev'))]
+  - name: IsManualQA
+    value: $[and(eq(variables['Build.SourceBranch'],'refs/heads/dev'), eq(variables.MANUAL_QA, 'True'))]
+  - name: TriggerBranch
+    value: $[variables['Build.SourceBranch']]
+  - name: BuildReason
+    value: $[variables['Build.Reason']]
 
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: "14.x"
+trigger:
+  branches:
+    include:
+      - develop
+      - master
+      - feature/*
 
-  - script: yarn --frozen-lockfile
-    displayName: Yarn Install
+pr:
+  branches:
+    include:
+      - feature/*
+      - develop
+      - tag/*
 
-  - script: yarn audit-ci
-    displayName: Yarn Audit
+schedules:
+  - cron: "40 14 * * *"
+    displayName: Daily QA build
+    branches:
+      include:
+        - develop
+    always: false
+# Use Multi-Stage Pipeline File to Combine CI & CD into one file
+# This will allow the pipeline to differentiate the triggering Build.Reason.
 
-  - script: npm install -g win-node-env
-    displayName: Install win-node-env
+pool:
+  vmImage: "ubuntu-latest"
 
-  - task: Cache@2
-    inputs:
-      key: next | $(Agent.OS) | yarn.lock
-      path: $(next_cache)
-    displayName: NextJS Cache
+stages:
+  - stage: BUILD
 
-  - script: yarn build
-    displayName: NextJS Build
+    jobs:
+      - job: Build_Web_App
+        workspace:
+          clean: all
+
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "14.x"
+            displayName: 'Install Node Tool in $(env)'
+
+          - script: yarn --frozen-lockfile
+            displayName: Yarn Install
+
+          - task: Cache@2
+            inputs:
+              key: next | $(Agent.OS) | yarn.lock
+              path: $(next_cache)
+            displayName: Cache NextJS
+
+          - script: yarn build
+            displayName: 'NextJS Build $(env) and $(build.SourceBranch)'
+
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: $(Agent.BuildDirectory)/s
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/$(env)
+              replaceExistingArchive: true
+
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: kingcobra
+
+  - template: cd-pipeline.yml
+    parameters:
+      SERVICE_CONNECTION: AW-DEV-2.0
+      STORAGE_ACCOUNT_RG: uc-dev-devops
+      STORAGE_ACCOUNT: ucdevdevops
+      ENV: ${{ variables.env }}
+      SLOT: ${{ variables.slot }}
+      URL: shop.${{ variables.env }}.car.com
+      DEPENDS_ON: BUILD
