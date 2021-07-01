@@ -32,6 +32,8 @@ stages:
     jobs:
       - deployment: deploy
         environment: KingCobra ${{ upper(parameters.ENV) }}
+        pool:
+          vmImage: 'windows-latest'
         workspace:
           clean: all
 
@@ -42,7 +44,7 @@ stages:
                 - task: AzureCLI@2
                   inputs:
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
-                    scriptType: bash
+                    scriptType: batch
                     scriptLocation: inlineScript
                     inlineScript: az config set extension.use_dynamic_install=yes_without_prompt
                     addSpnToEnvironment: true
@@ -73,8 +75,8 @@ stages:
                   displayName: Purge FD
                   inputs:
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
-                    scriptType: bash
+                    scriptType: batch
                     scriptLocation: inlineScript
-                    inlineScript: az network front-door purge-endpoint --content-paths /* --name dev-shared --resource-group uc-dev-shared
+                    inlineScript: az network front-door purge-endpoint --content-paths path/* --name dev-shared --resource-group uc-dev-shared
                     addSpnToEnvironment: true
                     failOnStandardError: false
