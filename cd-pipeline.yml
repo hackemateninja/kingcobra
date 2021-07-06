@@ -20,6 +20,10 @@ parameters:
   - name: URL
     type: string
 
+  - name: WEB
+    type: string
+    default: ''
+
   - name: DEPENDS_ON
     type: string
 
@@ -56,9 +60,9 @@ stages:
                     ConnectionType: AzureRM
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
                     appType: webAppLinux
-                    WebAppName: uc-dev-kingcobra-web
+                    WebAppName: uc-${{ parameters.WEB }}-kingcobra-web
                     deployToSlotOrASE: true
-                    ResourceGroupName: uc-dev-kingcobra
+                    ResourceGroupName: uc-${{ parameters.WEB }}-kingcobra
                     SlotName: ${{ parameters.SLOT }}
                     packageForLinux: $(Pipeline.Workspace)/kingcobra/${{ parameters.ENV }}.zip
 
@@ -67,8 +71,8 @@ stages:
                   inputs:
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
                     Action: Restart Azure App Service
-                    WebAppName: uc-dev-kingcobra-web
-                    ResourceGroupName: uc-dev-kingcobra
+                    WebAppName: uc-${{ parameters.WEB }}-kingcobra-web
+                    ResourceGroupName: uc-${{ parameters.WEB }}-kingcobra
                     SlotName: ${{ parameters.SLOT }}
 
                 - task: AzureCLI@2
@@ -77,6 +81,6 @@ stages:
                     azureSubscription: ${{ parameters.SERVICE_CONNECTION }}
                     scriptType: batch
                     scriptLocation: inlineScript
-                    inlineScript: az network front-door purge-endpoint --content-paths /* --name dev-shared --resource-group uc-dev-shared
+                    inlineScript: az network front-door purge-endpoint --content-paths /* --name ${{ parameters.WEB }}-shared --resource-group uc-${{ parameters.WEB }}-shared
                     addSpnToEnvironment: true
                     failOnStandardError: false
