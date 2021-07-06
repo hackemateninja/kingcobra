@@ -30,24 +30,32 @@ variables:
         value: "prod"
       - name: slot
         value: "production"
+      - name: web
+        value: "prod"
   - ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
       - group: KingCobra-Dev-Vars
       - name: env
         value: "dev"
       - name: slot
         value: "production"
+      - name: web
+        value: "dev"
   - ${{ if startsWith(variables['build.SourceBranch'], 'refs/heads/feature/') }}:
       - group: KingCobra-QA-Vars
       - name: env
         value: "qa"
       - name: slot
         value: "qa"
+      - name: web
+        value: "dev"
   - ${{ if eq(variables['build.SourceBranchName'], 'lab') }}:
       - group: KingCobra-Lab-Vars
       - name: env
         value: "lab"
       - name: slot
         value: "lab"
+      - name: web
+        value: "dev"
   - name: yarn_cache_folder
     value: $(Pipeline.Workspace)/.yarn
   - name: next_cache
@@ -106,10 +114,11 @@ stages:
 
   - template: cd-pipeline.yml
     parameters:
-      SERVICE_CONNECTION: AW-DEV-2.0
+      SERVICE_CONNECTION: AW-${{ upper(variables.web) }}-2.0
       STORAGE_ACCOUNT_RG: uc-dev-devops
-      STORAGE_ACCOUNT: ucdevdevops
+      STORAGE_ACCOUNT: uc${{ variables.web }}devops
       ENV: ${{ variables.env }}
       SLOT: ${{ variables.slot }}
       URL: shop.${{ variables.env }}.car.com
+      WEB: ${{ variables.web }}
       DEPENDS_ON: BUILD
