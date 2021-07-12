@@ -5,7 +5,7 @@ import React from 'react';
 import { IPlainObject } from '../../definitions/IPlainObject';
 
 // Components
-// import Header from '../../components/header';
+import Header from '../../components/header';
 import SVGs from '../../components/svgs';
 import Footer from '../../components/footer';
 import Container from '../../components/container';
@@ -17,7 +17,6 @@ import Container from '../../components/container';
 //Headers
 // import HeaderPresidentDay from '@/comp/banners/president-day';
 // import HeaderMemorialDay from '@/comp/banners/memorial-day';
-import HeaderFourthJuly from '@/comp/banners/4th-july';
 
 const DefaultLayout: React.FC<IPlainObject> = (props) => {
   // const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
@@ -45,7 +44,7 @@ const DefaultLayout: React.FC<IPlainObject> = (props) => {
   return (
     <>
       {/* {choseHeader(props as never)} */}
-      <HeaderFourthJuly />
+      <Header />
       <Container>{props.children}</Container>
       <Footer year={props.year} />
       <SVGs />
