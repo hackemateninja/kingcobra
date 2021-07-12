@@ -44,7 +44,7 @@ const DefaultLayout: React.FC<IPlainObject> = (props) => {
   return (
     <>
       {/* {choseHeader(props as never)} */}
-      <Header />
+      <Header month={props.month} />
       <Container>{props.children}</Container>
       <Footer year={props.year} />
       <SVGs />
