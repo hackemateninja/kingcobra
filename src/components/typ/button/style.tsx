@@ -17,6 +17,7 @@ const ButtonWrapper = styled.button<{ theme: ThemeType }>`
   border-radius: 5px;
   transition: all ease 0.3s;
   outline: none;
+  z-index: 1;
   &:hover {
     background-color: ${(props) => props.theme.typage.background.button.hover};
   }

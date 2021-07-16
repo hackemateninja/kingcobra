@@ -11,10 +11,10 @@ export interface IMldDealer {
 }
 
 export interface IMldDealersResponse {
-  coverage: boolean;
-  dealers: IMldDealer[];
-  errors: [];
-  transactionID: string;
+  coverage?: boolean;
+  dealers?: IMldDealer[];
+  errors?: [];
+  transactionID?: string;
 }
 
 export interface IMldLeadResponse {

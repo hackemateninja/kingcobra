@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Definitions
 import { IDisplay } from '@/def/IDisplay';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { IPlainObject } from '@/def/IPlainObject';
 
 const SVGs: React.FC<IPlainObject> = (props) => {
@@ -246,6 +245,12 @@ const SVGs: React.FC<IPlainObject> = (props) => {
           transform="translate(1.5 -2.5)"
           fill="#4f75ad"
         />
+      </symbol>
+      <symbol id="loader" viewBox="0 0 40 40">
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4">
+          <circle cx="20" cy="20" r="20" stroke="none" />
+          <circle cx="20" cy="20" r="18" fill="none" />
+        </g>
       </symbol>
     </svg>
   );

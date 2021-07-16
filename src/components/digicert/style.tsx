@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-// Definitions
-import { ThemeType } from '@/def/TTheme';
-
 const DigicertDiv = styled.div`
   display: flex;
   flex-direction: column;

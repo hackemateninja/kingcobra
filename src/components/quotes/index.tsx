@@ -1,5 +1,5 @@
 // Packages
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useScroll, useMeasure } from 'react-use';
 import useSmoothScroll from 'react-smooth-scroll-hook';
 
@@ -8,7 +8,7 @@ import { IQuote, IQuotes } from '@/def/IQuotes';
 
 // Styles
 import {
-  QuotesWapper,
+  QuotesWrapper,
   QuotesScroll,
   QuotesNav,
   Quote,
@@ -61,13 +61,13 @@ const Quotes: React.FC<IQuotes> = (props) => {
     !touchDevice() && scrollTo(id);
   };
 
-  const fixScrollResize = () => {
-    if (scroll.current.scrollLeft !== null) {
-      scroll.current.scrollLeft = (active - 1) * Math.floor(width + 15);
-    }
-  };
-
   useEffect(() => {
+    const fixScrollResize = () => {
+      if (scroll.current.scrollLeft !== null) {
+        scroll.current.scrollLeft = (active - 1) * Math.floor(width + 15);
+      }
+    };
+
     window.removeEventListener('resize', eventListeners.current, false);
     eventListeners.current = fixScrollResize;
     window.addEventListener('resize', eventListeners.current, false);
@@ -75,14 +75,14 @@ const Quotes: React.FC<IQuotes> = (props) => {
     return () => {
       window.removeEventListener('resize', eventListeners.current, false);
     };
-  }, [fixScrollResize]);
+  }, []);
 
   useEffect(() => {
     quoteActive();
   });
 
   return (
-    <QuotesWapper ref={quotes}>
+    <QuotesWrapper ref={quotes}>
       <QuotesScroll ref={scroll}>
         {props.items.map((quote: IQuote, index: number) => (
           <Quote key={index} id={`quote-${index}`}>
@@ -101,7 +101,7 @@ const Quotes: React.FC<IQuotes> = (props) => {
           <QuoteDot onClick={setActiveQuote} key={index} data-id={index} />
         ))}
       </QuotesNav>
-    </QuotesWapper>
+    </QuotesWrapper>
   );
 };
 

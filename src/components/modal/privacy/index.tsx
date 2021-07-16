@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 const Privacy: React.FC = () => {
   return (
     <>

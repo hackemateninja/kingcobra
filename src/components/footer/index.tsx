@@ -1,14 +1,12 @@
 // Packages
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
 
 // Slices
-import { setModal, setModalType, setYear } from '@/redux/slices/site';
+// import { setModal, setModalType, setYear } from '@/redux/slices/site';
 
 // Components
 import Container from '../container';
@@ -19,23 +17,25 @@ const Modal = dynamic(() => import('../modal'));
 import { FooterWrapper, FooterContent, FooterText } from './style';
 
 const Footer: React.FC<IPlainObject> = (props) => {
-  const dispatch = useDispatch();
   const { year } = props;
-  const modal = useSelector((state: RootState) => state.site.ui.modal);
-  const modalType = useSelector((state: RootState) => state.site.ui.modalType);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<string>('');
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = 'hidden';
+    openModal(target.dataset.type);
+  };
 
-    dispatch(setModal(true));
-    dispatch(setModalType(target.dataset.type));
+  const openModal = (type) => {
+    document.body.style.overflow = 'hidden';
+    setIsModalOpen(true);
+    setModalType(type);
   };
 
   const handlerModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
     document.body.style.overflow = 'unset';
-    dispatch(setModal(false));
-    dispatch(setModalType(''));
+    setIsModalOpen(false);
+    setModalType('');
   };
 
   return (
@@ -62,7 +62,9 @@ const Footer: React.FC<IPlainObject> = (props) => {
           </FooterContent>
         </Container>
       </FooterWrapper>
-      {modal ? <Modal isActive={modal} modalType={modalType} handlerClose={handlerModalClose} /> : null}
+      {isModalOpen ? (
+        <Modal isActive={isModalOpen} modalType={modalType} handlerClose={handlerModalClose} onOpenModal={openModal} />
+      ) : null}
     </>
   );
 };

@@ -1,4 +1,4 @@
-export const testimonialsList = [
+const testimonials = [
   {
     id: 1,
     comment:
@@ -79,3 +79,5 @@ export const testimonialsList = [
     cityState: 'Colorado Springs, CO',
   },
 ];
+
+export default testimonials;

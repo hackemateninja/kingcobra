@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // Packages
-import React, { useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { DigicertDiv } from './style';
 
 // Definitions
@@ -20,7 +21,7 @@ const Digicert: React.FC<IPlainObject> = (props) => {
       cid.src = '//seal.digicert.com/seals/cascade/seal.min.js';
       const s = d.getElementsByTagName('script');
       const ls = s[s.length - 1];
-      ls.parentNode.insertBefore(cid, ls.nextSibling);
+      ls.parentNode!.insertBefore(cid, ls.nextSibling);
       return __dcid;
     })(window.__dcid || [], document);
   }, []);

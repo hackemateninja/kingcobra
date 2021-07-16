@@ -1,5 +1,5 @@
 // Packages
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Definitions
 import { IInput } from '@/def/IInput';

@@ -1,20 +1,10 @@
-// Packages
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import { IPlainObject } from '@/def/IPlainObject';
 
-// Slices
-import { setModal, setModalType } from '@/redux/slices/site';
-
-const Terms: React.FC = () => {
-  const dispatch = useDispatch();
-
+const Terms: React.FC<IPlainObject> = (props) => {
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     document.getElementById('modalBody').scrollTo(0, 0);
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = 'hidden';
-
-    dispatch(setModal(true));
-    dispatch(setModalType(target.dataset.type));
+    props.onOpenModal(target.dataset.type);
   };
 
   return (

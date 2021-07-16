@@ -1,5 +1,5 @@
 // Packages
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // Definitions
 import { IListing } from '@/def/IListings';

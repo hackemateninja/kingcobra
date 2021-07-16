@@ -1,8 +1,3 @@
-// Packages
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/def/TRootReducer';
-
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
 

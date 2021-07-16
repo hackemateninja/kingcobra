@@ -1,5 +1,5 @@
 // Packages
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
 // Definitions

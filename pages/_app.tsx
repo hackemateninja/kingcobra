@@ -1,25 +1,17 @@
-// Packages
-import 'preact/debug';
-import React from 'react';
-import { Provider } from 'react-redux';
+import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
-
-// Definitions
-import { AppProps } from 'next/app';
-
-// Store
-import store from '@/src/redux/';
 
 // App's theme
 import CarcomTheme from '@/theme/carcom';
+import { AppContextProvider } from '@/ctx/app-context';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <Provider store={store}>
+    <AppContextProvider>
       <ThemeProvider theme={CarcomTheme}>
         <Component {...pageProps} />
       </ThemeProvider>
-    </Provider>
+    </AppContextProvider>
   );
 };
 

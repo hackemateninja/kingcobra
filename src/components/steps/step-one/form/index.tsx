@@ -1,69 +1,71 @@
 // Packages
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Skeleton from 'react-loading-skeleton';
+import { useEffect, useState } from 'react';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
-
-// Slices
-import { setModels } from '@/redux/slices/step-one';
-import { setSelectedMake, setSelectedModel, setZipCode } from '@/redux/slices/step-one';
+import { IModel } from '@/def/IModel';
+import { IZipCode } from '@/def/IZipCode';
 
 // Components
 import Box from '@/comp/box';
 import Button from '@/comp/button';
 import Input from '@/comp/form-elements/input';
 import Select from '@/comp/form-elements/select';
-import { setButtonLoading } from '@/redux/slices/site';
-import { ButtonWrapper } from '@/comp/button/style';
+
+// Context
+import { useAppContext } from '@/ctx/app-context';
+
+// Services
+import { getModelsByMake as getModelsByMakeService, getZipCodeInfo as getZipCodeInfoService } from '@/src/services';
 
 const FormOne: React.FC<IPlainObject> = (props) => {
-  const dispatch = useDispatch();
+  const { buttonText, makes } = props;
+
+  const {
+    state: { selectedMake, selectedModel },
+    setSelectedMake,
+    setSelectedModel,
+  } = useAppContext();
+
   const [cue, setCue] = useState<string>('make');
   const [error, setError] = useState<string>('');
-  const [modelURL, setModelURL] = useState(props.models !== undefined ? props.models : []);
+  const [models, setModels] = useState<IModel[]>(props.models || []);
+  const [zipCodeInfo, setZipCodeInfo] = useState<IZipCode>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Step 1 Data
-  const stepOne = useSelector((state: RootState) => state.stepOne);
-  const ui = useSelector((state: RootState) => state.stepOne.ui);
-  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
-  const { button } = stepOne.ui;
+  const preSelectedMakeName: string = props.preSelectedMake !== undefined ? props.preSelectedMake.seoName : '';
+  const preSelectedModelName: string = props.preSelectedModel !== undefined ? props.preSelectedModel.seoName : '';
 
-  // Fill Models Select
-  const { models, zipcode } = stepOne.data;
-  const { makes } = props;
-
-  const valueMake = props.make !== undefined ? props.make : '';
-  const valueModel = props.model !== undefined ? props.model : '';
-
-  // form fields
   const fields = [
     {
       field: 'make',
-      value: valueMake,
-      empty: valueMake.length !== 0 ? false : true,
+      value: preSelectedMakeName,
+      empty: preSelectedMakeName.length !== 0 ? false : true,
       error: false,
-      success: valueMake.length !== 0 ? true : false,
+      success: preSelectedMakeName.length !== 0 ? true : false,
     },
     {
       field: 'model',
-      value: valueModel,
-      empty: valueModel.length !== 0 ? false : true,
+      value: preSelectedModelName,
+      empty: preSelectedModelName.length !== 0 ? false : true,
       error: false,
-      success: valueModel.length !== 0 ? true : false,
+      success: preSelectedModelName.length !== 0 ? true : false,
     },
     { field: 'zip-code', value: '', empty: true, error: false, success: false },
   ];
 
   const [formFields, setFormFields] = useState<object[]>(fields);
 
-  // find next empty and update cue
+  useEffect(() => {
+    if (props.preSelectedMake) setSelectedMake(props.preSelectedMake);
+    if (props.preSelectedModel) setSelectedModel(props.preSelectedModel);
+  }, []);
 
+  // Find next empty and update cue
   const updateInputs = (doError: boolean) => {
     setError('');
     setCue('');
+
     for (let i = 0; i < formFields.length; i++) {
       const current = formFields[i]['field'];
       const empty = formFields[i]['empty'];
@@ -89,98 +91,144 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     }
   };
 
-  const validateDropdown = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-    inputIndex: number,
-    dispatchFunction: Function
-  ) => {
-    dispatch(dispatchFunction(e.target.value));
-    const option = e.target.options[e.target.selectedIndex];
+  const handleMakeChange = (makeName: string) => {
+    const make = makes.filter((make) => make.seoName === makeName);
+    setSelectedMake(make.length !== 0 ? make[0] : {});
+    setSelectedModel({});
+  };
+
+  const handleModelChange = (modelName: string) => {
+    const model = models.filter((model) => model.seoName === modelName);
+    setSelectedModel(model.length !== 0 ? model[0] : {});
+  };
+
+  const getModelsByMake = async (makeName: string) => {
+    if (makeName !== '') {
+      const models: IModel[] = await getModelsByMakeService(makeName);
+      setModels(models);
+    } else {
+      setModels([]);
+    }
+  };
+
+  const getZipCodeInfo = async (zipCode: string) => {
+    setIsLoading(true);
+    let zipCodeData = await getZipCodeInfoService(zipCode);
+
+    if (zipCodeData.length !== 0 && zipCodeData[0]['status'] === undefined) {
+      zipCodeData = zipCodeData[0].zipcodes[0];
+      setZipCodeInfo({
+        city: zipCodeData.default_city,
+        state: zipCodeData.state_abbreviation,
+        zip: zipCodeData.zipcode,
+      });
+    } else {
+      setZipCodeInfo({});
+    }
+    setIsLoading(false);
+  };
+
+  const validateDropdown = (e: React.ChangeEvent<HTMLSelectElement>, inputIndex: number, changeHandler: Function) => {
+    const value = e.target.value;
+    const newFormFields = [...formFields];
+    const formFieldMake = { ...newFormFields[0] };
+    const formFieldModel = { ...newFormFields[1] };
+
+    changeHandler(value);
 
     switch (true) {
       case inputIndex === 0:
-        setModelURL([]);
-        if (e.target.value) {
-          Object.assign(formFields[inputIndex], { empty: false, error: false, value: option.value });
+        if (value) {
+          Object.assign(formFieldMake, { empty: false, error: false, value });
         } else {
-          Object.assign(formFields[inputIndex], { empty: true, error: false, value: option.value });
+          Object.assign(formFieldMake, { empty: true, error: false, value });
         }
-        Object.assign(formFields[1], { empty: true, error: false, value: '' });
-        dispatch(setModels(e.target.value));
+
+        Object.assign(formFieldModel, { empty: true, error: false, value: '' });
+
+        newFormFields[inputIndex] = formFieldMake;
+        newFormFields[1] = formFieldModel;
+        setModels([]);
+        getModelsByMake(value);
         break;
       case inputIndex === 1:
-        if (e.target.value) {
-          Object.assign(formFields[inputIndex], { empty: false, error: false, value: option.value });
+        if (value) {
+          Object.assign(formFieldModel, { empty: false, error: false, value });
         } else {
-          Object.assign(formFields[inputIndex], { empty: true, error: false, value: option.value });
+          Object.assign(formFieldModel, { empty: true, error: false, value });
         }
+        newFormFields[inputIndex] = formFieldModel;
         break;
     }
-    setFormFields(formFields);
-    updateInputs(false);
+    setFormFields(newFormFields);
   };
 
-  const setZipData = (value: string) => {
+  const setZipCode = (value: string) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
+    const newFormFields = [...formFields];
+    const formField = { ...newFormFields[2] };
 
     if (zipRegex.test(value)) {
-      Object.assign(formFields[2], { empty: false, value: value });
+      Object.assign(formField, { empty: false, value: value });
     } else {
-      Object.assign(formFields[2], { empty: true, error: false, success: false, value: '' });
+      setZipCodeInfo({});
+      Object.assign(formField, { empty: true, error: false, success: false, value: '' });
     }
 
-    setFormFields(formFields);
-    updateInputs(false);
+    newFormFields[2] = formField;
+    setFormFields(newFormFields);
   };
 
-  const hanlderZipBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setZipData(e.target.value);
+  const handlerZipBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setZipCode(e.target.value);
   };
 
   const validateZipCode = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
+    const value = e.target.value;
 
-    setZipData(e.target.value);
-    zipRegex.test(e.target.value) ? dispatch(setZipCode(e.target.value)) : dispatch(setZipCode(''));
+    setZipCode(value);
+    if (zipRegex.test(value)) getZipCodeInfo(value);
   };
 
-  const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(setButtonLoading(true));
+    setIsLoading(true);
     updateInputs(true);
 
     const errorInputs = formFields.filter((item) => item['empty'] || item['error']);
 
-    if (errorInputs.length === 0) {
-      props.onSubmit !== undefined && props.onSubmit(e);
+    if (errorInputs.length === 0 && props.onSubmit !== undefined) {
+      await props.onSubmit(e, selectedMake, selectedModel, zipCodeInfo);
     }
-
-    dispatch(setButtonLoading(false));
   };
 
   // Ctrl + R on Firefox when the input is not empty
   const valueFromReload = (value: string) => {
     const zipRegex = /^\d{5}$|^\d{5}$/;
 
-    setZipData(value);
-    zipRegex.test(value) ? dispatch(setZipCode(value)) : dispatch(setZipCode(''));
+    setZipCode(value);
+    if (zipRegex.test(value)) getZipCodeInfo(value);
   };
 
   useEffect(() => {
     updateInputs(false);
-  }, []);
+  }, [formFields]);
 
   useEffect(() => {
     if (formFields[2]['value'] !== '') {
-      if (zipcode.loading === undefined) {
-        Object.assign(formFields[2], { error: zipcode.city === undefined, success: zipcode.city !== undefined });
-        setFormFields(formFields);
-        updateInputs(false);
+      if (!isLoading) {
+        const newFormFields = [...formFields];
+        const formField = { ...newFormFields[2] };
+        Object.assign(formField, {
+          error: zipCodeInfo.city === undefined,
+          success: zipCodeInfo.city !== undefined,
+        });
+        newFormFields[2] = formField;
+        setFormFields(newFormFields);
       }
     }
-  }, [zipcode]);
-
-  const loading = ui.loading == 'pending';
+  }, [zipCodeInfo]);
 
   return (
     <Box
@@ -191,25 +239,25 @@ const FormOne: React.FC<IPlainObject> = (props) => {
     >
       <Select
         id="make"
-        value={valueMake}
+        initialValue={preSelectedMakeName}
         name="make"
         label="Make"
         cue={cue === 'make'}
         error={error === 'make'}
         message="Select a"
-        options={props.makes !== undefined ? props.makes : makes}
-        handlerChange={(e) => validateDropdown(e, 0, setSelectedMake)}
+        options={makes}
+        handlerChange={(e) => validateDropdown(e, 0, handleMakeChange)}
       />
       <Select
         id="model"
-        value={valueModel}
+        initialValue={preSelectedModelName}
         name="model"
         label="Model"
         cue={cue === 'model'}
         error={error === 'model'}
         message="Select a"
-        options={modelURL.length !== 0 ? modelURL : models}
-        handlerChange={(e) => validateDropdown(e, 1, setSelectedModel)}
+        options={models}
+        handlerChange={(e) => validateDropdown(e, 1, handleModelChange)}
       />
       <Input
         id="zip-code"
@@ -218,23 +266,19 @@ const FormOne: React.FC<IPlainObject> = (props) => {
         icon="#icon-location"
         cue={cue === 'zip-code'}
         error={error === 'zip-code'}
-        success={zipcode.city !== undefined}
+        success={zipCodeInfo.city !== undefined}
         type="tel"
         message="Please enter a valid"
         length={5}
-        handlerBlur={hanlderZipBlur}
+        handlerBlur={handlerZipBlur}
         handlerChange={validateZipCode}
         handlerEffect={valueFromReload}
         autocomplete="off"
         onlyNumbers
       />
-      {dataLoading ? (
-        <Skeleton height="50px" />
-      ) : (
-        <Button disabled={loading} loading={loading} handlerClick={handlerSubmit}>
-          {button}
-        </Button>
-      )}
+      <Button disabled={isLoading} loading={isLoading} handlerClick={handleSubmit}>
+        {buttonText}
+      </Button>
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 // Packages
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import useSmoothScroll from 'react-smooth-scroll-hook';
 
 // Components
@@ -45,8 +45,8 @@ const Modal: React.FC<IModal> = (props) => {
             {
               privacy: <ModalPrivacy />,
               'privacy-dont-sell': <ModalPrivacy />,
-              terms: <ModalTerms />,
-              'terms-submit': <ModalTerms />,
+              terms: <ModalTerms onOpenModal={props.onOpenModal} />,
+              'terms-submit': <ModalTerms onOpenModal={props.onOpenModal} />,
             }[props.modalType]
           }
         </ModalContent>

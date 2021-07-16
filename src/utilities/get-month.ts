@@ -1,4 +1,4 @@
-const getMonth = () => {
+const getMonth = (): string | undefined => {
   const date = new Date();
 
   switch (date.getMonth()) {

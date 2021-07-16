@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
 
@@ -18,12 +15,12 @@ const EmailSuggested: React.FC<IPlainObject> = (props) => {
     <EmailSuggestedWrapper>
       <EmailSuggestedText>Did you mean {props.email}?</EmailSuggestedText>
       <EmailSuggestedActions>
-        <EmailSuggestedButton onClick={props.hanlderAction} data-action="yes">
+        <EmailSuggestedButton onClick={props.handlerAction} data-action="yes">
           <EmailSuggestedIcon>
             <use xlinkHref="#icon-check" />
           </EmailSuggestedIcon>
         </EmailSuggestedButton>
-        <EmailSuggestedButton onClick={props.hanlderAction} data-action="no">
+        <EmailSuggestedButton onClick={props.handlerAction} data-action="no">
           <EmailSuggestedIcon>
             <use xlinkHref="#icon-cross" />
           </EmailSuggestedIcon>

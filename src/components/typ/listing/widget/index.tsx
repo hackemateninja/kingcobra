@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Styles
 import { ListingWidgetWrapper } from './style';
 

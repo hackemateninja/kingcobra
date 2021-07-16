@@ -3,12 +3,12 @@ import { IModel } from './IModel';
 
 export interface ISelect {
   id: string;
-  value: string;
   name: string;
   label: string;
   cue: boolean;
   error: boolean;
   message: string;
   options?: (IMake | IModel)[];
+  initialValue?: string;
   handlerChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }

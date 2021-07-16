@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Definitios
 import { IPlainObject } from '@/def/IPlainObject';
 
@@ -15,14 +12,18 @@ import Quotes from '@/comp/quotes';
 import Text from '@/comp/text/';
 
 const StepOne: React.FC<IPlainObject> = (props) => {
-  const { quotes } = props;
-
   return (
     <Row>
       <Column sm={1} md={2}>
-        <HeroImage image={props.image} smallImage={props.smallImage} campaignImage={props.campaignImage} />
+        <HeroImage
+          image={props.image}
+          smallImage={props.smallImage}
+          campaignImage={props.campaignImage}
+          preSelectedMake={props.preSelectedMake}
+          preSelectedModel={props.preSelectedModel}
+        />
         <Display hide="mobile">
-          <Quotes items={quotes} />
+          <Quotes items={props.quotes} />
           <Text center={true} text="authorized">
             Search <strong>Authorized</strong> Dealers Ready to Offer You Their <strong>Lowest</strong> Price!
           </Text>
@@ -32,13 +33,14 @@ const StepOne: React.FC<IPlainObject> = (props) => {
         <FormOne
           makes={props.makes}
           models={props.models}
-          make={props.make}
-          model={props.model}
+          preSelectedMake={props.preSelectedMake}
+          preSelectedModel={props.preSelectedModel}
           onSubmit={props.onSubmit}
+          buttonText={props.formButtonText}
         />
         <Advantages />
         <Display hide="desktop">
-          <Quotes items={quotes} />
+          <Quotes items={props.quotes} />
           <Text center={true} text="authorized">
             <span>
               Search <strong>Authorized</strong> Dealers

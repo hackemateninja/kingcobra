@@ -1,5 +1,5 @@
 // Packages
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // Definitions
 import { ISelect } from '@/def/ISelect';
@@ -14,11 +14,12 @@ import { FormElement, FormElementLabel, FormElementMessage, Element, FormElement
 
 const Select: React.FC<ISelect> = (props) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [empty, setEmpty] = useState<boolean>(props.value.length !== 0 ? false : true);
+  const [empty, setEmpty] = useState<boolean>(props.initialValue.length !== 0 ? false : true);
+  const select = useRef(null);
 
-  const handlerFocus = (e: React.FocusEvent<HTMLSelectElement>) => setFocus(true);
-  const handlerBlur = (e: React.FocusEvent<HTMLSelectElement>) => setFocus(false);
-  const handlerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlerFocus = (e) => setFocus(true);
+  const handlerBlur = (e) => setFocus(false);
+  const handlerChange = (e) => {
     props.handlerChange !== undefined && props.handlerChange(e);
     e.target.value.length !== 0 ? setEmpty(false) : setEmpty(true);
     e.target.blur();
@@ -26,19 +27,23 @@ const Select: React.FC<ISelect> = (props) => {
 
   useEffect(() => {
     props.options.length === 0 && setEmpty(true);
-  });
+  }, [props.options.length]);
+
+  useEffect(() => {
+    select.current.value = props.initialValue || '';
+  }, []);
 
   return (
     <FormElement active={focus || !empty} cue={props.cue} error={props.error}>
       <Element
         id={props.id}
         name={props.name}
-        defaultValue={props.value}
         onFocus={handlerFocus}
         onBlur={handlerBlur}
         onChange={handlerChange}
         active={focus || !empty}
         as="select"
+        ref={select}
         disabled={props.options.length === 0}
       >
         <option value="">Select a {props.label}</option>

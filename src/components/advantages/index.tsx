@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
 
@@ -13,7 +10,7 @@ const advantagesList = [
   { title: 'Easy', text: 'No Haggle Price Quotes' },
 ];
 
-const Advantages: React.FC<IPlainObject> = (props) => {
+const Advantages: React.FC<IPlainObject> = () => {
   return (
     <AdvantagesWrapper>
       {advantagesList.map((advantage, index) => (

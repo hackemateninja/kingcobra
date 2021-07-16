@@ -1,5 +1,5 @@
 // Packages
-import React, { useState } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 // Components
@@ -12,20 +12,23 @@ import { FooterWrapper, FooterUsage, FooterLink, FooterText } from './style';
 const Footer: React.FC = () => {
   const date = new Date();
   const [year] = useState<number>(date.getFullYear());
-  const [modal, setModal] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLAnchorElement;
-    document.body.style.overflow = 'hidden';
+    openModal(target.dataset.type);
+  };
 
-    setModal(true);
-    setModalType(target.dataset.type);
+  const openModal = (type) => {
+    document.body.style.overflow = 'hidden';
+    setIsModalOpen(true);
+    setModalType(type);
   };
 
   const handlerModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
     document.body.style.overflow = 'unset';
-    setModal(false);
+    setIsModalOpen(false);
     setModalType('');
   };
 
@@ -55,7 +58,9 @@ const Footer: React.FC = () => {
           <FooterText>©{year} AutoWeb Inc. All Rights Reserved.</FooterText>
         </Container>
       </FooterWrapper>
-      {modal ? <Modal isActive={modal} modalType={modalType} handlerClose={handlerModalClose} /> : null}
+      {isModalOpen ? (
+        <Modal isActive={isModalOpen} modalType={modalType} handlerClose={handlerModalClose} onOpenModal={openModal} />
+      ) : null}
     </>
   );
 };

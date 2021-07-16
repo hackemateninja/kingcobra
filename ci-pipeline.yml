@@ -15,7 +15,7 @@ pr:
       - tag/*
 
 schedules:
-  - cron: "40 14 * * *"
+  - cron: '40 14 * * *'
     displayName: Daily QA build
     branches:
       include:
@@ -27,35 +27,35 @@ variables:
   - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
       - group: KingCobra-Prod-Vars
       - name: env
-        value: "prod"
+        value: 'prod'
       - name: slot
-        value: "production"
+        value: 'production'
       - name: web
-        value: "prod"
+        value: 'prod'
   - ${{ if eq(variables['build.SourceBranchName'], 'develop') }}:
       - group: KingCobra-Dev-Vars
       - name: env
-        value: "dev"
+        value: 'dev'
       - name: slot
-        value: "production"
+        value: 'production'
       - name: web
-        value: "dev"
+        value: 'dev'
   - ${{ if startsWith(variables['build.SourceBranch'], 'refs/heads/feature/') }}:
       - group: KingCobra-QA-Vars
       - name: env
-        value: "qa"
+        value: 'qa'
       - name: slot
-        value: "qa"
+        value: 'qa'
       - name: web
-        value: "dev"
+        value: 'dev'
   - ${{ if eq(variables['build.SourceBranchName'], 'lab') }}:
       - group: KingCobra-Lab-Vars
       - name: env
-        value: "lab"
+        value: 'lab'
       - name: slot
-        value: "lab"
+        value: 'lab'
       - name: web
-        value: "dev"
+        value: 'dev'
   - name: yarn_cache_folder
     value: $(Pipeline.Workspace)/.yarn
   - name: next_cache
@@ -73,7 +73,7 @@ variables:
 # This will allow the pipeline to differentiate the triggering Build.Reason.
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 stages:
   - stage: BUILD
@@ -86,7 +86,7 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: "14.x"
+              versionSpec: '14.x'
             displayName: 'Install Node Tool in $(env)'
 
           - script: yarn --frozen-lockfile

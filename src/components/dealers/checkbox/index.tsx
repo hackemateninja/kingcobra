@@ -1,6 +1,3 @@
-// Packages
-import React from 'react';
-
 // Definitions
 import { IDealer } from '@/def/IDealers';
 import Cue from '../../form-elements/cue';

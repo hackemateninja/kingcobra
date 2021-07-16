@@ -1,15 +1,8 @@
-// Packages
-import { createSlice } from '@reduxjs/toolkit';
-
-// Definitions
-import { IStateMetaData } from '@/def/IStateMetaData';
-
 // Utilities
 import getMonth from '@/util/get-month';
 import getYear from '@/util/get-year';
 
-// Initial state
-const initialMetaData: IStateMetaData = {
+const metadata = {
   name: 'Car.com',
   home: {
     prefix: ['New Car Closeout', 'New Car Deals'],
@@ -53,10 +46,4 @@ const initialMetaData: IStateMetaData = {
   },
 };
 
-const metadataSlice = createSlice({
-  name: 'meta-data',
-  initialState: initialMetaData,
-  reducers: {},
-});
-
-export default metadataSlice.reducer;
+export default metadata;

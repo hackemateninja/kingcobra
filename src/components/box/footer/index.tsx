@@ -1,12 +1,12 @@
 // Packages
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
 import { IBoxFooter } from '@/def/IBox';
-import { RootState } from '@/def/TRootReducer';
+// import { RootState } from '@/def/TRootReducer';
 
 // Slices
-import { setModal, setModalType } from '@/redux/slices/site';
+// import { setModal, setModalType } from '@/redux/slices/site';
 
 // Components
 import Text from '../../text';
@@ -16,15 +16,15 @@ import Display from '@/comp/container/display';
 import { BoxFooterWrapper, BoxFooterProtect, BoxFooterIcon, BoxFooterTCPA, FormOneFooter } from './style';
 
 const BoxFooter: React.FC<IBoxFooter> = (props) => {
-  const dispatch = useDispatch();
-  const button = useSelector((state: RootState) => state.stepTwo.ui.buttonS3);
+  // const dispatch = useDispatch();
+  // const button = useSelector((state: RootState) => state.stepTwo.ui.buttonS3);
 
   const handlerModalOpen = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLAnchorElement;
     document.body.style.overflow = 'hidden';
 
-    dispatch(setModal(true));
-    dispatch(setModalType(target.dataset.type));
+    // dispatch(setModal(true));
+    // dispatch(setModalType(target.dataset.type));
   };
 
   return (
@@ -45,7 +45,7 @@ const BoxFooter: React.FC<IBoxFooter> = (props) => {
             We protect your personal information.
           </BoxFooterProtect>
           <BoxFooterTCPA>
-            By clicking "{button}" I accept and agree to be bound by your{' '}
+            By clicking "button" I accept and agree to be bound by your{' '}
             <a href="#terms" data-type="terms" onClick={handlerModalOpen}>
               Terms of Use
             </a>{' '}

@@ -1,16 +1,10 @@
 // Packages
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
 import { IField } from '@/def/IField';
-
-// Slices
-import { setSelectedMake, setSelectedModel, setModels } from '@/redux/slices/step-one';
-import { saveSourceId } from '@/redux/slices/step-two';
-import { setButtonClick } from '@/redux/slices/thankyou';
+import { IModel } from '@/def/IModel';
 
 // Styles
 import {
@@ -32,21 +26,19 @@ import Container from '../container';
 import Select from '../form-elements/select';
 import Button from '../button';
 
-import { config } from '@/util/config';
+// Services
+import { getModelsByMake as getModelsByMakeService } from '@/src/services';
 
 const BottomContent: React.FC<IPlainObject> = (props) => {
-  const dispatch = useDispatch();
   const [cue, setCue] = useState<string>('make');
   const [error, setError] = useState<string>('');
+  const [models, setModels] = useState<IModel[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Fill Models Select
-  const models = useSelector((state: RootState) => state.stepOne.data.models);
-  const stepTwo = useSelector((state: RootState) => state.stepTwo.data);
-
-  // form fields
+  // Form fields
   const make = props.make !== undefined ? props.make : '';
   const model = props.model !== undefined ? props.model : '';
-  const zipcode = useSelector((state: RootState) => state.stepOne.data.zipcode.zip);
+
   const fields: IField[] = [
     {
       field: 'make',
@@ -66,7 +58,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
 
   const [formFields, setFormFields] = useState<IField[]>(fields);
 
-  // find next empty and update cue
+  // Find next empty and update cue
   const updateInputs = (doError: boolean) => {
     setError('');
     setCue('');
@@ -95,68 +87,66 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
     }
   };
 
-  const validateDropdown = (e: React.ChangeEvent<HTMLSelectElement>, inputIndex: number) => {
-    // dispatch image loader
+  const getModelsByMake = async (makeName: string) => {
+    if (makeName !== '') {
+      const models: IModel[] = await getModelsByMakeService(makeName);
+      setModels(models);
+    } else {
+      setModels([]);
+    }
+  };
 
-    // dispatch(dispatchFunction(e.target.value));
-    const option = e.target.options[e.target.selectedIndex] as HTMLOptionElement;
+  const validateDropdown = (e: React.ChangeEvent<HTMLSelectElement>, inputIndex: number) => {
+    const value = e.target.value;
+    const newFormFields = [...formFields];
+    const formFieldMake = { ...newFormFields[0] };
+    const formFieldModel = { ...newFormFields[1] };
 
     switch (true) {
       case inputIndex === 0:
-        Object.assign(formFields[1], { empty: true, error: false, value: '' });
-        if (e.target.value) {
-          Object.assign(formFields[inputIndex], {
-            empty: false,
-            error: false,
-            value: option.value,
-          });
+        if (value) {
+          Object.assign(formFieldMake, { empty: false, error: false, value: value });
         } else {
-          Object.assign(formFields[inputIndex], {
-            empty: true,
-            error: false,
-            value: option.value,
-          });
+          Object.assign(formFieldMake, { empty: true, error: false, value: value });
         }
-        dispatch(setModels(e.target.value));
+
+        Object.assign(formFieldModel, { empty: true, error: false, value: '' });
+
+        newFormFields[0] = formFieldMake;
+        newFormFields[1] = formFieldModel;
+        setModels([]);
+        getModelsByMake(value);
         break;
       case inputIndex === 1:
-        if (e.target.value) {
-          Object.assign(formFields[inputIndex], {
-            empty: false,
-            error: false,
-            value: option.value,
-          });
+        if (value) {
+          Object.assign(formFieldModel, { empty: false, error: false, value: value });
         } else {
-          Object.assign(formFields[inputIndex], {
-            empty: true,
-            error: false,
-            value: option,
-          });
+          Object.assign(formFieldModel, { empty: true, error: false, value: value });
         }
+        newFormFields[1] = formFieldModel;
         break;
     }
-    setFormFields(formFields);
-    updateInputs(false);
+    setFormFields(newFormFields);
   };
 
   const handlerSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const [{ value: make }, { value: model }]: any = formFields;
     e.preventDefault();
     updateInputs(true);
+    setIsLoading(true);
 
-    dispatch(setButtonClick(true));
     const errorInputs = formFields.filter((item) => item['empty'] || item['error']);
 
     if (errorInputs.length === 0) {
-      dispatch(setSelectedMake(make));
-      dispatch(setSelectedModel(model));
-      props.onSubmit(e, make, model);
+      const makeData = props.makes.find((item) => item.seoName === make);
+      const modelData = models.find((item) => item.seoName === model);
+      props.onSubmit(e, makeData, modelData);
     }
   };
 
   useEffect(() => {
     updateInputs(false);
-  }, []);
+  }, [formFields]);
 
   return (
     <BottomContentWrapper>
@@ -171,7 +161,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
             <BottomForm>
               <Select
                 id="make"
-                value={make !== undefined ? make : ''}
+                initialValue={make !== undefined ? make : ''}
                 name="make"
                 label="Make"
                 cue={false}
@@ -182,7 +172,7 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
               />
               <Select
                 id="model"
-                value={model !== undefined ? model : ''}
+                initialValue={model !== undefined ? model : ''}
                 name="model"
                 label="Model"
                 cue={false}
@@ -191,7 +181,9 @@ const BottomContent: React.FC<IPlainObject> = (props) => {
                 options={models}
                 handlerChange={(e) => validateDropdown(e, 1)}
               />
-              <Button handlerClick={handlerSubmit}>Connect me to Dealers</Button>
+              <Button handlerClick={handlerSubmit} loading={isLoading}>
+                Connect me to Dealers
+              </Button>
             </BottomForm>
           </BottomCol>
           <BottomCol>

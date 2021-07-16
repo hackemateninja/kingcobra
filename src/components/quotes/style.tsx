@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { ThemeType } from '@/def/TTheme';
 
-const QuotesWapper = styled.div`
+const QuotesWrapper = styled.div`
   overflow: hidden;
   user-select: none;
   margin: 24px 0 0;
@@ -105,4 +105,4 @@ const QuoteDot = styled.div<{ theme: ThemeType }>`
   }
 `;
 
-export { QuotesWapper, QuotesScroll, QuotesNav, Quote, QuotePhoto, QuoteContent, QuoteText, QuoteName, QuoteDot };
+export { QuotesWrapper, QuotesScroll, QuotesNav, Quote, QuotePhoto, QuoteContent, QuoteText, QuoteName, QuoteDot };

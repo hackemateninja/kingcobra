@@ -21,12 +21,15 @@ module.exports = {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       settings: { 
+        // 'import/resolver': {
+        //   node: {
+        //     extensions: ['.js', '.jsx', '.ts', '.tsx']
+        //   }
+        // },
+        react: { version: 'detect' },
         'import/resolver': {
-          node: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx']
-          }
-        },
-        react: { version: 'detect' }
+          'typescript': {},
+        }
       },
       env: {
         browser: true,
@@ -60,7 +63,7 @@ module.exports = {
         ],
         'prettier/prettier': ['error', {}, { usePrettierrc: true } ],
         '@typescript-eslint/explicit-module-boundary-types': 'warn',
-        'import/no-unresolved': 'warn',
+        'import/no-unresolved': 'off',
         'react/no-unescaped-entities': 'warn',
         '@typescript-eslint/ban-types': 'warn',
         'no-useless-escape': 'warn',
@@ -68,51 +71,20 @@ module.exports = {
         'jsx-a11y/img-redundant-alt': 'warn',
         'react-hooks/rules-of-hooks': 'warn',
         'jsx-a11y/click-events-have-key-events': 'warn',
-        'jsx-a11y/no-static-element-interactions': 'warn'
+        'jsx-a11y/no-static-element-interactions': 'warn',
       },
     },
   ],
   settings: {
     react: {
       version: 'detect'
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    'import/resolver': {
+      'typescript': {},
     }
   },
-  plugins: ['@typescript-eslint'],
-  /*
-,
-          alias: {
-            map: [
-              ['@/comp/*', 'src/components/*'],
-              ['@/util/*', 'src/utilities/*'],
-              ['@/def/*', 'src/definitions/*'],
-              ['@/redux/*', 'src/redux/*'],
-              ['@/theme/*', 'src/themes/*'],
-              ['@/layout/*', 'src/layouts/*'],
-              ['@/data/*', 'src/data/*'],
-              ['@/src/*', 'src/*']
-            ],
-            extensions: ['.ts', '.js', '.jsx', '.tsx', '.json']
-          }
-
-  */
-  // rules: {
-  //   'prettier/prettier': [
-  //     'error',
-  //     {
-  //       endOfLine: 'auto'
-  //     }
-  //   ],
-  //   'linebreak-style': ['error', 'windows'],
-  //   'react/jsx-filename-extension': [2, { extensions: ['.jsx', '.tsx'] }],
-  //   'import/extensions': [
-  //     'error',
-  //     'ignorePackages',
-  //     {
-  //       js: 'never',
-  //       jsx: 'never',
-  //       ts: 'never',
-  //       tsx: 'never'
-  //     }
-  //   ]
-  // }
+  plugins: ['@typescript-eslint', 'import'],
 }

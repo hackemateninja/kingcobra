@@ -16,8 +16,10 @@ export interface IConfig {
   appInsightsKey: string;
   activateVWO: boolean;
   activateGTM: boolean;
+  activateMPulse: boolean;
   graphCMSAuth: string;
   graphCMSUrl: string;
   activateGraphCMS: boolean;
   siteUrl: string;
+  defaultCampaignName: string;
 }

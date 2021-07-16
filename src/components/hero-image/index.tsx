@@ -1,67 +1,73 @@
 // Packages
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Skeleton from 'react-loading-skeleton';
+import { useEffect, useState } from 'react';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
-import { RootState } from '@/def/TRootReducer';
-
-// Slices
-import { isLoading } from '@/redux/slices/step-one';
 
 // Components
 import Loader from '../loader';
+
+// Context
+import { useAppContext } from '@/ctx/app-context';
 
 // Styles
 import { HeroImageWrapper, HeroImageContainer, HeroImageCover } from './style';
 
 const HeroImage: React.FC<IPlainObject> = (props) => {
-  const dispatch = useDispatch();
+  const {
+    state: { selectedMake, selectedModel },
+  } = useAppContext();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const make = useSelector((state: RootState) => state.stepOne.data.selectedMake);
-  const model = useSelector((state: RootState) => state.stepOne.data.selectedModel);
-  const stepOneUi = useSelector((state: RootState) => state.stepOne.ui);
-  const dataLoading = useSelector((state: RootState) => state.site.ui.dataLoading);
-  const { imageLoading: loading } = stepOneUi;
+  useEffect(() => {
+    setIsLoading(true);
+  }, [selectedMake, selectedModel]);
+
   const handleImageLoading = (input) => {
     // onLoad replacement for SSR
     if (!input) return;
 
     const img = input;
-    const updateFunc = () => {
-      dispatch(isLoading(false));
-    };
+
+    const updateFunc = () => setIsLoading(false);
     img.onload = updateFunc;
+
     if (img.complete) {
       updateFunc();
     }
   };
-  const image = model.mediumJpg ?? make.mediumJpg ?? props.campaignImage ?? props.image ?? '/hero-image.jpg';
-  const smallImage = model.smallJpg ?? make.smallJpg ?? props.campaignImage ?? props.smallImage ?? '/hero-image.jpg';
 
-  return dataLoading ? (
-    <HeroImageWrapper>
-      <HeroImageContainer>
-        <HeroImageCover>
-          <Skeleton height="100%" />
-        </HeroImageCover>
-      </HeroImageContainer>
-    </HeroImageWrapper>
-  ) : (
+  const image =
+    selectedModel.mediumJpg ??
+    selectedMake.mediumJpg ??
+    props.campaignImage ??
+    props.preSelectedModel?.mediumJpg ??
+    props.preSelectedMake?.mediumJpg ??
+    props.image ??
+    '/hero-image.jpg';
+  const smallImage =
+    selectedModel.smallJpg ??
+    selectedMake.smallJpg ??
+    props.campaignImage ??
+    props.preSelectedModel?.smallJpg ??
+    props.preSelectedMake?.smallJpg ??
+    props.smallImage ??
+    '/hero-image.jpg';
+
+  return (
     <HeroImageWrapper>
       <HeroImageContainer>
         <HeroImageCover>
           <img
             ref={handleImageLoading}
             sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-            srcSet={`${smallImage} 320w, ${smallImage} 480w, ${image} 800w`}
-            src={smallImage}
+            srcSet={`${smallImage || image} 320w, ${smallImage || image} 480w, ${image} 800w`}
+            src={smallImage || image}
             alt="Hero"
           />
         </HeroImageCover>
       </HeroImageContainer>
-      {loading && <Loader />}
+      {isLoading && <Loader />}
     </HeroImageWrapper>
   );
 };
