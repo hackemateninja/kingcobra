@@ -1,0 +1,307 @@
+[{
+  "id": 1,
+  "name": "Acura",
+  "seoName": "acura",
+  "smallJpg": "//img.autobytel.com/2022/acura/mdx/2-270-107-97047.jpg",
+  "mediumJpg": "//img.autobytel.com/2022/acura/mdx/2-550-107-97047.jpg",
+  "smallPng": "//img.autobytel.com/2022/acura/mdx/2-350-107-97047.png",
+  "mediumPng": "//img.autobytel.com/2022/acura/mdx/2-700-107-97047.png",
+  "body_type":["sedan","suv"]
+}, {
+  "id": 2,
+  "name": "Alfa Romeo",
+  "seoName": "alfa-romeo",
+  "smallJpg": "//img.autobytel.com/2021/alfa-romeo/stelvio/2-270-113-94938.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/alfa-romeo/stelvio/2-550-113-94938.jpg",
+  "smallPng": "//img.autobytel.com/2021/alfa-romeo/stelvio/2-350-113-94938.png",
+  "mediumPng": "//img.autobytel.com/2021/alfa-romeo/stelvio/2-700-113-94938.png",
+  "body_type":["convertible","sedan","suv"]
+}, {
+  "id": 4,
+  "name": "Audi",
+  "seoName": "audi",
+  "smallJpg": "//img.autobytel.com/2021/audi/sq8/2-270-102-93916.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/audi/sq8/2-550-102-93916.jpg",
+  "smallPng": "//img.autobytel.com/2021/audi/sq8/2-350-102-93916.png",
+  "mediumPng": "//img.autobytel.com/2021/audi/sq8/2-700-102-93916.png",
+  "body_type":["convertible","coupe","sedan","suv","wagon"]
+}, {
+  "id": 5,
+  "name": "BMW",
+  "seoName": "bmw",
+  "smallJpg": "//img.autobytel.com/2021/bmw/x7/2-270-8891-94333.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/bmw/x7/2-550-8891-94333.jpg",
+  "smallPng": "//img.autobytel.com/2021/bmw/x7/2-350-8891-94333.png",
+  "mediumPng": "//img.autobytel.com/2021/bmw/x7/2-700-8891-94333.png",
+  "body_type":["convertible","coupe","hybrid","sedan","suv"]
+}, {
+  "id": 6,
+  "name": "Buick",
+  "seoName": "buick",
+  "smallJpg": "//img.autobytel.com/2021/buick/enclave/2-270-1315-94975.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/buick/enclave/2-550-1315-94975.jpg",
+  "smallPng": "//img.autobytel.com/2021/buick/enclave/2-350-1315-94975.png",
+  "mediumPng": "//img.autobytel.com/2021/buick/enclave/2-700-1315-94975.png",
+  "body_type":["suv"]
+}, {
+  "id": 7,
+  "name": "Cadillac",
+  "seoName": "cadillac",
+  "smallJpg": "//img.autobytel.com/2021/cadillac/escalade/2-270-68-93950.JPG",
+  "mediumJpg": "//img.autobytel.com/2021/cadillac/escalade/2-550-68-93950.JPG",
+  "smallPng": "//img.autobytel.com/2021/cadillac/escalade/2-350-68-93950.PNG",
+  "mediumPng": "//img.autobytel.com/2021/cadillac/escalade/2-700-68-93950.PNG",
+  "body_type":["sedan","suv"]
+}, {
+  "id": 8,
+  "name": "Chevrolet",
+  "seoName": "chevrolet",
+  "smallJpg": "//img.autobytel.com/2021/chevrolet/suburban/2-270-34-94022.JPG",
+  "mediumJpg": "//img.autobytel.com/2021/chevrolet/suburban/2-550-34-94022.JPG",
+  "smallPng": "//img.autobytel.com/2021/chevrolet/suburban/2-350-34-94022.PNG",
+  "mediumPng": "//img.autobytel.com/2021/chevrolet/suburban/2-700-34-94022.PNG",
+  "body_type":["convertible","coupe","sedan","suv","truck","wagon"]
+}, {
+  "id": 9,
+  "name": "Chrysler",
+  "seoName": "chrysler",
+  "smallJpg": "//img.autobytel.com/2021/chrysler/pacifica/2-270-112-95110.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/chrysler/pacifica/2-550-112-95110.jpg",
+  "smallPng": "//img.autobytel.com/2021/chrysler/pacifica/2-350-112-95110.png",
+  "mediumPng": "//img.autobytel.com/2021/chrysler/pacifica/2-700-112-95110.png",
+  "body_type":["hybrid","minivan/van","sedan"]
+}, {
+  "id": 11,
+  "name": "Dodge",
+  "seoName": "dodge",
+  "smallJpg": "//img.autobytel.com/2021/dodge/durango/2-270-1303-95130.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/dodge/durango/2-550-1303-95130.jpg",
+  "smallPng": "//img.autobytel.com/2021/dodge/durango/2-350-1303-95130.png",
+  "mediumPng": "//img.autobytel.com/2021/dodge/durango/2-700-1303-95130.png",
+  "body_type":["coupe","minivan/van","sedan","suv"]
+}, {
+  "id": 55,
+  "name": "Fiat",
+  "seoName": "fiat",
+  "smallJpg": "//img.autobytel.com/2021/fiat/500x/2-270-1310-95135.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/fiat/500x/2-550-1310-95135.jpg",
+  "smallPng": "//img.autobytel.com/2021/fiat/500x/2-350-1310-95135.png",
+  "mediumPng": "//img.autobytel.com/2021/fiat/500x/2-700-1310-95135.png",
+  "body_type":["convertible","coupe","suv"]
+}, {
+  "id": 13,
+  "name": "Ford",
+  "seoName": "ford",
+  "smallJpg": "//img.autobytel.com/2020/ford/expedition-max/2-270-27-92128.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/ford/expedition-max/2-550-27-92128.JPG",
+  "smallPng": "//img.autobytel.com/2020/ford/expedition-max/2-350-27-92128.PNG",
+  "mediumPng": "//img.autobytel.com/2020/ford/expedition-max/2-700-27-92128.PNG",
+  "body_type":["convertible","coupe","hybrid","minivan/van","sedan","suv","truck","wagon"]
+}, {
+  "id": 1190,
+  "name": "Genesis",
+  "seoName": "genesis",
+  "smallJpg": "//img.autobytel.com/2021/genesis/gv80/2-270-102-94099.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/genesis/gv80/2-550-102-94099.jpg",
+  "smallPng": "//img.autobytel.com/2021/genesis/gv80/2-350-102-94099.png",
+  "mediumPng": "//img.autobytel.com/2021/genesis/gv80/2-700-102-94099.png",
+  "body_type":["sedan","suv"]
+}, {
+  "id": 14,
+  "name": "GMC",
+  "seoName": "gmc",
+  "smallJpg": "//img.autobytel.com/2021/gmc/yukon-xl/2-270-52-94081.JPG",
+  "mediumJpg": "//img.autobytel.com/2021/gmc/yukon-xl/2-550-52-94081.JPG",
+  "smallPng": "//img.autobytel.com/2021/gmc/yukon-xl/2-350-52-94081.PNG",
+  "mediumPng": "//img.autobytel.com/2021/gmc/yukon-xl/2-700-52-94081.PNG",
+  "body_type":["suv","truck"]
+}, {
+  "id": 15,
+  "name": "Honda",
+  "seoName": "honda",
+  "smallJpg": "//img.autobytel.com/2021/honda/pilot/2-270-109-94517.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/honda/pilot/2-550-109-94517.jpg",
+  "smallPng": "//img.autobytel.com/2021/honda/pilot/2-350-109-94517.png",
+  "mediumPng": "//img.autobytel.com/2021/honda/pilot/2-700-109-94517.png",
+  "body_type":["coupe","hybrid","sedan","suv"]
+}, {
+  "id": 16,
+  "name": "Hyundai",
+  "seoName": "hyundai",
+  "smallJpg": "//img.autobytel.com/2021/hyundai/nexo/2-270-1301-96594.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/hyundai/nexo/2-550-1301-96594.jpg",
+  "smallPng": "//img.autobytel.com/2021/hyundai/nexo/2-350-1301-96594.png",
+  "mediumPng": "//img.autobytel.com/2021/hyundai/nexo/2-700-1301-96594.png",
+  "body_type":["coupe","hybrid","sedan","suv"]
+}, {
+  "id": 41,
+  "name": "Infiniti",
+  "seoName": "infiniti",
+  "smallJpg": "//img.autobytel.com/2021/infiniti/qx80/2-270-105-95423.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/infiniti/qx80/2-550-105-95423.jpg",
+  "smallPng": "//img.autobytel.com/2021/infiniti/qx80/2-350-105-95423.png",
+  "mediumPng": "//img.autobytel.com/2021/infiniti/qx80/2-700-105-95423.png",
+  "body_type":["suv"]
+}, {
+  "id": 18,
+  "name": "Jaguar",
+  "seoName": "jaguar",
+  "smallJpg": "//img.autobytel.com/2021/jaguar/f-pace/2-270-105-96809.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/jaguar/f-pace/2-550-105-96809.jpg",
+  "smallPng": "//img.autobytel.com/2021/jaguar/f-pace/2-350-105-96809.png",
+  "mediumPng": "//img.autobytel.com/2021/jaguar/f-pace/2-700-105-96809.png",
+  "body_type":["convertible","coupe","sedan","suv","wagon"]
+}, {
+  "id": 19,
+  "name": "Jeep",
+  "seoName": "jeep",
+  "smallJpg": "//img.autobytel.com/2021/jeep/grand-cherokee/2-270-102-94692.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/jeep/grand-cherokee/2-550-102-94692.jpg",
+  "smallPng": "//img.autobytel.com/2021/jeep/grand-cherokee/2-350-102-94692.png",
+  "mediumPng": "//img.autobytel.com/2021/jeep/grand-cherokee/2-700-102-94692.png",
+  "body_type":["convertible","suv","truck"]
+}, {
+  "id": 44,
+  "name": "Kia",
+  "seoName": "kia",
+  "smallJpg": "//img.autobytel.com/2020/kia/niro-ev/2-270-103-93841.jpg",
+  "mediumJpg": "//img.autobytel.com/2020/kia/niro-ev/2-550-103-93841.jpg",
+  "smallPng": "//img.autobytel.com/2020/kia/niro-ev/2-350-103-93841.png",
+  "mediumPng": "//img.autobytel.com/2020/kia/niro-ev/2-700-103-93841.png",
+  "body_type":["coupe","hybrid","minivan/van","sedan","suv"]
+}, {
+  "id": 20,
+  "name": "Land Rover",
+  "seoName": "land-rover",
+  "smallJpg": "//img.autobytel.com/2021/land-rover/range-rover/2-270-1310-95519.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/land-rover/range-rover/2-550-1310-95519.jpg",
+  "smallPng": "//img.autobytel.com/2021/land-rover/range-rover/2-350-1310-95519.png",
+  "mediumPng": "//img.autobytel.com/2021/land-rover/range-rover/2-700-1310-95519.png",
+  "body_type":["hybrid","suv"]
+}, {
+  "id": 42,
+  "name": "Lexus",
+  "seoName": "lexus",
+  "smallJpg": "//img.autobytel.com/2021/lexus/lx-570/2-270-8890-95468.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/lexus/lx-570/2-550-8890-95468.jpg",
+  "smallPng": "//img.autobytel.com/2021/lexus/lx-570/2-350-8890-95468.png",
+  "mediumPng": "//img.autobytel.com/2021/lexus/lx-570/2-700-8890-95468.png",
+  "body_type":["coupe","hybrid","sedan","suv"]
+}, {
+  "id": 21,
+  "name": "Lincoln",
+  "seoName": "lincoln",
+  "smallJpg": "//img.autobytel.com/2020/lincoln/navigator-l/2-270-25-92270.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/lincoln/navigator-l/2-550-25-92270.JPG",
+  "smallPng": "//img.autobytel.com/2020/lincoln/navigator-l/2-350-29-92270.PNG",
+  "mediumPng": "//img.autobytel.com/2020/lincoln/navigator-l/2-700-29-92270.PNG",
+  "body_type":["hybrid","sedan","suv"]
+}, {
+  "id": 1171,
+  "name": "Maserati",
+  "seoName": "maserati",
+  "smallJpg": "//img.autobytel.com/2021/maserati/levante/2-270-108-95644.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/maserati/levante/2-550-108-95644.jpg",
+  "smallPng": "//img.autobytel.com/2021/maserati/levante/2-350-108-95644.png",
+  "mediumPng": "//img.autobytel.com/2021/maserati/levante/2-700-108-95644.png",
+  "body_type":["sedan","suv"]
+}, {
+  "id": 22,
+  "name": "Mazda",
+  "seoName": "mazda",
+  "smallJpg": "//img.autobytel.com/2020/mazda/cx-9/2-270-87-93401.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/mazda/cx-9/2-550-87-93401.JPG",
+  "smallPng": "//img.autobytel.com/2020/mazda/cx-9/2-350-31-93401.PNG",
+  "mediumPng": "//img.autobytel.com/2020/mazda/cx-9/2-700-31-93401.PNG",
+  "body_type":["coupe","sedan","suv"]
+}, {
+  "id": 23,
+  "name": "Mercedes-Benz",
+  "seoName": "mercedes-benz",
+  "smallJpg": "//img.autobytel.com/2020/mercedes-benz/amg-g-63/2-270-61-93419.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/mercedes-benz/amg-g-63/2-550-61-93419.JPG",
+  "smallPng": "//img.autobytel.com/2020/mercedes-benz/amg-g-63/2-350-71-93419.PNG",
+  "mediumPng": "//img.autobytel.com/2020/mercedes-benz/amg-g-63/2-700-71-93419.PNG",
+  "body_type":["convertible","coupe","sedan","suv","wagon"]
+}, {
+  "id": 1172,
+  "name": "MINI",
+  "seoName": "mini",
+  "smallJpg": "//img.autobytel.com/2021/mini/se-countryman/2-270-102-94746.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/mini/se-countryman/2-550-102-94746.jpg",
+  "smallPng": "//img.autobytel.com/2021/mini/se-countryman/2-350-102-94746.png",
+  "mediumPng": "//img.autobytel.com/2021/mini/se-countryman/2-700-102-94746.png",
+  "body_type":["convertible","coupe","suv","wagon"]
+}, {
+  "id": 26,
+  "name": "Mitsubishi",
+  "seoName": "mitsubishi",
+  "smallJpg": "//img.autobytel.com/2020/mitsubishi/outlander-phev/2-270-39-92812.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/mitsubishi/outlander-phev/2-550-39-92812.JPG",
+  "smallPng": "//img.autobytel.com/2020/mitsubishi/outlander-phev/2-350-49-92812.PNG",
+  "mediumPng": "//img.autobytel.com/2020/mitsubishi/outlander-phev/2-700-49-92812.PNG",
+  "body_type":["coupe","sedan","suv"]
+}, {
+  "id": 27,
+  "name": "Nissan",
+  "seoName": "nissan",
+  "smallJpg": "//img.autobytel.com/2021/nissan/armada/2-270-108-96987.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/nissan/armada/2-550-108-96987.jpg",
+  "smallPng": "//img.autobytel.com/2021/nissan/armada/2-350-108-96987.png",
+  "mediumPng": "//img.autobytel.com/2021/nissan/armada/2-700-108-96987.png",
+  "body_type":["coupe","sedan","suv","truck"]
+}, {
+  "id": 32,
+  "name": "Porsche",
+  "seoName": "porsche",
+  "smallJpg": "//img.autobytel.com/2020/porsche/cayenne-e-hybrid-coupe/2-270-102-93589.jpg",
+  "mediumJpg": "//img.autobytel.com/2020/porsche/cayenne-e-hybrid-coupe/2-550-102-93589.jpg",
+  "smallPng": "//img.autobytel.com/2020/porsche/cayenne-e-hybrid-coupe/2-350-102-93589.png",
+  "mediumPng": "//img.autobytel.com/2020/porsche/cayenne-e-hybrid-coupe/2-700-102-93589.png",
+  "body_type":["convertible","coupe","hybrid","sedan","suv","wagon"]
+}, {
+  "id": 1189,
+  "name": "RAM",
+  "seoName": "ram",
+  "smallJpg": "//img.autobytel.com/2021/ram/1500/2-270-105-95708.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/ram/1500/2-550-105-95708.jpg",
+  "smallPng": "//img.autobytel.com/2021/ram/1500/2-350-105-95708.png",
+  "mediumPng": "//img.autobytel.com/2021/ram/1500/2-700-105-95708.png",
+  "body_type":["minivan/van","truck","wagon"]
+}, {
+  "id": 35,
+  "name": "Subaru",
+  "seoName": "subaru",
+  "smallJpg": "//img.autobytel.com/2020/subaru/ascent/2-270-114-90849.jpg",
+  "mediumJpg": "//img.autobytel.com/2020/subaru/ascent/2-550-114-90849.jpg",
+  "smallPng": "//img.autobytel.com/2020/subaru/ascent/2-350-114-90849.png",
+  "mediumPng": "//img.autobytel.com/2020/subaru/ascent/2-700-114-90849.png",
+  "body_type":["coupe","sedan","suv"]
+}, {
+  "id": 37,
+  "name": "Toyota",
+  "seoName": "toyota",
+  "smallJpg": "//img.autobytel.com/2021/toyota/land-cruiser/2-270-110-95783.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/toyota/land-cruiser/2-550-110-95783.jpg",
+  "smallPng": "//img.autobytel.com/2021/toyota/land-cruiser/2-350-110-95783.png",
+  "mediumPng": "//img.autobytel.com/2021/toyota/land-cruiser/2-700-110-95783.png",
+  "body_type":["coupe","hybrid","minivan/van","sedan","suv","truck"]
+}, {
+  "id": 38,
+  "name": "Volkswagen",
+  "seoName": "volkswagen",
+  "smallJpg": "//img.autobytel.com/2021/volkswagen/atlas-cross-sport/2-270-107-96004.jpg",
+  "mediumJpg": "//img.autobytel.com/2021/volkswagen/atlas-cross-sport/2-550-107-96004.jpg",
+  "smallPng": "//img.autobytel.com/2021/volkswagen/atlas-cross-sport/2-350-107-96004.png",
+  "mediumPng": "//img.autobytel.com/2021/volkswagen/atlas-cross-sport/2-700-107-96004.png",
+  "body_type":["coupe","sedan","suv"]
+}, {
+  "id": 39,
+  "name": "Volvo",
+  "seoName": "volvo",
+  "smallJpg": "//img.autobytel.com/2020/volvo/xc90-hybrid/2-270-51-92523.JPG",
+  "mediumJpg": "//img.autobytel.com/2020/volvo/xc90-hybrid/2-550-51-92523.JPG",
+  "smallPng": "//img.autobytel.com/2020/volvo/xc90-hybrid/2-350-84-92523.PNG",
+  "mediumPng": "//img.autobytel.com/2020/volvo/xc90-hybrid/2-700-84-92523.PNG",
+  "body_type":["hybrid","sedan","suv","wagon"]
+}]
