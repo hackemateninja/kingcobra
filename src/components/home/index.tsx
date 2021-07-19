@@ -29,7 +29,7 @@ import StepOne from '@/comp/steps/step-one';
 import { config } from '@/util/config';
 
 const Home: React.FC<IPlainObject> = (props) => {
-  const { month, year, quotes, makes, models, preSelectedMake, preSelectedModel, metadata, campaign } = props;
+  const { month, year, quotes, makes, models, preSelectedMake, preSelectedModel, metadata, campaign, isCampaign} = props;
   const { setSelectedMake, setSelectedModel, setZipCodeInfo } = useAppContext();
 
   const router = useRouter();
@@ -112,6 +112,8 @@ const Home: React.FC<IPlainObject> = (props) => {
           formButtonText={formButtonText}
           preSelectedMake={preSelectedMake}
           preSelectedModel={preSelectedModel}
+          isCampaign={isCampaign}
+          campaign={campaign}
         />
       </DefaultLayout>
     </>

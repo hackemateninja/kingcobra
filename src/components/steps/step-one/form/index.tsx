@@ -19,7 +19,7 @@ import { useAppContext } from '@/ctx/app-context';
 import { getModelsByMake as getModelsByMakeService, getZipCodeInfo as getZipCodeInfoService } from '@/src/services';
 
 const FormOne: React.FC<IPlainObject> = (props) => {
-  const { buttonText, makes } = props;
+  const { buttonText, makes, isCampaign, campaign } = props;
 
   const {
     state: { selectedMake, selectedModel },
@@ -104,8 +104,14 @@ const FormOne: React.FC<IPlainObject> = (props) => {
 
   const getModelsByMake = async (makeName: string) => {
     if (makeName !== '') {
-      const models: IModel[] = await getModelsByMakeService(makeName);
-      setModels(models);
+      if (isCampaign){
+        const data = await fetch(`/api/campaing?make=${makeName}&bodyType=${campaign}`)
+        const {models} = await data.json();
+        setModels(models);
+      }else{
+        const models: IModel[] = await getModelsByMakeService(makeName);
+        setModels(models);
+      }
     } else {
       setModels([]);
     }

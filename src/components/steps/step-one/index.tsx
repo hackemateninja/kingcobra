@@ -37,6 +37,8 @@ const StepOne: React.FC<IPlainObject> = (props) => {
           preSelectedModel={props.preSelectedModel}
           onSubmit={props.onSubmit}
           buttonText={props.formButtonText}
+          isCampaign={props.isCampaign}
+          campaign={props.campaign}
         />
         <Advantages />
         <Display hide="desktop">

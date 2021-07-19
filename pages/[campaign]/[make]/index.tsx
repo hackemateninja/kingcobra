@@ -32,7 +32,7 @@ import parseGraphData from '@/util/parse-graph-data';
 const MakeHomePage: React.FC<IPlainObject> = (props) => {
   const { month, year, quotes, makes, make, models, campaign, graphData } = props;
   const {
-    state: { selectedMake },
+    state: { selectedMake, setSelectedModel },
   } = useAppContext();
   const [currentMake, setCurrentMake] = useState(make);
 
@@ -40,6 +40,7 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   
   const [makesState, setMakesState] = useState();
   const [modelsState, setModelsState] = useState();
+  const [isCampaignState, setIsCampaignState] = useState<boolean>();
   
   const bodyTypes = [
     "suv",
@@ -63,13 +64,15 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
       if(bodyTypes.includes(campaign)) {
         setMakesState(makes)
         setModelsState(models)
+        setIsCampaignState(true)
       }else {
         setMakesState(props.makes)
         setModelsState(props.models)
+        setIsCampaignState(false)
       }
       
     })()
-  },[selectedMake.name])
+  },[selectedMake])
   
 
   if (!make) {
@@ -107,6 +110,7 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
         campaignImage={graphData.heroImage}
         banner={graphData.banner}
         campaign={campaign}
+        isCampaign={isCampaignState}
         metadata={{
           title: `${setSuffix(prefix, make.name, ` ${separator} `)} ${separator} ${metadataSource.name}`,
           description: combineAnS(description, make.name),
