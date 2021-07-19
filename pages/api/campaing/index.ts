@@ -14,22 +14,21 @@ const bodyTypes = {
   "wagon":"Wagon"
 };
 
+const ev = ['ev', 'evs']
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {make, fuelType, bodyType} = req.query;
+  const {make, bodyType} = req.query;
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  console.log(makes)
   
   const response =  await  fetch(`https://dev2-uc-kingcobra-apim.azure-api.net/vsp/v2/prod/models/${make}`);
   const data = make ? await response.json() : []
   const models = data.filter(i => i.bodyTypes === bodyTypes[`${bodyType}`]);
   
-  const filteredMakes = makes.filter(i => i.body_type.includes(`${bodyType}`));
+  const filteredMakes = ev.includes(`${bodyType}`) ? [] : makes.filter(i => i.body_type.includes(`${bodyType}`));
   
   return res.json({
     makes: filteredMakes,
     models: models,
-    ev: []
   });
 }

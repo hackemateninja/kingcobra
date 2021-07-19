@@ -37,6 +37,31 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   const [currentMake, setCurrentMake] = useState(make);
 
   useEffect(() => selectedMake.name && setCurrentMake(selectedMake), [selectedMake]);
+  
+  const [makesState, setMakesState] = useState();
+  
+  const bodyTypes = [
+    "suv",
+    "truck",
+    "convertible",
+    "coupe",
+    "hybrid",
+    "minivan/van",
+    "minivan",
+    "van",
+    "sedan",
+    "wagon"
+  ];
+  
+  useEffect(() => {
+    (async ()=> {
+      const apiMake = selectedMake.name ? selectedMake.name.toLowerCase() : make.name.toLowerCase();
+      const data = await fetch(`/api/campaing?make=${apiMake}&bodyType=${campaign}`)
+      const {makes} = await data.json();
+      bodyTypes.includes(campaign) ? setMakesState(makes) : setMakesState(props.makes)
+    })()
+  },[selectedMake.name])
+  
 
   if (!make) {
     return <Redirect />;
@@ -60,25 +85,25 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   ];
 
   return (
-    <Home
-      year={year}
-      month={month}
-      quotes={quotes}
-      makes={makes}
-      models={models}
-      preSelectedMake={make}
-      title={graphData.h1Headline ? parseGraphData(graphData.h1Headline, currentMake.name) : defaultTitle}
-      subTitle={graphData.h2Headline ? parseGraphData(graphData.h2Headline, currentMake.name) : defaultSubtitle}
-      formButtonText={graphData.buttonCta}
-      campaignImage={graphData.heroImage}
-      banner={graphData.banner}
-      campaign={campaign}
-      metadata={{
-        title: `${setSuffix(prefix, make.name, ` ${separator} `)} ${separator} ${metadataSource.name}`,
-        description: combineAnS(description, make.name),
-        keywords: `${preKeys}, ${sufKeys}`,
-        preload,
-      }}
+    makesState && <Home
+        year={year}
+        month={month}
+        quotes={quotes}
+        makes={makesState}
+        models={models}
+        preSelectedMake={make}
+        title={graphData.h1Headline ? parseGraphData(graphData.h1Headline, currentMake.name) : defaultTitle}
+        subTitle={graphData.h2Headline ? parseGraphData(graphData.h2Headline, currentMake.name) : defaultSubtitle}
+        formButtonText={graphData.buttonCta}
+        campaignImage={graphData.heroImage}
+        banner={graphData.banner}
+        campaign={campaign}
+        metadata={{
+          title: `${setSuffix(prefix, make.name, ` ${separator} `)} ${separator} ${metadataSource.name}`,
+          description: combineAnS(description, make.name),
+          keywords: `${preKeys}, ${sufKeys}`,
+          preload,
+        }}
     />
   );
 };
