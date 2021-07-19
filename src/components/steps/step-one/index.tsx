@@ -12,6 +12,7 @@ import Quotes from '@/comp/quotes';
 import Text from '@/comp/text/';
 
 const StepOne: React.FC<IPlainObject> = (props) => {
+  
   return (
     <Row>
       <Column sm={1} md={2}>
@@ -21,6 +22,8 @@ const StepOne: React.FC<IPlainObject> = (props) => {
           campaignImage={props.campaignImage}
           preSelectedMake={props.preSelectedMake}
           preSelectedModel={props.preSelectedModel}
+          isCampaign={props.isCampaign}
+          models={props.models}
         />
         <Display hide="mobile">
           <Quotes items={props.quotes} />
