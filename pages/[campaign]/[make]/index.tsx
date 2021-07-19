@@ -39,6 +39,7 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   useEffect(() => selectedMake.name && setCurrentMake(selectedMake), [selectedMake]);
   
   const [makesState, setMakesState] = useState();
+  const [modelsState, setModelsState] = useState();
   
   const bodyTypes = [
     "suv",
@@ -57,8 +58,16 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
     (async ()=> {
       const apiMake = selectedMake.name ? selectedMake.name.toLowerCase() : make.name.toLowerCase();
       const data = await fetch(`/api/campaing?make=${apiMake}&bodyType=${campaign}`)
-      const {makes} = await data.json();
-      bodyTypes.includes(campaign) ? setMakesState(makes) : setMakesState(props.makes)
+      const {makes, models} = await data.json();
+      
+      if(bodyTypes.includes(campaign)) {
+        setMakesState(makes)
+        setModelsState(models)
+      }else {
+        setMakesState(props.makes)
+        setModelsState(props.models)
+      }
+      
     })()
   },[selectedMake.name])
   
@@ -90,7 +99,7 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
         month={month}
         quotes={quotes}
         makes={makesState}
-        models={models}
+        models={modelsState}
         preSelectedMake={make}
         title={graphData.h1Headline ? parseGraphData(graphData.h1Headline, currentMake.name) : defaultTitle}
         subTitle={graphData.h2Headline ? parseGraphData(graphData.h2Headline, currentMake.name) : defaultSubtitle}
