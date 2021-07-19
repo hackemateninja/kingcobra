@@ -34,14 +34,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader('Content-Type', 'application/json');
   console.log(makes)
   
-  const response = await fetch(`https://dev2-uc-kingcobra-apim.azure-api.net/vsp/v2/prod/models/${make}`);
-  const data = await response.json()
+  const response =  await  fetch(`https://dev2-uc-kingcobra-apim.azure-api.net/vsp/v2/prod/models/${make}`);
+  const data = make ? await response.json() : []
   const models = data.filter(i => i.bodyTypes === bodyTypes[`${bodyType}`]);
   
   const filteredMakes = makes.filter(i => i.body_type.includes(`${bodyType}`));
   
   return res.json({
     makes: filteredMakes,
-    models: models
+    models: models,
+    ev: []
   });
 }
