@@ -1,5 +1,7 @@
 // Packages
 import { GetStaticPaths, GetStaticProps } from 'next';
+import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -17,22 +19,45 @@ import parseGraphData from '@/util/parse-graph-data';
 // Services
 import { getCampaigns, getCampaignData, getMakes } from '@/src/services';
 
+
 const CampaignHomePage: React.FC<IPlainObject> = (props) => {
   const { month, year, quotes, makes, campaign, graphData } = props;
+  const [makesState, setMakesState] = useState();
+  
+  const bodyTypes = [
+    "suv",
+    "truck",
+    "convertible",
+    "coupe",
+    "hybrid",
+    "minivan/van",
+    "minivan",
+    "van",
+    "sedan",
+    "wagon"
+  ];
+  
+  useEffect(() => {
+    (async ()=> {
+      const data = await fetch(`/api/campaing?bodyType=${campaign}`)
+      const {makes} = await data.json();
+      bodyTypes.includes(campaign) ? setMakesState(makes) : setMakesState(props.makes)
+    })()
+  },[])
 
   return (
-    <Home
-      year={year}
-      month={month}
-      quotes={quotes}
-      makes={makes}
-      title={graphData.h1Headline && parseGraphData(graphData.h1Headline)}
-      subTitle={graphData.h2Headline && parseGraphData(graphData.h2Headline)}
-      formButtonText={graphData.buttonCta}
-      campaignImage={graphData.heroImage}
-      banner={graphData.banner}
-      campaign={campaign}
-    />
+   makesState &&  <Home
+       year={year}
+       month={month}
+       quotes={quotes}
+       makes={makesState}
+       title={graphData.h1Headline && parseGraphData(graphData.h1Headline)}
+       subTitle={graphData.h2Headline && parseGraphData(graphData.h2Headline)}
+       formButtonText={graphData.buttonCta}
+       campaignImage={graphData.heroImage}
+       banner={graphData.banner}
+       campaign={campaign}
+   />
   );
 };
 

@@ -15,19 +15,6 @@ const bodyTypes = {
 };
 
 
-const bodyTypesMakes = {
-  "suv":"suv",
-  "truck": "truck",
-  "convertible":"convertible",
-  "coupe":"coupe",
-  "hybrid" : "hybrid",
-  "minivan/van" : "minivan/van",
-  "minivan" : "minivan",
-  "van" : "van",
-  "sedan": "sedan",
-  "wagon":"wagon"
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {make, fuelType, bodyType} = req.query;
   res.statusCode = 200;
