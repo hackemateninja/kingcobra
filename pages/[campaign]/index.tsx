@@ -23,6 +23,7 @@ import { getCampaigns, getCampaignData, getMakes } from '@/src/services';
 const CampaignHomePage: React.FC<IPlainObject> = (props) => {
   const { month, year, quotes, makes, campaign, graphData } = props;
   const [makesState, setMakesState] = useState();
+  const [isCampaignState, setIsCampaignState] = useState<boolean>();
   
   const bodyTypes = [
     "suv",
@@ -41,7 +42,14 @@ const CampaignHomePage: React.FC<IPlainObject> = (props) => {
     (async ()=> {
       const data = await fetch(`/api/campaing?bodyType=${campaign}`)
       const {makes} = await data.json();
-      bodyTypes.includes(campaign) ? setMakesState(makes) : setMakesState(props.makes)
+  
+      if(bodyTypes.includes(campaign)) {
+        setMakesState(makes)
+        setIsCampaignState(true)
+      }else {
+        setMakesState(props.makes)
+        setIsCampaignState(false)
+      }
     })()
   },[])
 
@@ -57,6 +65,7 @@ const CampaignHomePage: React.FC<IPlainObject> = (props) => {
        campaignImage={graphData.heroImage}
        banner={graphData.banner}
        campaign={campaign}
+       isCampaign={isCampaignState}
    />
   );
 };
