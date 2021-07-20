@@ -104,11 +104,11 @@ const FormOne: React.FC<IPlainObject> = (props) => {
 
   const getModelsByMake = async (makeName: string) => {
     if (makeName !== '') {
-      if (isCampaign){
-        const data = await fetch(`/api/campaing?make=${makeName}&bodyType=${campaign}`)
-        const {models} = await data.json();
+      if (isCampaign) {
+        const data = await fetch(`/api/campaing?make=${makeName}&bodyType=${campaign}`);
+        const { models } = await data.json();
         setModels(models);
-      }else{
+      } else {
         const models: IModel[] = await getModelsByMakeService(makeName);
         setModels(models);
       }

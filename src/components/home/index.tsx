@@ -29,7 +29,8 @@ import StepOne from '@/comp/steps/step-one';
 import { config } from '@/util/config';
 
 const Home: React.FC<IPlainObject> = (props) => {
-  const { month, year, quotes, makes, models, preSelectedMake, preSelectedModel, metadata, campaign, isCampaign} = props;
+  const { month, year, quotes, makes, models, preSelectedMake, preSelectedModel, metadata, campaign, isCampaign } =
+    props;
   const { setSelectedMake, setSelectedModel, setZipCodeInfo } = useAppContext();
 
   const router = useRouter();
@@ -89,7 +90,7 @@ const Home: React.FC<IPlainObject> = (props) => {
       `/${currentCampaign}/fas/${selectedMake.seoName}/${selectedModel.seoName}/${zipCodeInfo.zip}${paramsString}`
     );
   };
-  
+
   return (
     <>
       <MetaData

@@ -1,7 +1,7 @@
 // Packages
 import { GetStaticPaths, GetStaticProps } from 'next';
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 // Definitions
 import { IPlainObject } from '@/def/IPlainObject';
@@ -19,54 +19,55 @@ import parseGraphData from '@/util/parse-graph-data';
 // Services
 import { getCampaigns, getCampaignData, getMakes } from '@/src/services';
 
-
 const CampaignHomePage: React.FC<IPlainObject> = (props) => {
   const { month, year, quotes, makes, campaign, graphData } = props;
   const [makesState, setMakesState] = useState();
   const [isCampaignState, setIsCampaignState] = useState<boolean>();
-  
+
   const bodyTypes = [
-    "suv",
-    "truck",
-    "convertible",
-    "coupe",
-    "hybrid",
-    "minivan/van",
-    "minivan",
-    "van",
-    "sedan",
-    "wagon"
+    'suv',
+    'truck',
+    'convertible',
+    'coupe',
+    'hybrid',
+    'minivan/van',
+    'minivan',
+    'van',
+    'sedan',
+    'wagon',
   ];
-  
+
   useEffect(() => {
-    (async ()=> {
-      const data = await fetch(`/api/campaing?bodyType=${campaign}`)
-      const {makes} = await data.json();
-  
-      if(bodyTypes.includes(campaign)) {
-        setMakesState(makes)
-        setIsCampaignState(true)
-      }else {
-        setMakesState(props.makes)
-        setIsCampaignState(false)
+    (async () => {
+      const data = await fetch(`/api/campaing?bodyType=${campaign}`);
+      const { makes } = await data.json();
+
+      if (bodyTypes.includes(campaign)) {
+        setMakesState(makes);
+        setIsCampaignState(true);
+      } else {
+        setMakesState(props.makes);
+        setIsCampaignState(false);
       }
-    })()
-  },[])
+    })();
+  }, []);
 
   return (
-   makesState &&  <Home
-       year={year}
-       month={month}
-       quotes={quotes}
-       makes={makesState}
-       title={graphData.h1Headline && parseGraphData(graphData.h1Headline)}
-       subTitle={graphData.h2Headline && parseGraphData(graphData.h2Headline)}
-       formButtonText={graphData.buttonCta}
-       campaignImage={graphData.heroImage}
-       banner={graphData.banner}
-       campaign={campaign}
-       isCampaign={isCampaignState}
-   />
+    makesState && (
+      <Home
+        year={year}
+        month={month}
+        quotes={quotes}
+        makes={makesState}
+        title={graphData.h1Headline && parseGraphData(graphData.h1Headline)}
+        subTitle={graphData.h2Headline && parseGraphData(graphData.h2Headline)}
+        formButtonText={graphData.buttonCta}
+        campaignImage={graphData.heroImage}
+        banner={graphData.banner}
+        campaign={campaign}
+        isCampaign={isCampaignState}
+      />
+    )
   );
 };
 

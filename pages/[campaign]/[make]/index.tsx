@@ -37,43 +37,41 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   const [currentMake, setCurrentMake] = useState(make);
 
   useEffect(() => selectedMake.name && setCurrentMake(selectedMake), [selectedMake]);
-  
+
   const [makesState, setMakesState] = useState();
   const [modelsState, setModelsState] = useState();
   const [isCampaignState, setIsCampaignState] = useState<boolean>();
-  
+
   const bodyTypes = [
-    "suv",
-    "truck",
-    "convertible",
-    "coupe",
-    "hybrid",
-    "minivan/van",
-    "minivan",
-    "van",
-    "sedan",
-    "wagon"
+    'suv',
+    'truck',
+    'convertible',
+    'coupe',
+    'hybrid',
+    'minivan/van',
+    'minivan',
+    'van',
+    'sedan',
+    'wagon',
   ];
-  
+
   useEffect(() => {
-    (async ()=> {
+    (async () => {
       const apiMake = selectedMake.name ? selectedMake.name.toLowerCase() : make.name.toLowerCase();
-      const data = await fetch(`/api/campaing?make=${apiMake}&bodyType=${campaign}`)
-      const {makes, models} = await data.json();
-      
-      if(bodyTypes.includes(campaign)) {
-        setMakesState(makes)
-        setModelsState(models)
-        setIsCampaignState(true)
-      }else {
-        setMakesState(props.makes)
-        setModelsState(props.models)
-        setIsCampaignState(false)
+      const data = await fetch(`/api/campaing?make=${apiMake}&bodyType=${campaign}`);
+      const { makes, models } = await data.json();
+
+      if (bodyTypes.includes(campaign)) {
+        setMakesState(makes);
+        setModelsState(models);
+        setIsCampaignState(true);
+      } else {
+        setMakesState(props.makes);
+        setModelsState(props.models);
+        setIsCampaignState(false);
       }
-      
-    })()
-  },[selectedMake])
-  
+    })();
+  }, [selectedMake]);
 
   if (!make) {
     return <Redirect />;
@@ -97,7 +95,8 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
   ];
 
   return (
-    makesState && <Home
+    makesState && (
+      <Home
         year={year}
         month={month}
         quotes={quotes}
@@ -117,7 +116,8 @@ const MakeHomePage: React.FC<IPlainObject> = (props) => {
           keywords: `${preKeys}, ${sufKeys}`,
           preload,
         }}
-    />
+      />
+    )
   );
 };
 
