@@ -25,11 +25,13 @@ const UPDATE_SOURCE_IDS = 'UPDATE_SOURCE_IDS';
 const reducer = (state, action) => {
   switch (action.type) {
     case UPDATE_SELECTED_MAKE:
+      console.log('update selected make:', action.payload);
       return {
         ...state,
         selectedMake: action.payload,
       };
     case UPDATE_SELECTED_MODEL:
+      console.log('update selected model:', action.payload);
       return {
         ...state,
         selectedModel: action.payload,
